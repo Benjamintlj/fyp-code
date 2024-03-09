@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">study hut</string>
+    <string name="sign_in_activity">Sign-in</string>
+    <string name="username_hint">Username</string>
+    <string name="login_title">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="register_title">Register</string>
+    <string name="email_hint">Email</string>
+    <string name="register_page_button">Register</string>
+    <string name="verify_email_title">Verify Email</string>
+    <string name="verify_email_prompt">Please check your email for a code.</string>
+    <string name="verify">Verify</string>
+    <string name="verify_email_code_hint">Code</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="send_code">Send Code</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="loading_login_splash_screen">Checking your login...</string>
+    <string name="sign_out">Sign out</string>
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="forgot_password_code_hint">Code</string>
+    <string name="new_password_hint">New Password</string>
+    <string name="set_password">Set Password</string>
+</resources>
