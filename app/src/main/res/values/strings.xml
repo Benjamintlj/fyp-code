@@ -22,4 +22,8 @@
     <string name="forgot_password_code_hint">Code</string>
     <string name="new_password_hint">New Password</string>
     <string name="set_password">Set Password</string>
+    <string name="biology">Biology</string>
+    <string name="chemistry">Chemistry</string>
+    <string name="physics">Physics</string>
+    <string name="subjects_title">Subjects</string>
 </resources>

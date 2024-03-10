@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.activity.gym_management_flow.GymHomeActivity;
+import com.example.fyp_fontend.activity.content_selection.HomeActivity;
 import com.example.fyp_fontend.activity.login_flow.ForgotPasswordSendCodeActivity;
 import com.example.fyp_fontend.activity.login_flow.RegisterActivity;
 import com.example.fyp_fontend.activity.login_flow.SendVerificationCodeActivity;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         isUserSignedIn(new IsUserSignedInCallback() {
             @Override
             public void onUserSignedIn() {
-                Intent intent = new Intent(getApplicationContext(), GymHomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSignInSuccess(Boolean isUserSignedIn) {
                 if (isUserSignedIn) {
-                    Intent intent = new Intent(getApplicationContext(), GymHomeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
