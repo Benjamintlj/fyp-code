@@ -1,0 +1,71 @@
+package com.example.fyp_fontend.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.model.SubTopicModel;
+import com.example.fyp_fontend.model.TopicModel;
+
+import java.util.List;
+
+public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHolder> {
+
+    private List<TopicModel> topicModelList;
+    private Context context;
+
+    public TopicAdapter(List<TopicModel> lessonModelList, Context context) {
+        this.topicModelList = topicModelList;
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public TopicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_topic, parent, false);
+        return new TopicViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull TopicViewHolder holder, int position) {
+        Topic topic = topics.get(position);
+        holder.topicNameTextView.setText(topic.getName());
+
+        // Set up the RecyclerView for subtopics within this topic
+        SubtopicAdapter subtopicAdapter = new SubtopicAdapter(context, topic.getSubTopics());
+        holder.subTopicsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        holder.subTopicsRecyclerView.setAdapter(subtopicAdapter);
+    }
+
+    @Override
+    public int getItemCount() {
+        return topicModelList.size();
+    }
+
+    public void setTopicModelList(List<TopicModel> topicModelList) {
+        this.topicModelList = topicModelList;
+        this.notifyDataSetChanged();
+    }
+
+    public static class TopicViewHolder extends RecyclerView.ViewHolder {
+        TextView topicNameTextView;
+        RecyclerView subTopicsRecyclerView;
+
+        public TopicViewHolder(@NonNull View itemView) {
+            super(itemView);
+            topicNameTextView = itemView.findViewById(R.id.topicNameTextView);
+            subTopicsRecyclerView = itemView.findViewById(R.id.subTopicsRecyclerView);
+        }
+        }
+    }
+}

@@ -1,4 +1,8 @@
 package com.example.fyp_fontend.network;
+import static com.example.fyp_fontend.Utils.Globals.clientId;
+import static com.example.fyp_fontend.Utils.Globals.region;
+import static com.example.fyp_fontend.Utils.Globals.userPoolId;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -20,6 +24,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Verificat
 import com.amazonaws.regions.Regions;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
+import com.example.fyp_fontend.Utils.Globals;
 import com.example.fyp_fontend.network.callback.RegisterCallback;
 import com.example.fyp_fontend.network.callback.ResendCodeCallback;
 import com.example.fyp_fontend.network.callback.ResetPasswordCallback;
@@ -49,9 +54,7 @@ public class CognitoNetwork {
 
 
     private static CognitoNetwork instance;
-    private static String userPoolId = "eu-west-1_DEqgmxhzb";
-    private static String clientId = "4iu7nof85r2hlk2nabt2o0doa9";
-    private static Regions region = Regions.EU_WEST_1;
+
 
     private CognitoNetwork() {
 //        Context appContext = context.getApplicationContext();
@@ -164,7 +167,6 @@ public class CognitoNetwork {
     }
 
     public void signIn(String username, String password, Context context, final SignInCallback callback) {
-        Log.d("login", "signIn: asdf");
         CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
         CognitoUser user = userPool.getUser(username);
 

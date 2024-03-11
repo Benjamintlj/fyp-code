@@ -1,0 +1,13 @@
+{
+    "name": "Types of Cells",
+    "lessonStructure": [
+        {
+            "type": "question",
+            "name": "question_1"
+        },
+        {
+            "type": "video",
+            "name": "demo_video"
+        }
+    ]
+}
