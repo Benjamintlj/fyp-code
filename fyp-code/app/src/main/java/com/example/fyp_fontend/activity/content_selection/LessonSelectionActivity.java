@@ -5,25 +5,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.adapter.TopicAdapter;
 import com.example.fyp_fontend.model.LessonModel;
 import com.example.fyp_fontend.model.SubtopicModel;
 import com.example.fyp_fontend.model.TopicModel;
+import com.example.fyp_fontend.network.S3Handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class LessonSelectionActivity extends AppCompatActivity {
+    private static final String TAG = "LessonSelectionActivity";
 
     private RecyclerView lessonsRecyclerView;
     private TopicAdapter lessonSelectionAdapter;
+    private String subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_selection);
+
+        subject = getIntent().getStringExtra("subject");
 
         initViews();
         initRecyclerView();
@@ -31,7 +41,6 @@ public class LessonSelectionActivity extends AppCompatActivity {
 
     private void initViews() {
         lessonsRecyclerView = findViewById(R.id.lessonsRecyclerView);
-
     }
 
     private void initRecyclerView() {
@@ -45,22 +54,14 @@ public class LessonSelectionActivity extends AppCompatActivity {
     }
 
     private void getLessons() {
-        // TODO data should be added from the cloud
-        List<LessonModel> lessonModelList = new ArrayList<>();
-        lessonModelList.add(new LessonModel("Types of cell", "url"));
-        lessonModelList.add(new LessonModel("Variations of cells", "url"));
-        lessonModelList.add(new LessonModel("DNA", "url"));
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
 
-        List<SubtopicModel> subTopicModelList = new ArrayList<>();
-        subTopicModelList.add(new SubtopicModel("What is in a cell?", lessonModelList));
-        subTopicModelList.add(new SubtopicModel("Evolution", new ArrayList<>()));
-        subTopicModelList.add(new SubtopicModel("Other biology things", new ArrayList<>()));
-
-        List<TopicModel> topicModelList = new ArrayList<>();
-        topicModelList.add(new TopicModel("Cell Biology", subTopicModelList));
-        topicModelList.add(new TopicModel("Other cell stuff", new ArrayList<>()));
-        topicModelList.add(new TopicModel("Animals", new ArrayList<>()));
-
-        lessonSelectionAdapter.setTopicModelList(topicModelList);
+        executor.execute(() -> {
+            List<TopicModel> topicModelList = S3Handler.getInstance(getApplicationContext()).listS3DirectoryStructure(subject);
+            handler.post(() -> {
+                lessonSelectionAdapter.setTopicModelList(topicModelList);
+            });
+        });
     }
 }

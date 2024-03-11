@@ -1,9 +1,11 @@
 package com.example.fyp_fontend.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.activity.lesson.LessonActivity;
 import com.example.fyp_fontend.model.LessonModel;
 
 import java.util.List;
@@ -36,6 +39,13 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
     public void onBindViewHolder(@NonNull LessonAdapter.LessonViewHolder holder, int position) {
         LessonModel lessonModel = lessonModelList.get(position);
         holder.lessonTextView.setText(lessonModel.getTitle());
+
+        holder.lessonCardView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, LessonActivity.class);
+            intent.putExtra("url", lessonModel.getS3Url());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
     }
 
     @Override

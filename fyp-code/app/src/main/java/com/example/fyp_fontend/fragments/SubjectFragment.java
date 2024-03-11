@@ -78,7 +78,7 @@ public class SubjectFragment extends Fragment {
     private void initListeners() {
         imageButton.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), LessonSelectionActivity.class);
-            intent.putExtra("lessonType", mPutExtraLesson);
+            intent.putExtra("subject", mPutExtraLesson);
             startActivity(intent);
         });
     }
