@@ -8,18 +8,18 @@ public class FeedItemModel {
     }
 
     public ItemType itemType;
-    private String temp;
+    private String fileName;
 
-    public FeedItemModel(ItemType itemType) {
-        this.temp = "text";
+    public FeedItemModel(ItemType itemType, String fileName) {
+        this.fileName = fileName;
         this.itemType = itemType;
     }
 
-    public String getTemp() {
-        return temp;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setTemp(String temp) {
-        this.temp = temp;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

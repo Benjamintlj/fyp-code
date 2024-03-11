@@ -4,39 +4,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.FeedItemModel;
+import com.example.fyp_fontend.network.S3Handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class LessonActivity extends AppCompatActivity {
+    private static final String TAG = "LessonActivity";
 
     ViewPager2 viewPager;
     ContentAdapter contentAdapter;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
 
-        getContent();
-        initViews();
-        initRecyclerView();
-    }
+        url = getIntent().getStringExtra("url");
 
-    private void getContent() {
-        List<FeedItemModel> feedItemsList = new ArrayList<>();
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
 
-        // TODO: should come from cloud
-        feedItemsList.add(new FeedItemModel(FeedItemModel.ItemType.VIDEO));
-        feedItemsList.add(new FeedItemModel(FeedItemModel.ItemType.QUESTION));
-        feedItemsList.add(new FeedItemModel(FeedItemModel.ItemType.VIDEO));
-        feedItemsList.add(new FeedItemModel(FeedItemModel.ItemType.QUESTION));
-
-        contentAdapter = new ContentAdapter(feedItemsList);
+        executor.execute(() -> {
+            List<FeedItemModel> feedItemsList = S3Handler.getInstance(getApplicationContext()).getLesson(url);
+            handler.post(() -> {
+                Log.d(TAG, "getContent: " + feedItemsList.size());
+                contentAdapter = new ContentAdapter(feedItemsList);
+                initViews();
+                initRecyclerView();
+            });
+        });
     }
 
     private void initViews() {

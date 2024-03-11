@@ -10,15 +10,23 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.util.IOUtils;
 import com.example.fyp_fontend.Utils.Globals;
+import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.LessonModel;
 import com.example.fyp_fontend.model.SubtopicModel;
 import com.example.fyp_fontend.model.TopicModel;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -57,7 +65,7 @@ public class S3Handler {
         List<String> topicPrefixes = listCommonPrefixes(rootPrefix);
 
         for (String fullTopicPrefix : topicPrefixes) {
-            String topicName = getNameFromMetadata(Globals.bucketName, fullTopicPrefix);
+            String topicName = getNameFromMetadata(fullTopicPrefix);
             if (topicName == null || topics.containsKey(topicName)) continue;
 
             TopicModel topicModel = new TopicModel(topicName, new ArrayList<>());
@@ -65,7 +73,7 @@ public class S3Handler {
 
             List<String> subtopicPrefixes = listCommonPrefixes(fullTopicPrefix);
             for (String subtopicPrefix : subtopicPrefixes) {
-                String subTopicName = getNameFromMetadata(Globals.bucketName, subtopicPrefix);
+                String subTopicName = getNameFromMetadata(subtopicPrefix);
                 if (subTopicName == null) continue;
 
                 SubtopicModel subtopicModel = new SubtopicModel(subTopicName, new ArrayList<>());
@@ -73,7 +81,7 @@ public class S3Handler {
 
                 List<String> lessonPrefixes = listCommonPrefixes(subtopicPrefix);
                 for (String lessonPrefix : lessonPrefixes) {
-                    String lessonName = getNameFromMetadata(Globals.bucketName, lessonPrefix);
+                    String lessonName = getNameFromMetadata(lessonPrefix);
                     if (lessonName == null) continue;
 
                     LessonModel lessonModel = new LessonModel(lessonName, lessonPrefix);
@@ -100,9 +108,9 @@ public class S3Handler {
         return prefixes;
     }
 
-    private String getNameFromMetadata(String bucketName, String prefix) {
+    private String getNameFromMetadata(String prefix) {
         String metadataPath = prefix + "metadata.json";
-        S3Object s3Object = s3Client.getObject(bucketName, metadataPath);
+        S3Object s3Object = s3Client.getObject(Globals.bucketName, metadataPath);
         ObjectMapper mapper = new ObjectMapper();
 
         try (InputStream stream = s3Object.getObjectContent()) {
@@ -112,5 +120,47 @@ public class S3Handler {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<FeedItemModel> getLesson(String s3Url) {
+        String lessonDataPath = s3Url + "lesson.json";
+        S3Object s3Object = s3Client.getObject(Globals.bucketName, lessonDataPath);
+        List<FeedItemModel> feedItems = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent(), StandardCharsets.UTF_8))) {
+            StringBuilder jsonText = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonText.append(line);
+            }
+
+            JSONObject jsonObject = new JSONObject(jsonText.toString());
+            JSONArray lessonStructure = jsonObject.getJSONArray("lessonStructure");
+
+            for (int i = 0; i < lessonStructure.length(); i++) {
+                JSONObject item = lessonStructure.getJSONObject(i);
+                String type = item.getString("type");
+                String name = item.getString("name");
+
+                FeedItemModel.ItemType itemType = null;
+                switch (type) {
+                    case "video":
+                        itemType = FeedItemModel.ItemType.VIDEO;
+                        break;
+                    case "question":
+                        itemType = FeedItemModel.ItemType.QUESTION;
+                        break;
+                }
+
+                if (itemType != null) {
+                    FeedItemModel feedItem = new FeedItemModel(itemType, name);
+                    feedItems.add(feedItem);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return feedItems;
     }
 }
