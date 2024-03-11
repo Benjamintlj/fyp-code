@@ -6,7 +6,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.adapter.LessonAdapter;
+import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.FeedItemModel;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.List;
 public class LessonActivity extends AppCompatActivity {
 
     ViewPager2 viewPager;
-    LessonAdapter lessonAdapter;
+    ContentAdapter contentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class LessonActivity extends AppCompatActivity {
         feedItemsList.add(new FeedItemModel(FeedItemModel.ItemType.VIDEO));
         feedItemsList.add(new FeedItemModel(FeedItemModel.ItemType.QUESTION));
 
-        lessonAdapter = new LessonAdapter(feedItemsList);
+        contentAdapter = new ContentAdapter(feedItemsList);
     }
 
     private void initViews() {
@@ -44,6 +44,6 @@ public class LessonActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        viewPager.setAdapter(lessonAdapter);
+        viewPager.setAdapter(contentAdapter);
     }
 }

@@ -6,9 +6,9 @@ import java.util.List;
 public class TopicModel {
 
     private String name;
-    private List<SubTopicModel> subTopicModelList;
+    private List<SubtopicModel> subTopicModelList;
 
-    public TopicModel(String name, List<SubTopicModel> subTopicModelList) {
+    public TopicModel(String name, List<SubtopicModel> subTopicModelList) {
         this.name = name;
         this.subTopicModelList = subTopicModelList;
     }
@@ -21,21 +21,11 @@ public class TopicModel {
         this.name = name;
     }
 
-    public List<SubTopicModel> getSubTopicModelList() {
+    public List<SubtopicModel> getSubTopicModelList() {
         return subTopicModelList;
     }
 
-    public void setSubTopicModelList(List<SubTopicModel> subTopicModelList) {
+    public void setSubTopicModelList(List<SubtopicModel> subTopicModelList) {
         this.subTopicModelList = subTopicModelList;
-    }
-
-    public List<String> getSubTopicNames() {
-        List<String> subTopicNamesList = new ArrayList<>();
-
-        for (SubTopicModel subTopicModel: subTopicModelList) {
-            subTopicNamesList.add(subTopicModel.getName());
-        }
-
-        return subTopicNamesList;
     }
 }

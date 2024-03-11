@@ -5,11 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.adapter.LessonSelectionAdapter;
+import com.example.fyp_fontend.adapter.TopicAdapter;
 import com.example.fyp_fontend.model.LessonModel;
+import com.example.fyp_fontend.model.SubtopicModel;
+import com.example.fyp_fontend.model.TopicModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +18,12 @@ import java.util.List;
 public class LessonSelectionActivity extends AppCompatActivity {
 
     private RecyclerView lessonsRecyclerView;
-    private LessonSelectionAdapter lessonSelectionAdapter;
-    private List<LessonModel> lessonModelList;
+    private TopicAdapter lessonSelectionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson_selection);
-
-        lessonModelList = new ArrayList<>();
 
         initViews();
         initRecyclerView();
@@ -37,7 +35,7 @@ public class LessonSelectionActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        lessonSelectionAdapter = new LessonSelectionAdapter(lessonModelList, getApplicationContext());
+        lessonSelectionAdapter = new TopicAdapter(new ArrayList<>(), getApplicationContext());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         lessonsRecyclerView.setLayoutManager(layoutManager);
@@ -47,11 +45,22 @@ public class LessonSelectionActivity extends AppCompatActivity {
     }
 
     private void getLessons() {
-        // TODO: data should be added from the cloud
-        lessonModelList.add(new LessonModel("Types of Cells", "url"));
-        lessonModelList.add(new LessonModel("Properties of Prokaryotes", "url"));
-        lessonModelList.add(new LessonModel("Standard Form", "url"));
+        // TODO data should be added from the cloud
+        List<LessonModel> lessonModelList = new ArrayList<>();
+        lessonModelList.add(new LessonModel("Types of cell", "url"));
+        lessonModelList.add(new LessonModel("Variations of cells", "url"));
+        lessonModelList.add(new LessonModel("DNA", "url"));
 
-        lessonSelectionAdapter.setLessonModelList(lessonModelList);
+        List<SubtopicModel> subTopicModelList = new ArrayList<>();
+        subTopicModelList.add(new SubtopicModel("What is in a cell?", lessonModelList));
+        subTopicModelList.add(new SubtopicModel("Evolution", new ArrayList<>()));
+        subTopicModelList.add(new SubtopicModel("Other biology things", new ArrayList<>()));
+
+        List<TopicModel> topicModelList = new ArrayList<>();
+        topicModelList.add(new TopicModel("Cell Biology", subTopicModelList));
+        topicModelList.add(new TopicModel("Other cell stuff", new ArrayList<>()));
+        topicModelList.add(new TopicModel("Animals", new ArrayList<>()));
+
+        lessonSelectionAdapter.setTopicModelList(topicModelList);
     }
 }

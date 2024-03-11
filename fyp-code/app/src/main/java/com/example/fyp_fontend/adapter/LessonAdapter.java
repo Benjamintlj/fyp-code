@@ -1,69 +1,56 @@
 package com.example.fyp_fontend.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.model.FeedItemModel;
+import com.example.fyp_fontend.model.LessonModel;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
-public class LessonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
+    private Context context;
+    private List<LessonModel> lessonModelList;
 
-    private List<FeedItemModel> feedItemsList;
-
-    public LessonAdapter(List<FeedItemModel> feedItemsList) {
-        this.feedItemsList = feedItemsList;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return feedItemsList.get(position).itemType.ordinal();
+    public LessonAdapter(Context context, List<LessonModel> lessonModelList) {
+        this.context = context;
+        this.lessonModelList = lessonModelList;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        if (viewType == FeedItemModel.ItemType.VIDEO.ordinal()) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_video, parent, false);
-            return new VideoViewHolder(view);
-        } else {
-            // Assumed to be a question
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_question, parent, false);
-            return new QuestionViewHolder(view);
-        }
+    public LessonAdapter.LessonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item_lesson, parent, false);
+        return new LessonViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        FeedItemModel item = feedItemsList.get(position);
-
-        if (item.itemType == FeedItemModel.ItemType.VIDEO) {
-            // Video stuff
-        } else {
-            // Question stuff
-        }
+    public void onBindViewHolder(@NonNull LessonAdapter.LessonViewHolder holder, int position) {
+        LessonModel lessonModel = lessonModelList.get(position);
+        holder.lessonTextView.setText(lessonModel.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return feedItemsList.size();
+        return lessonModelList.size();
     }
 
-    class VideoViewHolder extends RecyclerView.ViewHolder {
-        public VideoViewHolder(@NonNull View itemView) {
+    public static class LessonViewHolder extends RecyclerView.ViewHolder {
+        CardView lessonCardView;
+        TextView lessonTextView;
+        public LessonViewHolder(@NonNull View itemView) {
             super(itemView);
-        }
-    }
 
-    class QuestionViewHolder extends RecyclerView.ViewHolder {
-        public QuestionViewHolder(@NonNull View itemView) {
-            super(itemView);
+            lessonCardView = itemView.findViewById(R.id.lessonCardView);
+            lessonTextView = itemView.findViewById(R.id.lessonTextView);
         }
     }
 }
