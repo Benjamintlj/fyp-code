@@ -13,6 +13,7 @@ import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
 import com.example.fyp_fontend.model.Question.Question;
+import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
 import com.example.fyp_fontend.network.S3Handler;
 import com.example.fyp_fontend.view.question.AcknowledgeView;
 import com.example.fyp_fontend.view.question.BaseQuestionView;
@@ -22,14 +23,16 @@ import java.util.List;
 public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "ContentAdapter";
+    private QuestionCompleteListener questionCompleteListener;
     private List<FeedItemModel> feedItemsList;
     private Context context;
     private String lessonUrl;
 
-    public ContentAdapter(List<FeedItemModel> feedItemsList, String lessonUrl, Context context) {
+    public ContentAdapter(List<FeedItemModel> feedItemsList, String lessonUrl, Context context, QuestionCompleteListener questionCompleteListener) {
         this.feedItemsList = feedItemsList;
         this.context = context;
         this.lessonUrl = lessonUrl;
+        this.questionCompleteListener = questionCompleteListener;
     }
 
     @Override
@@ -47,6 +50,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (viewType == FeedItemModel.ItemType.ACKNOWLEDGE.ordinal()) {
             AcknowledgeView acknowledgeView = new AcknowledgeView(parent.getContext());
             acknowledgeView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            acknowledgeView.setQuestionCompleteListener(questionCompleteListener);
             return new QuestionViewHolder(acknowledgeView);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_video, parent, false);
