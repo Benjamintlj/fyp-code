@@ -7,6 +7,14 @@
         {
             "type": "video",
             "name": "demo_video"
+        },
+        {
+            "type": "acknowledge",
+            "name": "question_1"
+        },
+        {
+            "type": "video",
+            "name": "demo_video"
         }
     ]
 }

@@ -2,7 +2,7 @@ package com.example.fyp_fontend.model;
 
 import android.content.Context;
 
-import com.example.fyp_fontend.model.Question.Question;
+import com.example.fyp_fontend.Interfaces.Question;
 import com.example.fyp_fontend.network.S3Handler;
 
 public class FeedItemModel {

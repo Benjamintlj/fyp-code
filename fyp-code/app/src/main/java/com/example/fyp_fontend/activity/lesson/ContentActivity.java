@@ -45,6 +45,7 @@ public class ContentActivity extends AppCompatActivity {
                     @Override
                     public void onQuestionComplete() {
                         int currentItem = viewPager.getCurrentItem();
+                        contentAdapter.showNextItemsUpToNextQuestion(currentItem);
                         if (currentItem < contentAdapter.getItemCount() - 1) {
                             viewPager.setCurrentItem(currentItem + 1, true);
                         }

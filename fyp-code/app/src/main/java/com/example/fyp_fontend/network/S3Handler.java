@@ -1,7 +1,6 @@
 package com.example.fyp_fontend.network;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Region;
@@ -14,7 +13,7 @@ import com.example.fyp_fontend.Utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
 import com.example.fyp_fontend.model.content_selection.LessonModel;
-import com.example.fyp_fontend.model.Question.Question;
+import com.example.fyp_fontend.Interfaces.Question;
 import com.example.fyp_fontend.model.content_selection.SubtopicModel;
 import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.fasterxml.jackson.core.type.TypeReference;

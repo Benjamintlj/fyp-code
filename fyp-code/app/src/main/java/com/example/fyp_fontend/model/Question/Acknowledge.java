@@ -1,5 +1,7 @@
 package com.example.fyp_fontend.model.Question;
 
+import com.example.fyp_fontend.Interfaces.Question;
+
 public class Acknowledge implements Question {
 
     private String title;

@@ -1,7 +1,6 @@
 package com.example.fyp_fontend.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.model.FeedItemModel;
-import com.example.fyp_fontend.model.Question.Acknowledge;
-import com.example.fyp_fontend.model.Question.Question;
 import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
-import com.example.fyp_fontend.network.S3Handler;
 import com.example.fyp_fontend.view.question.AcknowledgeView;
 import com.example.fyp_fontend.view.question.BaseQuestionView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -25,6 +22,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final String TAG = "ContentAdapter";
     private QuestionCompleteListener questionCompleteListener;
     private List<FeedItemModel> feedItemsList;
+    private List<FeedItemModel> visableFeedItemsList = new ArrayList<>();
     private Context context;
     private String lessonUrl;
 
@@ -33,6 +31,10 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.context = context;
         this.lessonUrl = lessonUrl;
         this.questionCompleteListener = questionCompleteListener;
+        this.visableFeedItemsList.add(feedItemsList.get(0));
+        if (feedItemsList.get(0).itemType == FeedItemModel.ItemType.VIDEO) {
+            showNextItemsUpToNextQuestion(0);
+        }
     }
 
     @Override
@@ -71,7 +73,21 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return feedItemsList.size();
+        return visableFeedItemsList.size();
+    }
+
+    public void showNextItemsUpToNextQuestion(int currentQuestionIndex) {
+        boolean nextQuestionFound = false;
+        for (int i = currentQuestionIndex + 1; i < feedItemsList.size() && !nextQuestionFound; i++) {
+            FeedItemModel item = feedItemsList.get(i);
+            if (!visableFeedItemsList.contains(item)) {
+                visableFeedItemsList.add(item);
+                if (item.itemType == FeedItemModel.ItemType.ACKNOWLEDGE) {
+                    nextQuestionFound = true;
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     class VideoViewHolder extends RecyclerView.ViewHolder {
