@@ -26,4 +26,6 @@
     <string name="chemistry">Chemistry</string>
     <string name="physics">Physics</string>
     <string name="subjects_title">Subjects</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

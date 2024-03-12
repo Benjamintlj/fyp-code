@@ -40,7 +40,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
         holder.lessonCardView.setOnClickListener(view -> {
             Intent intent = new Intent(context, ContentActivity.class);
-            intent.putExtra("url", lessonModel.getS3Url());
+            intent.putExtra("objectKey", lessonModel.getS3Url());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });

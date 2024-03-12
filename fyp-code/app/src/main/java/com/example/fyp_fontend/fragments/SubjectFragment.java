@@ -32,12 +32,6 @@ public class SubjectFragment extends Fragment {
 
     public SubjectFragment() {}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment subjectFragment.
-     */
     public static SubjectFragment newInstance(String subjectName, @DrawableRes int resId, String putExtraLesson) {
         SubjectFragment fragment = new SubjectFragment();
         Bundle args = new Bundle();

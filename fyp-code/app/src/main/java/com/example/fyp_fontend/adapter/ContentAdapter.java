@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
 import com.example.fyp_fontend.view.question.AcknowledgeView;
 import com.example.fyp_fontend.view.question.BaseQuestionView;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +67,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         FeedItemModel item = feedItemsList.get(position);
 
         if (item.itemType == FeedItemModel.ItemType.VIDEO) {
-            // Video stuff
+            ((VideoViewHolder) holder).linkVideo(item.getVideoUrl());
         } else if (item.itemType == FeedItemModel.ItemType.ACKNOWLEDGE) {
             ((QuestionViewHolder) holder).baseQuestionView.setQuestion(item.getQuestion());
         }
@@ -91,8 +93,43 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class VideoViewHolder extends RecyclerView.ViewHolder {
+
+        VideoView videoView;
+
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
+            videoView = itemView.findViewById(R.id.videoView);
+        }
+
+        public void linkVideo(URL streamUrl) {
+            videoView.setVideoPath(streamUrl.toString());
+            startVideo();
+        }
+
+        public void startVideo() {
+            videoView.seekTo(1);
+            videoView.start();
+        }
+
+        public void resetVideo() {
+            videoView.stopPlayback();
+            videoView.seekTo(1);
+        }
+    }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        if (holder instanceof VideoViewHolder) {
+            ((VideoViewHolder) holder).startVideo();
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        if (holder instanceof VideoViewHolder) {
+            ((VideoViewHolder) holder).resetVideo();
         }
     }
 

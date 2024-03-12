@@ -2,10 +2,12 @@ package com.example.fyp_fontend.network;
 
 import android.content.Context;
 
+import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
@@ -26,8 +28,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,8 +125,8 @@ public class S3Handler {
         }
     }
 
-    public List<FeedItemModel> getLesson(String s3Url) {
-        String lessonDataPath = s3Url + "lesson.json";
+    public List<FeedItemModel> getLesson(String objectKey) {
+        String lessonDataPath = objectKey + "lesson.json";
         S3Object s3Object = s3Client.getObject(Globals.bucketName, lessonDataPath);
         List<FeedItemModel> feedItems = new ArrayList<>();
 
@@ -143,16 +147,13 @@ public class S3Handler {
 
                 switch (type) {
                     case "video":
-                        feedItems.add(new FeedItemModel(
-                                FeedItemModel.ItemType.VIDEO,
-                                s3Url + "videos/" + name + ".mp4",
-                                context
-                        ));
+                        URL videoUrl = generateVideoURL(objectKey + "videos/" + name + ".mp4");
+                        feedItems.add(new FeedItemModel(videoUrl));
                         break;
                     case "acknowledge":
                         feedItems.add(new FeedItemModel(
                                 FeedItemModel.ItemType.ACKNOWLEDGE,
-                                s3Url + "questions/" + name + ".json",
+                                objectKey + "questions/" + name + ".json",
                                 context
                         ));
                         break;
@@ -193,5 +194,16 @@ public class S3Handler {
         }
 
         return question;
+    }
+
+    private URL generateVideoURL(String objectKey) {
+        Date exparationDate = new Date();
+        exparationDate.setTime(exparationDate.getTime() + 3600000);
+
+        GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(Globals.bucketName, objectKey)
+                .withMethod(HttpMethod.GET)
+                .withExpiration(exparationDate);
+
+        return s3Client.generatePresignedUrl(generatePresignedUrlRequest);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.fyp_fontend.activity.lesson;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -24,24 +24,24 @@ public class ContentActivity extends AppCompatActivity {
 
     ViewPager2 viewPager;
     ContentAdapter contentAdapter;
-    String url;
+    String objectKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
 
-        url = getIntent().getStringExtra("url");
+        objectKey = getIntent().getStringExtra("objectKey");
         initViews();
 
         Executor executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
         executor.execute(() -> {
-            List<FeedItemModel> feedItemsList = S3Handler.getInstance(getApplicationContext()).getLesson(url);
+            List<FeedItemModel> feedItemsList = S3Handler.getInstance(getApplicationContext()).getLesson(objectKey);
             handler.post(() -> {
                 Log.d(TAG, "getContent: " + feedItemsList.size());
-                contentAdapter = new ContentAdapter(feedItemsList, url, getApplicationContext(), new QuestionCompleteListener() {
+                contentAdapter = new ContentAdapter(feedItemsList, objectKey, getApplicationContext(), new QuestionCompleteListener() {
                     @Override
                     public void onQuestionComplete() {
                         int currentItem = viewPager.getCurrentItem();
