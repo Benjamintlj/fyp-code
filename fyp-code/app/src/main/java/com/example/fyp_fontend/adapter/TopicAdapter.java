@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.model.TopicModel;
+import com.example.fyp_fontend.model.content_selection.TopicModel;
 
 import java.util.List;
 

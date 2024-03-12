@@ -1,5 +1,4 @@
 {
-    "type": "acknowledge",
     "title": "Hey 👋",
     "description": "JSON is a lightweight data interchange format that is easy for humans to read and write and easy for machines to parse and generate. It's commonly used for configuration files, data exchange between client and server, and more.",
     "buttonText": "Okay"

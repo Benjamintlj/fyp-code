@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,11 +12,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.activity.lesson.LessonActivity;
-import com.example.fyp_fontend.model.LessonModel;
+import com.example.fyp_fontend.activity.lesson.ContentActivity;
+import com.example.fyp_fontend.model.content_selection.LessonModel;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
     private Context context;
@@ -41,7 +39,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         holder.lessonTextView.setText(lessonModel.getTitle());
 
         holder.lessonCardView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, LessonActivity.class);
+            Intent intent = new Intent(context, ContentActivity.class);
             intent.putExtra("url", lessonModel.getS3Url());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);

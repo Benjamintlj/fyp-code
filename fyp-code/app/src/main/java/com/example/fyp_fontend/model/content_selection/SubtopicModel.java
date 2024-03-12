@@ -1,4 +1,6 @@
-package com.example.fyp_fontend.model;
+package com.example.fyp_fontend.model.content_selection;
+
+import com.example.fyp_fontend.model.content_selection.LessonModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
-package com.example.fyp_fontend.model;
+package com.example.fyp_fontend.model.content_selection;
 
-import java.util.ArrayList;
+import com.example.fyp_fontend.model.content_selection.SubtopicModel;
+
 import java.util.List;
 
 public class TopicModel {

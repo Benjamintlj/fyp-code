@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Fyp_frontend"
         tools:targetApi="31">
         <activity
-            android:name=".activity.lesson.LessonActivity"
+            android:name=".activity.lesson.ContentActivity"
             android:exported="false" />
         <activity
             android:name=".activity.content_selection.LessonSelectionActivity"

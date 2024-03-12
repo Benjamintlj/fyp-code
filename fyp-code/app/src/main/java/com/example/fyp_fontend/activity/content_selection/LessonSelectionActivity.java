@@ -7,13 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.adapter.TopicAdapter;
-import com.example.fyp_fontend.model.LessonModel;
-import com.example.fyp_fontend.model.SubtopicModel;
-import com.example.fyp_fontend.model.TopicModel;
+import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.example.fyp_fontend.network.S3Handler;
 
 import java.util.ArrayList;

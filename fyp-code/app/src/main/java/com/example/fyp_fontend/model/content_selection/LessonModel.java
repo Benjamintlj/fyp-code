@@ -1,4 +1,4 @@
-package com.example.fyp_fontend.model;
+package com.example.fyp_fontend.model.content_selection;
 
 public class LessonModel {
 

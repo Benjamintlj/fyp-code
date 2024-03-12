@@ -1,21 +1,22 @@
 package com.example.fyp_fontend.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.util.IOUtils;
 import com.example.fyp_fontend.Utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
-import com.example.fyp_fontend.model.LessonModel;
-import com.example.fyp_fontend.model.SubtopicModel;
-import com.example.fyp_fontend.model.TopicModel;
+import com.example.fyp_fontend.model.Question.Acknowledge;
+import com.example.fyp_fontend.model.content_selection.LessonModel;
+import com.example.fyp_fontend.model.Question.Question;
+import com.example.fyp_fontend.model.content_selection.SubtopicModel;
+import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,7 +29,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,19 +142,21 @@ public class S3Handler {
                 String type = item.getString("type");
                 String name = item.getString("name");
 
-                FeedItemModel.ItemType itemType = null;
                 switch (type) {
                     case "video":
-                        itemType = FeedItemModel.ItemType.VIDEO;
+                        feedItems.add(new FeedItemModel(
+                                FeedItemModel.ItemType.VIDEO,
+                                s3Url + "videos/" + name + ".mp4",
+                                context
+                        ));
                         break;
-                    case "question":
-                        itemType = FeedItemModel.ItemType.QUESTION;
+                    case "acknowledge":
+                        feedItems.add(new FeedItemModel(
+                                FeedItemModel.ItemType.ACKNOWLEDGE,
+                                s3Url + "questions/" + name + ".json",
+                                context
+                        ));
                         break;
-                }
-
-                if (itemType != null) {
-                    FeedItemModel feedItem = new FeedItemModel(itemType, name);
-                    feedItems.add(feedItem);
                 }
             }
         } catch (Exception e) {
@@ -162,5 +164,35 @@ public class S3Handler {
         }
 
         return feedItems;
+    }
+
+    public Question getQuestion(String questionPath, FeedItemModel.ItemType type) {
+        S3Object s3Object = s3Client.getObject(Globals.bucketName, questionPath);
+        Question question = null;
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object.getObjectContent(), StandardCharsets.UTF_8))) {
+            StringBuilder jsonText = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonText.append(line);
+            }
+
+            JSONObject jsonObject = new JSONObject(jsonText.toString());
+
+            switch (type) {
+                case ACKNOWLEDGE:
+                    question = new Acknowledge(
+                            jsonObject.getString("title"),
+                            jsonObject.getString("description"),
+                            jsonObject.getString("buttonText")
+                    );
+                    break;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return question;
     }
 }
