@@ -42,10 +42,16 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
+
     implementation("com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.75.0")
     implementation("com.amazonaws:aws-android-sdk-cognito:2.20.0")
     implementation("com.amazonaws:aws-android-sdk-s3:2.75.0")
     compileOnly("com.amazonaws:aws-java-sdk-s3:1.11.404")
+
+    implementation("androidx.media3:media3-exoplayer:1.3.0")
+    implementation("androidx.media3:media3-exoplayer-dash:1.3.0")
+    implementation("androidx.media3:media3-ui:1.3.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

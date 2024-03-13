@@ -13,8 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.example.fyp_fontend.Interfaces.Question;
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.model.Question.Acknowledge;
-import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
+import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.Question.SingleWord;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -23,7 +22,7 @@ import java.util.Objects;
 public class SingleWordView extends BaseQuestionView {
 
     private static final String TAG = "AcknowledgeView";
-    private QuestionCompleteListener questionCompleteListener;
+    private ContentAdapter.ContentAdapterInterface contentAdapterInterface;
     TextView titleTextView, descriptionTextView;
     TextInputEditText answerTextInputEditText;
     Button button;
@@ -60,20 +59,20 @@ public class SingleWordView extends BaseQuestionView {
         }
     }
 
-    public void setQuestionCompleteListener(@NonNull QuestionCompleteListener listener) {
-        this.questionCompleteListener = listener;
+    public void setQuestionCompleteListener(@NonNull ContentAdapter.ContentAdapterInterface contentAdapterInterface) {
+        this.contentAdapterInterface = contentAdapterInterface;
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: " + answerTextInputEditText.getText());
                 if (Objects.equals(Objects.requireNonNull(answerTextInputEditText.getText()).toString(), singleWord.getAnswer())) {
                     setQuestionEnabled(false);
-                    questionCompleteListener.onQuestionComplete(true, null);
+                    contentAdapterInterface.onQuestionComplete(true, null);
                 } else if (answerTextInputEditText.getText().length() == 0) {
                     Toast.makeText(context, R.string.please_answer_the_question, Toast.LENGTH_SHORT).show();
                 } else {
                     setQuestionEnabled(false);
-                    questionCompleteListener.onQuestionComplete(false, singleWord.getExplanation());
+                    contentAdapterInterface.onQuestionComplete(false, singleWord.getExplanation());
                 }
             }
         });

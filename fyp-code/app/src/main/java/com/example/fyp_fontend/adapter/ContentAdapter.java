@@ -1,6 +1,7 @@
 package com.example.fyp_fontend.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +9,15 @@ import android.view.ViewGroup;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.PlaybackException;
+import androidx.media3.common.Player;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.model.FeedItemModel;
-import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
 import com.example.fyp_fontend.view.question.AcknowledgeView;
 import com.example.fyp_fontend.view.question.BaseQuestionView;
 import com.example.fyp_fontend.view.question.SingleWordView;
@@ -23,18 +28,21 @@ import java.util.List;
 
 public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public interface ContentAdapterInterface {
+        void onQuestionComplete(Boolean isCorrect, String description);
+        void onVideoComplete();
+    }
+
     private static final String TAG = "ContentAdapter";
-    private QuestionCompleteListener questionCompleteListener;
+    private ContentAdapterInterface contentAdapterInterface;
     private List<FeedItemModel> feedItemsList;
     private List<FeedItemModel> visableFeedItemsList = new ArrayList<>();
-    private Context context;
-    private String lessonUrl;
+    private List<ExoPlayer> exoPlayers = new ArrayList<>();
 
-    public ContentAdapter(List<FeedItemModel> feedItemsList, String lessonUrl, Context context, QuestionCompleteListener questionCompleteListener) {
+
+    public ContentAdapter(List<FeedItemModel> feedItemsList, @NonNull ContentAdapterInterface contentAdapterInterface) {
         this.feedItemsList = feedItemsList;
-        this.context = context;
-        this.lessonUrl = lessonUrl;
-        this.questionCompleteListener = questionCompleteListener;
+        this.contentAdapterInterface = contentAdapterInterface;
         this.visableFeedItemsList.add(feedItemsList.get(0));
         if (feedItemsList.get(0).itemType == FeedItemModel.ItemType.VIDEO) {
             showNextItemsUpToNextQuestion(0);
@@ -73,7 +81,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // Assumes that all non-question views have returned
         questionView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        questionView.setQuestionCompleteListener(questionCompleteListener);
+        questionView.setQuestionCompleteListener(contentAdapterInterface);
         return new QuestionViewHolder(questionView);
     }
 
@@ -84,6 +92,9 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (item.itemType) {
             case VIDEO:
                 ((VideoViewHolder) holder).linkVideo(item.getVideoUrl());
+                ((VideoViewHolder) holder).initVideoCompleteListener(() -> {
+                    contentAdapterInterface.onVideoComplete();
+                });
                 break;
 
             case ACKNOWLEDGE:
@@ -104,7 +115,8 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             FeedItemModel item = feedItemsList.get(i);
             if (!visableFeedItemsList.contains(item)) {
                 visableFeedItemsList.add(item);
-                if (item.itemType == FeedItemModel.ItemType.ACKNOWLEDGE) {
+                if (item.itemType == FeedItemModel.ItemType.ACKNOWLEDGE
+                        || item.itemType == FeedItemModel.ItemType.SINGLE_WORD) {
                     nextQuestionFound = true;
                 }
             }
@@ -114,26 +126,56 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     class VideoViewHolder extends RecyclerView.ViewHolder {
 
-        VideoView videoView;
+        PlayerView playerView;
+        int exoPlayerPosition;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
-            videoView = itemView.findViewById(R.id.videoView);
+            playerView = itemView.findViewById(R.id.playerView);
+            exoPlayers.add(new ExoPlayer.Builder(itemView.getContext()).build());
+            exoPlayerPosition = exoPlayers.size() - 1;
+            playerView.setPlayer(exoPlayers.get(exoPlayerPosition));
         }
 
         public void linkVideo(URL streamUrl) {
-            videoView.setVideoPath(streamUrl.toString());
-            startVideo();
+            MediaItem mediaItem = MediaItem.fromUri(Uri.parse(streamUrl.toString()));
+            exoPlayers.get(exoPlayerPosition).setMediaItem(mediaItem);
+            exoPlayers.get(exoPlayerPosition).prepare();
         }
 
         public void startVideo() {
-            videoView.seekTo(1);
-            videoView.start();
+            exoPlayers.get(exoPlayerPosition).play();
         }
 
         public void resetVideo() {
-            videoView.stopPlayback();
-            videoView.seekTo(1);
+            exoPlayers.get(exoPlayerPosition).seekTo(0);
+            startVideo();
+        }
+
+        public void initVideoCompleteListener(Runnable onVideoComplete) {
+            exoPlayers.get(exoPlayerPosition).addListener(new Player.Listener() {
+                @Override
+                public void onPlaybackStateChanged(int playbackState) {
+                    Player.Listener.super.onPlaybackStateChanged(playbackState);
+                    if (playbackState == Player.STATE_ENDED) {
+                        onVideoComplete.run();
+                    }
+                }
+            });
+
+            exoPlayers.get(exoPlayerPosition).addListener(new Player.Listener() {
+                @Override
+                public void onPlayerError(PlaybackException error) {
+                    Log.e("VideoViewHolder", "Player error: " + error.getMessage());
+                }
+            });
+
+        }
+
+        public void releaseExoPlayer() {
+            if (exoPlayers.get(exoPlayerPosition) != null) {
+                exoPlayers.get(exoPlayerPosition).release();
+            }
         }
     }
 
@@ -152,6 +194,24 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((VideoViewHolder) holder).resetVideo();
         }
     }
+
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        if (holder instanceof VideoViewHolder) {
+            ((VideoViewHolder) holder).releaseExoPlayer();
+        }
+    }
+
+    public void releaseAllPlayers() {
+        for (ExoPlayer exoPlayer : exoPlayers) {
+            if (exoPlayer != null) {
+                exoPlayer.release();
+            }
+        }
+        exoPlayers.clear();
+    }
+
 
     class QuestionViewHolder extends RecyclerView.ViewHolder {
 

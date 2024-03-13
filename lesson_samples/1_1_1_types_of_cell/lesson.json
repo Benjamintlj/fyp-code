@@ -1,16 +1,17 @@
 {
     "lessonStructure": [
         {
+            "type": "video",
+            "name": "demo_video"
+        },
+        {
+            "type": "video",
+            "name": "demo_video"
+        },
+        {
+
             "type": "single_word",
             "name": "question_2"
-        },
-        {
-            "type": "video",
-            "name": "demo_video"
-        },
-        {
-            "type": "video",
-            "name": "demo_video"
         },
         {
             "type": "acknowledge",

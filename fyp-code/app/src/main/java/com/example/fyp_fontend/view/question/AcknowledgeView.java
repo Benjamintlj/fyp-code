@@ -9,14 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.Question.Acknowledge;
 import com.example.fyp_fontend.Interfaces.Question;
-import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
 
 public class AcknowledgeView extends BaseQuestionView {
 
     private static final String TAG = "AcknowledgeView";
-    private QuestionCompleteListener questionCompleteListener;
+    private ContentAdapter.ContentAdapterInterface contentAdapterInterface;
     TextView titleTextView, descriptionTextView;
     Button button;
 
@@ -49,13 +49,13 @@ public class AcknowledgeView extends BaseQuestionView {
         }
     }
 
-    public void setQuestionCompleteListener(QuestionCompleteListener listener) {
-        this.questionCompleteListener = listener;
+    public void setQuestionCompleteListener(ContentAdapter.ContentAdapterInterface contentAdapterInterface) {
+        this.contentAdapterInterface = contentAdapterInterface;
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(questionCompleteListener != null) {
-                    questionCompleteListener.onQuestionComplete(null, null);
+                if(contentAdapterInterface != null) {
+                    contentAdapterInterface.onQuestionComplete(null, null);
                 }
             }
         });

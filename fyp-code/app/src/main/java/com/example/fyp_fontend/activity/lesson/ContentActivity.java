@@ -16,14 +16,13 @@ import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.Utils.RandomSelector;
 import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.FeedItemModel;
-import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
 import com.example.fyp_fontend.network.S3Handler;
 
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class ContentActivity extends AppCompatActivity implements QuestionCompleteListener {
+public class ContentActivity extends AppCompatActivity implements ContentAdapter.ContentAdapterInterface {
     private static final String TAG = "LessonActivity";
 
     ViewPager2 viewPager;
@@ -44,10 +43,18 @@ public class ContentActivity extends AppCompatActivity implements QuestionComple
         executor.execute(() -> {
             List<FeedItemModel> feedItemsList = S3Handler.getInstance(getApplicationContext()).getLesson(objectKey);
             handler.post(() -> {
-                contentAdapter = new ContentAdapter(feedItemsList, objectKey, getApplicationContext(), this);
+                contentAdapter = new ContentAdapter(feedItemsList, this);
                 initRecyclerView();
             });
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (contentAdapter != null) {
+            contentAdapter.releaseAllPlayers();
+        }
     }
 
     private void initViews() {
@@ -113,6 +120,11 @@ public class ContentActivity extends AppCompatActivity implements QuestionComple
 
         descriptionTextView.setText(description);
         dialog.show();
+    }
+
+    @Override
+    public void onVideoComplete() {
+        nextPage(viewPager.getCurrentItem());
     }
 
     private void nextPage(int currentItem) {

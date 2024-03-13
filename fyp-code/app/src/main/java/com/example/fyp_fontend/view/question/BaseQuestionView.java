@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.example.fyp_fontend.Interfaces.Question;
-import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
+import com.example.fyp_fontend.adapter.ContentAdapter;
 
 public abstract class BaseQuestionView extends LinearLayout {
 
@@ -18,5 +18,5 @@ public abstract class BaseQuestionView extends LinearLayout {
     }
 
     public abstract void setQuestion(Question question);
-    public abstract void setQuestionCompleteListener(QuestionCompleteListener listener);
+    public abstract void setQuestionCompleteListener(ContentAdapter.ContentAdapterInterface listener);
 }
