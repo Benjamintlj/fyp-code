@@ -2,16 +2,17 @@ package com.example.fyp_fontend.model.Question;
 
 import com.example.fyp_fontend.Interfaces.Question;
 
-public class Acknowledge implements Question {
-
+public class SingleWord implements Question {
     private String title;
     private String description;
-    private String buttonText;
+    private String answer;
+    private String explanation;
 
-    public Acknowledge(String title, String description, String buttonText) {
+    public SingleWord (String title, String description, String answer, String explanation) {
         this.title = title;
         this.description = description;
-        this.buttonText = buttonText;
+        this.answer = answer;
+        this.explanation = explanation;
     }
 
     @Override
@@ -34,7 +35,11 @@ public class Acknowledge implements Question {
         this.description = description;
     }
 
-    public String getButtonText() {
-        return buttonText;
+    public String getAnswer() {
+        return answer;
+    }
+
+    public String getExplanation() {
+        return explanation;
     }
 }

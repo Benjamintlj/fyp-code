@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">study hut</string>
     <string name="sign_in_activity">Sign-in</string>
     <string name="username_hint">Username</string>
@@ -28,4 +28,25 @@
     <string name="subjects_title">Subjects</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="check_answer">Check Answer</string>
+    <string name="answer">Answer</string>
+    <string name="please_answer_the_question">Please answer the question</string>
+    <string name="continueToNextPage" tools:ignore="ExtraTranslation">Continue</string>
+    <string name="congratulations_1">You Smashed It!</string>
+    <string name="congratulations_2">Good Work!</string>
+    <string name="congratulations_3">Your rocking it!</string>
+    <string name="congratulations_4">Easy Work!</string>
+    <string name="congratulations_5">Expert!</string>
+    <string name="congratulations_6">Champion in the making!</string>
+    <string name="congratulations_7">Keep up the good work!</string>
+    <string name="congratulations_8">Absolute win!</string>
+    <string name="congratulations_9">Best of the best!</string>
+    <string name="failure_1">Awh so close</string>
+    <string name="failure_2">Almost had it</string>
+    <string name="failure_3">Better luck next time</string>
+    <string name="failure_4">Oooof</string>
+    <string name="failure_5">You win some, you lose some</string>
+    <string name="failure_6">I\'m sure you almost had it</string>
+    <string name="failure_7">Okay lets try again</string>
+    <string name="failure_8">No pain, No gain</string>
 </resources>

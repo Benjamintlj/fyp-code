@@ -6,5 +6,7 @@ public interface Question {
     void setTitle(String title);
 
     String getDescription();
-    void setDescription();
+    void setDescription(String description);
+
+
 }

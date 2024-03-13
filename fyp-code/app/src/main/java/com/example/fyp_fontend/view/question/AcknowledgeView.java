@@ -55,7 +55,7 @@ public class AcknowledgeView extends BaseQuestionView {
             @Override
             public void onClick(View v) {
                 if(questionCompleteListener != null) {
-                    questionCompleteListener.onQuestionComplete();
+                    questionCompleteListener.onQuestionComplete(null, null);
                 }
             }
         });

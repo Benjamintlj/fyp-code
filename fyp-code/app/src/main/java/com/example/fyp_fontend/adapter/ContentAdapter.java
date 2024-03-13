@@ -1,6 +1,7 @@
 package com.example.fyp_fontend.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.QuestionCompleteListener;
 import com.example.fyp_fontend.view.question.AcknowledgeView;
 import com.example.fyp_fontend.view.question.BaseQuestionView;
+import com.example.fyp_fontend.view.question.SingleWordView;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,29 +49,47 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        BaseQuestionView questionView = null;
 
-        if (viewType == FeedItemModel.ItemType.VIDEO.ordinal()) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_video, parent, false);
-            return new VideoViewHolder(view);
-        } else if (viewType == FeedItemModel.ItemType.ACKNOWLEDGE.ordinal()) {
-            AcknowledgeView acknowledgeView = new AcknowledgeView(parent.getContext());
-            acknowledgeView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            acknowledgeView.setQuestionCompleteListener(questionCompleteListener);
-            return new QuestionViewHolder(acknowledgeView);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_video, parent, false);
-            return new VideoViewHolder(view);
+        switch (FeedItemModel.ItemType.values()[viewType]) {
+            case VIDEO:
+                View videoView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_video, parent, false);
+                return new VideoViewHolder(videoView);
+
+            case ACKNOWLEDGE:
+                questionView = new AcknowledgeView(parent.getContext());
+                break;
+
+            case SINGLE_WORD:
+                questionView = new SingleWordView(parent.getContext());
+                break;
+
+            default:
+                // TODO: this needs to be something different than a video view
+                View defaultView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_video, parent, false);
+                Log.e(TAG, "onCreateViewHolder: defaulted");
+                return new VideoViewHolder(defaultView);
         }
+
+        // Assumes that all non-question views have returned
+        questionView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        questionView.setQuestionCompleteListener(questionCompleteListener);
+        return new QuestionViewHolder(questionView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         FeedItemModel item = feedItemsList.get(position);
 
-        if (item.itemType == FeedItemModel.ItemType.VIDEO) {
-            ((VideoViewHolder) holder).linkVideo(item.getVideoUrl());
-        } else if (item.itemType == FeedItemModel.ItemType.ACKNOWLEDGE) {
-            ((QuestionViewHolder) holder).baseQuestionView.setQuestion(item.getQuestion());
+        switch (item.itemType) {
+            case VIDEO:
+                ((VideoViewHolder) holder).linkVideo(item.getVideoUrl());
+                break;
+
+            case ACKNOWLEDGE:
+            case SINGLE_WORD:
+                ((QuestionViewHolder) holder).baseQuestionView.setQuestion(item.getQuestion());
+                break;
         }
     }
 

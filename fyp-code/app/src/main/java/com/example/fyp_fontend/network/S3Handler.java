@@ -14,6 +14,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.example.fyp_fontend.Utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
+import com.example.fyp_fontend.model.Question.SingleWord;
 import com.example.fyp_fontend.model.content_selection.LessonModel;
 import com.example.fyp_fontend.Interfaces.Question;
 import com.example.fyp_fontend.model.content_selection.SubtopicModel;
@@ -145,18 +146,24 @@ public class S3Handler {
                 String type = item.getString("type");
                 String name = item.getString("name");
 
-                switch (type) {
-                    case "video":
-                        URL videoUrl = generateVideoURL(objectKey + "videos/" + name + ".mp4");
-                        feedItems.add(new FeedItemModel(videoUrl));
-                        break;
-                    case "acknowledge":
-                        feedItems.add(new FeedItemModel(
-                                FeedItemModel.ItemType.ACKNOWLEDGE,
-                                objectKey + "questions/" + name + ".json",
-                                context
-                        ));
-                        break;
+                if (type.equals("video")) {
+                    URL videoUrl = generateVideoURL(objectKey + "videos/" + name + ".mp4");
+                    feedItems.add(new FeedItemModel(videoUrl));
+                } else {
+                    FeedItemModel.ItemType itemType = null;
+                    switch (type) {
+                        case "acknowledge":
+                            itemType = FeedItemModel.ItemType.ACKNOWLEDGE;
+                            break;
+                        case "single_word":
+                            itemType = FeedItemModel.ItemType.SINGLE_WORD;
+                            break;
+                        default:
+                            continue;
+                    }
+
+                    String path = objectKey + "questions/" + name + ".json";
+                    feedItems.add(new FeedItemModel(getQuestion(path, itemType)));
                 }
             }
         } catch (Exception e) {
@@ -185,6 +192,14 @@ public class S3Handler {
                             jsonObject.getString("title"),
                             jsonObject.getString("description"),
                             jsonObject.getString("buttonText")
+                    );
+                    break;
+                case SINGLE_WORD:
+                    question = new SingleWord(
+                            jsonObject.getString("title"),
+                            jsonObject.getString("description"),
+                            jsonObject.getString("answer"),
+                            jsonObject.getString("explanation")
                     );
                     break;
             }
