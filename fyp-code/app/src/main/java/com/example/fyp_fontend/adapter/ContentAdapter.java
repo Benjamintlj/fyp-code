@@ -127,7 +127,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class VideoViewHolder extends RecyclerView.ViewHolder {
 
         PlayerView playerView;
-        int exoPlayerPosition;
+        public int exoPlayerPosition;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -149,7 +149,12 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public void resetVideo() {
             exoPlayers.get(exoPlayerPosition).seekTo(0);
-            startVideo();
+        }
+
+        public void pauseVideo() {
+            if (exoPlayers.get(exoPlayerPosition).isPlaying()) {
+                exoPlayers.get(exoPlayerPosition).pause();
+            }
         }
 
         public void initVideoCompleteListener(Runnable onVideoComplete) {
@@ -183,6 +188,7 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onViewAttachedToWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         if (holder instanceof VideoViewHolder) {
+            Log.d(TAG, "onViewAttachedToWindow: BEN: " + String.valueOf(((VideoViewHolder) holder).exoPlayerPosition));
             ((VideoViewHolder) holder).startVideo();
         }
     }
@@ -191,6 +197,8 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
         if (holder instanceof VideoViewHolder) {
+            Log.d(TAG, "onViewDetachedFromWindow: BEN: " + String.valueOf(((VideoViewHolder) holder).exoPlayerPosition));
+            ((VideoViewHolder) holder).pauseVideo();
             ((VideoViewHolder) holder).resetVideo();
         }
     }
@@ -211,7 +219,6 @@ public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         exoPlayers.clear();
     }
-
 
     class QuestionViewHolder extends RecyclerView.ViewHolder {
 

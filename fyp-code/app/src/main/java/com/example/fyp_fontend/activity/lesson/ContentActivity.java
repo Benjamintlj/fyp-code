@@ -132,5 +132,6 @@ public class ContentActivity extends AppCompatActivity implements ContentAdapter
         if (currentItem < contentAdapter.getItemCount() - 1) {
             viewPager.setCurrentItem(currentItem + 1, true);
         }
+        Log.d(TAG, "nextPage: Ben:", new Exception("Ben Stack trace"));
     }
 }
