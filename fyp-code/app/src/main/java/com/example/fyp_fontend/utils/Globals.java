@@ -1,4 +1,4 @@
-package com.example.fyp_fontend.Utils;
+package com.example.fyp_fontend.utils;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;

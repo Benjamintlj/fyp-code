@@ -1,7 +1,7 @@
 package com.example.fyp_fontend.network;
-import static com.example.fyp_fontend.Utils.Globals.clientId;
-import static com.example.fyp_fontend.Utils.Globals.region;
-import static com.example.fyp_fontend.Utils.Globals.userPoolId;
+import static com.example.fyp_fontend.utils.Globals.clientId;
+import static com.example.fyp_fontend.utils.Globals.region;
+import static com.example.fyp_fontend.utils.Globals.userPoolId;
 
 import android.content.Context;
 import android.util.Log;
@@ -21,10 +21,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
-import com.example.fyp_fontend.Utils.Globals;
 import com.example.fyp_fontend.network.callback.RegisterCallback;
 import com.example.fyp_fontend.network.callback.ResendCodeCallback;
 import com.example.fyp_fontend.network.callback.ResetPasswordCallback;

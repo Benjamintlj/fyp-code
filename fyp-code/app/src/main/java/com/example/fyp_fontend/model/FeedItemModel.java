@@ -1,11 +1,8 @@
 package com.example.fyp_fontend.model;
 
-import android.content.Context;
-
-import com.example.fyp_fontend.Interfaces.Question;
+import com.example.fyp_fontend.interfaces.Question;
 import com.example.fyp_fontend.model.Question.Acknowledge;
 import com.example.fyp_fontend.model.Question.SingleWord;
-import com.example.fyp_fontend.network.S3Handler;
 
 import java.net.URL;
 

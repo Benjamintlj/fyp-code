@@ -1,7 +1,10 @@
 package com.example.fyp_fontend.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.activity.lesson.ContentActivity;
+import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.content_selection.LessonModel;
+import com.example.fyp_fontend.network.S3Handler;
+import com.example.fyp_fontend.utils.ContentManager;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
     private Context context;
     private List<LessonModel> lessonModelList;
+    private Activity activity;
 
-    public LessonAdapter(Context context, List<LessonModel> lessonModelList) {
+    public LessonAdapter(Context context, Activity activity, List<LessonModel> lessonModelList) {
         this.context = context;
         this.lessonModelList = lessonModelList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -39,10 +49,16 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         holder.lessonTextView.setText(lessonModel.getTitle());
 
         holder.lessonCardView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, ContentActivity.class);
-            intent.putExtra("objectKey", lessonModel.getS3Url());
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            executor.execute(() -> {
+                List<FeedItemModel> feedItemsList = S3Handler.getInstance(context).getLesson(lessonModel.getS3Url());
+                handler.post(() -> {
+                    ContentManager.init(feedItemsList);
+                    ContentManager.nextItem(activity);
+                });
+            });
         });
     }
 

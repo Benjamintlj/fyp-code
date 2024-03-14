@@ -1,6 +1,6 @@
 package com.example.fyp_fontend.model.Question;
 
-import com.example.fyp_fontend.Interfaces.Question;
+import com.example.fyp_fontend.interfaces.Question;
 
 public class SingleWord implements Question {
     private String title;

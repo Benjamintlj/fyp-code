@@ -1,4 +1,4 @@
-package com.example.fyp_fontend.Interfaces;
+package com.example.fyp_fontend.interfaces;
 
 public interface Question {
 

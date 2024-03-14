@@ -41,7 +41,7 @@ public class LessonSelectionActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        lessonSelectionAdapter = new TopicAdapter(new ArrayList<>(), getApplicationContext());
+        lessonSelectionAdapter = new TopicAdapter(new ArrayList<>(), getApplicationContext(), LessonSelectionActivity.this);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         lessonsRecyclerView.setLayoutManager(layoutManager);

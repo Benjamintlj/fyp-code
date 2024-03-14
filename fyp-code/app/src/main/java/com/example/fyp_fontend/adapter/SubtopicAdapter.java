@@ -1,5 +1,6 @@
 package com.example.fyp_fontend.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,12 @@ public class SubtopicAdapter extends RecyclerView.Adapter<SubtopicAdapter.Subtop
 
     private Context context;
     private List<SubtopicModel> subtopicModelList;
+    private Activity activity;
 
-    public SubtopicAdapter(Context context, List<SubtopicModel> subtopicModelList) {
+    public SubtopicAdapter(Context context, Activity activity, List<SubtopicModel> subtopicModelList) {
         this.context = context;
         this.subtopicModelList = subtopicModelList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -38,7 +41,7 @@ public class SubtopicAdapter extends RecyclerView.Adapter<SubtopicAdapter.Subtop
         SubtopicModel subtopicModel = subtopicModelList.get(position);
         holder.subtopicNameTextView.setText(subtopicModel.getName());
 
-        LessonAdapter lessonAdapter = new LessonAdapter(context, subtopicModel.getLessonModelList());
+        LessonAdapter lessonAdapter = new LessonAdapter(context, activity, subtopicModel.getLessonModelList());
         holder.lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.lessonsRecyclerView.setAdapter(lessonAdapter);
 

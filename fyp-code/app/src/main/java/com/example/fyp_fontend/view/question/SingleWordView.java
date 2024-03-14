@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.fyp_fontend.Interfaces.Question;
+import com.example.fyp_fontend.interfaces.Question;
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.Question.SingleWord;

@@ -1,4 +1,4 @@
-package com.example.fyp_fontend.Utils;
+package com.example.fyp_fontend.utils;
 
 import androidx.annotation.NonNull;
 

@@ -15,6 +15,15 @@
         android:theme="@style/Theme.Fyp_frontend"
         tools:targetApi="31">
         <activity
+            android:name=".activity.lesson.SingleWordQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.lesson.AcknowledgeQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.lesson.VideoActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.lesson.ContentActivity"
             android:exported="false" />
         <activity

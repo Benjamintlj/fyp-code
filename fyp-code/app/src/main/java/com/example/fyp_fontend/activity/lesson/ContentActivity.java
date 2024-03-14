@@ -13,7 +13,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.Utils.RandomSelector;
+import com.example.fyp_fontend.utils.RandomSelector;
 import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.network.S3Handler;

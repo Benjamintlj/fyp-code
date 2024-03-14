@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.adapter.ContentAdapter;
 import com.example.fyp_fontend.model.Question.Acknowledge;
-import com.example.fyp_fontend.Interfaces.Question;
+import com.example.fyp_fontend.interfaces.Question;
 
 public class AcknowledgeView extends BaseQuestionView {
 

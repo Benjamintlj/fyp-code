@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.example.fyp_fontend.Interfaces.Question;
+import com.example.fyp_fontend.interfaces.Question;
 import com.example.fyp_fontend.adapter.ContentAdapter;
 
 public abstract class BaseQuestionView extends LinearLayout {
