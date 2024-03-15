@@ -12,6 +12,11 @@ import com.example.fyp_fontend.fragments.ContinueFragment;
 import com.example.fyp_fontend.utils.ContentManager;
 import com.example.fyp_fontend.utils.RandomSelector;
 
+import java.io.IOException;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+
 public class QuestionResultActivity extends AppCompatActivity {
 
     public static final String ARG_IS_CORRECT = "isCorrect";
@@ -19,6 +24,7 @@ public class QuestionResultActivity extends AppCompatActivity {
     boolean isCorrect;
     TextView titleViewText;
     TextView descriptionTextView;
+    GifImageView gifImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +34,26 @@ public class QuestionResultActivity extends AppCompatActivity {
         isCorrect = getIntent().getBooleanExtra(ARG_IS_CORRECT, false);
 
         initViews();
-        setDialog();
+
+        try {
+            setDialog();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void initViews() {
         titleViewText = findViewById(R.id.titleViewText);
         descriptionTextView = findViewById(R.id.descriptionTextView);
+        gifImageView = findViewById(R.id.gifImageView);
 
         ContinueFragment continueFragment = new ContinueFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, continueFragment).commit();
     }
 
-    private void setDialog() {
+    private void setDialog() throws IOException {
+        GifDrawable gifDrawable;
+
         if (isCorrect) {
             titleViewText.setText(RandomSelector.selectRandomString(new String[]{
                     getString(R.string.congratulations_1),
@@ -52,6 +66,8 @@ public class QuestionResultActivity extends AppCompatActivity {
                     getString(R.string.congratulations_8),
                     getString(R.string.congratulations_9)
             }));
+
+            gifDrawable = new GifDrawable(getResources(), R.drawable.tick);
         } else {
             titleViewText.setText(RandomSelector.selectRandomString(new String[]{
                     getString(R.string.failure_1),
@@ -63,8 +79,13 @@ public class QuestionResultActivity extends AppCompatActivity {
                     getString(R.string.failure_7),
                     getString(R.string.failure_8)
             }));
+
+            gifDrawable = new GifDrawable(getResources(), R.drawable.cross);
         }
 
         descriptionTextView.setText(ContentManager.getCurrentItem().getQuestion().getExplanation());
+
+        gifDrawable.setLoopCount(1);
+        gifImageView.setImageDrawable(gifDrawable);
     }
 }

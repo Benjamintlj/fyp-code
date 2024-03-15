@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
-public class SingleWordQuestionActivity extends AppCompatActivity {
+public class QuestionSingleWordActivity extends AppCompatActivity {
     private static final String TAG = "SingleWordQuestionActivity";
     TextView titleTextView, descriptionTextView;
     TextInputEditText answerTextInputEditText;
@@ -26,7 +26,7 @@ public class SingleWordQuestionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_word_question);
+        setContentView(R.layout.activity_question_single_word);
 
         initView();
         getQuestion();

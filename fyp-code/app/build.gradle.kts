@@ -43,6 +43,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:2.13.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
 
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.24")
+
     implementation("com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.75.0")
     implementation("com.amazonaws:aws-android-sdk-cognito:2.20.0")
     implementation("com.amazonaws:aws-android-sdk-s3:2.75.0")

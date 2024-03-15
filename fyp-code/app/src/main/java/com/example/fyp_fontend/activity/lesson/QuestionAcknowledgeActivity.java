@@ -9,14 +9,14 @@ import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.fragments.ContinueFragment;
 import com.example.fyp_fontend.utils.ContentManager;
 
-public class AcknowledgeQuestionActivity extends AppCompatActivity {
+public class QuestionAcknowledgeActivity extends AppCompatActivity {
 
     TextView titleTextView, descriptionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_acknowledge_question);
+        setContentView(R.layout.activity_question_acknowledge);
 
         initViews();
         setContent();

@@ -5,8 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.fyp_fontend.activity.lesson.AcknowledgeQuestionActivity;
-import com.example.fyp_fontend.activity.lesson.SingleWordQuestionActivity;
+import com.example.fyp_fontend.activity.lesson.FinalLessonActivity;
+import com.example.fyp_fontend.activity.lesson.QuestionAcknowledgeActivity;
+import com.example.fyp_fontend.activity.lesson.QuestionSingleWordActivity;
 import com.example.fyp_fontend.activity.lesson.VideoActivity;
 import com.example.fyp_fontend.model.FeedItemModel;
 
@@ -34,28 +35,27 @@ public class ContentManager {
     }
 
     public static void nextItem(Context context) {
-        if (nextItem >= contentItems.size()) {
-            // TODO: finish screen
-            return;
-        }
-
-        FeedItemModel currentItem = contentItems.get(nextItem++);
-        Log.d(TAG, "nextItem: " + currentItem.itemType.toString());
         Intent intent;
+        if (nextItem >= contentItems.size()) {
+            intent = new Intent(context, FinalLessonActivity.class);
+        } else {
+            FeedItemModel currentItem = contentItems.get(nextItem++);
+            Log.d(TAG, "nextItem: " + currentItem.itemType.toString());
 
-        switch (currentItem.itemType) {
-            case VIDEO:
-                intent = new Intent(context, VideoActivity.class);
-                intent.putExtra("videoUrl", currentItem.getVideoUrl().toString());
-                break;
-            case ACKNOWLEDGE:
-                intent = new Intent(context, AcknowledgeQuestionActivity.class);
-                break;
-            case SINGLE_WORD:
-                intent = new Intent(context, SingleWordQuestionActivity.class);
-                break;
-            default:
-                return;
+            switch (currentItem.itemType) {
+                case VIDEO:
+                    intent = new Intent(context, VideoActivity.class);
+                    intent.putExtra("videoUrl", currentItem.getVideoUrl().toString());
+                    break;
+                case ACKNOWLEDGE:
+                    intent = new Intent(context, QuestionAcknowledgeActivity.class);
+                    break;
+                case SINGLE_WORD:
+                    intent = new Intent(context, QuestionSingleWordActivity.class);
+                    break;
+                default:
+                    return;
+            }
         }
 
         ((Activity) context).startActivityForResult(intent, ContentManagerNewActivity.NEXT_ITEM.ordinal());

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,15 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fyp_frontend"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+        <activity
+            android:name=".activity.lesson.FinalLessonActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.lesson.QuestionResultActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.lesson.SingleWordQuestionActivity"
+            android:name=".activity.lesson.QuestionSingleWordActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.lesson.AcknowledgeQuestionActivity"
+            android:name=".activity.lesson.QuestionAcknowledgeActivity"
             android:exported="false" />
         <activity
             android:name=".activity.lesson.VideoActivity"
@@ -52,7 +55,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
