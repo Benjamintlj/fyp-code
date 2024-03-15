@@ -15,7 +15,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.activity.lesson.ContentActivity;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.content_selection.LessonModel;
 import com.example.fyp_fontend.network.S3Handler;

@@ -34,7 +34,6 @@ public class VideoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video);
 
         streamUrl = getIntent().getStringExtra("videoUrl");
-        Log.d(TAG, "onCreate: " + streamUrl);
 
         initView();
         prepareVideo();

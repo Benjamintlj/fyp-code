@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.utils.ContentManager;
 
+import java.util.Objects;
+
 public class ContinueFragment extends Fragment {
 
     public ContinueFragment() {}
@@ -20,7 +22,10 @@ public class ContinueFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_continue, container, false);
 
-        view.findViewById(R.id.button).setOnClickListener(v -> ContentManager.nextItem(getContext()));
+        view.findViewById(R.id.button).setOnClickListener(v -> {
+            ContentManager.nextItem(getContext());
+            requireActivity().finish();
+        });
 
         return view;
     }

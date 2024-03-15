@@ -1,4 +1,4 @@
-package com.example.fyp_fontend.interfaces;
+package com.example.fyp_fontend.model.Question;
 
 public interface Question {
 
@@ -8,5 +8,5 @@ public interface Question {
     String getDescription();
     void setDescription(String description);
 
-
+    public String getExplanation();
 }

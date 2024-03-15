@@ -1,6 +1,6 @@
 package com.example.fyp_fontend.model;
 
-import com.example.fyp_fontend.interfaces.Question;
+import com.example.fyp_fontend.model.Question.Question;
 import com.example.fyp_fontend.model.Question.Acknowledge;
 import com.example.fyp_fontend.model.Question.SingleWord;
 
@@ -24,12 +24,6 @@ public class FeedItemModel {
 
         if (question instanceof Acknowledge) itemType = ItemType.ACKNOWLEDGE;
         else if (question instanceof SingleWord) itemType = ItemType.SINGLE_WORD;
-
-//        this.itemType = itemType;
-//
-//        if (itemType == ItemType.ACKNOWLEDGE) {
-//            question = S3Handler.getInstance(context).getQuestion(s3ContentLocation, ItemType.ACKNOWLEDGE);
-//        }
     }
 
     public FeedItemModel(URL videoUrl) {

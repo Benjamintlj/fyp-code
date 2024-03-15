@@ -6,4 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".activity.lesson.SingleWordQuestionActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            style="@style/h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="example title" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            style="@style/passive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="asdjklfhasjkldhfakljhsdfjklahsdjklfhajkl" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/answerTextInputLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:hint="@string/answer"
+            android:padding="16dp"
+            app:boxStrokeColor="@color/text_input_layout"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:endIconDrawable="@drawable/baseline_clear_24"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/answerTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="32dp"
+        android:text="@string/check_answer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="32dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

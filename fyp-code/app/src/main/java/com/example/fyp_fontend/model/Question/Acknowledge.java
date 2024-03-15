@@ -1,7 +1,5 @@
 package com.example.fyp_fontend.model.Question;
 
-import com.example.fyp_fontend.interfaces.Question;
-
 public class Acknowledge implements Question {
 
     private String title;
@@ -32,6 +30,11 @@ public class Acknowledge implements Question {
     @Override
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String getExplanation() {
+        return "";
     }
 
     public String getButtonText() {

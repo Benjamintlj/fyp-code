@@ -15,26 +15,32 @@ import java.util.List;
 public class ContentManager {
     private static final String TAG = "ContentManager";
 
-    private static int currentPosition;
+    private static int nextItem;
     private static List<FeedItemModel> contentItems;
 
     public enum ContentManagerNewActivity {
         NEXT_ITEM
     }
 
-
     public static void init(List<FeedItemModel> contentItems) {
         ContentManager.contentItems = contentItems;
-        ContentManager.currentPosition = 0;
+        ContentManager.nextItem = 0;
+    }
+
+    public static FeedItemModel getCurrentItem() {
+        FeedItemModel feedItemModel = contentItems.get(nextItem - 1);
+        Log.d(TAG, "getCurrentItem: " + feedItemModel.itemType.toString());
+        return feedItemModel;
     }
 
     public static void nextItem(Context context) {
-        if (currentPosition >= contentItems.size()) {
+        if (nextItem >= contentItems.size()) {
             // TODO: finish screen
             return;
         }
 
-        FeedItemModel currentItem = contentItems.get(currentPosition++);
+        FeedItemModel currentItem = contentItems.get(nextItem++);
+        Log.d(TAG, "nextItem: " + currentItem.itemType.toString());
         Intent intent;
 
         switch (currentItem.itemType) {

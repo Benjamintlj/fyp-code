@@ -1,6 +1,7 @@
 package com.example.fyp_fontend.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -16,7 +17,7 @@ import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
 import com.example.fyp_fontend.model.Question.SingleWord;
 import com.example.fyp_fontend.model.content_selection.LessonModel;
-import com.example.fyp_fontend.interfaces.Question;
+import com.example.fyp_fontend.model.Question.Question;
 import com.example.fyp_fontend.model.content_selection.SubtopicModel;
 import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -138,6 +139,8 @@ public class S3Handler {
                 jsonText.append(line);
             }
 
+            Log.d(TAG, "getLesson: " + jsonText.toString());
+
             JSONObject jsonObject = new JSONObject(jsonText.toString());
             JSONArray lessonStructure = jsonObject.getJSONArray("lessonStructure");
 
@@ -188,6 +191,7 @@ public class S3Handler {
 
             switch (type) {
                 case ACKNOWLEDGE:
+                    Log.d(TAG, "getQuestion: ack");
                     question = new Acknowledge(
                             jsonObject.getString("title"),
                             jsonObject.getString("description"),
@@ -195,6 +199,7 @@ public class S3Handler {
                     );
                     break;
                 case SINGLE_WORD:
+                    Log.d(TAG, "getQuestion: sing");
                     question = new SingleWord(
                             jsonObject.getString("title"),
                             jsonObject.getString("description"),
