@@ -30,13 +30,6 @@ public class FinalLessonActivity extends AppCompatActivity {
 
         confettiGifImageView = findViewById(R.id.confettiGifImageView);
 
-        confettiGifImageView.post(() -> {
-            int width = confettiGifImageView.getWidth();
-            ViewGroup.LayoutParams layoutParams = confettiGifImageView.getLayoutParams();
-            layoutParams.height = width;
-            confettiGifImageView.setLayoutParams(layoutParams);
-        });
-
         try {
             GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.confetti);
             gifDrawable.setLoopCount(1);
