@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.fyp_fontend.activity.lesson.FinalLessonActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionAcknowledgeActivity;
+import com.example.fyp_fontend.activity.lesson.QuestionMultipleChoiceActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionSingleWordActivity;
 import com.example.fyp_fontend.activity.lesson.VideoActivity;
 import com.example.fyp_fontend.model.FeedItemModel;
@@ -117,6 +118,10 @@ public class ContentManager {
                     break;
                 case SINGLE_WORD:
                     intent = new Intent(context, QuestionSingleWordActivity.class);
+                    startTimer();
+                    break;
+                case MULTIPLE_CHOICE:
+                    intent = new Intent(context, QuestionMultipleChoiceActivity.class);
                     startTimer();
                     break;
                 default:

@@ -1,5 +1,6 @@
 package com.example.fyp_fontend.model;
 
+import com.example.fyp_fontend.model.Question.MultipleChoice;
 import com.example.fyp_fontend.model.Question.Question;
 import com.example.fyp_fontend.model.Question.Acknowledge;
 import com.example.fyp_fontend.model.Question.SingleWord;
@@ -11,7 +12,8 @@ public class FeedItemModel {
     public enum ItemType {
         VIDEO,
         ACKNOWLEDGE,
-        SINGLE_WORD
+        SINGLE_WORD,
+        MULTIPLE_CHOICE
     }
 
     public ItemType itemType;
@@ -24,6 +26,7 @@ public class FeedItemModel {
 
         if (question instanceof Acknowledge) itemType = ItemType.ACKNOWLEDGE;
         else if (question instanceof SingleWord) itemType = ItemType.SINGLE_WORD;
+        else if (question instanceof MultipleChoice) itemType = ItemType.MULTIPLE_CHOICE;
     }
 
     public FeedItemModel(URL videoUrl) {

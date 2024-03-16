@@ -1,12 +1,8 @@
 {
     "lessonStructure": [
         {
-            "type": "video",
-            "name": "demo_video"
-        },
-        {
-            "type": "video",
-            "name": "demo_video"
+            "type": "multiple_choice",
+            "name": "question_3"
         },
         {
 

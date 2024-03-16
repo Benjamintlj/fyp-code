@@ -12,6 +12,7 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
+import com.example.fyp_fontend.model.Question.MultipleChoice;
 import com.example.fyp_fontend.utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -161,6 +163,9 @@ public class S3Handler {
                         case "single_word":
                             itemType = FeedItemModel.ItemType.SINGLE_WORD;
                             break;
+                        case "multiple_choice":
+                            itemType = FeedItemModel.ItemType.MULTIPLE_CHOICE;
+                            break;
                         default:
                             continue;
                     }
@@ -191,7 +196,7 @@ public class S3Handler {
 
             switch (type) {
                 case ACKNOWLEDGE:
-                    Log.d(TAG, "getQuestion: ack");
+                    Log.d(TAG, "getQuestion: acknowledge");
                     question = new Acknowledge(
                             jsonObject.getString("title"),
                             jsonObject.getString("description"),
@@ -208,6 +213,17 @@ public class S3Handler {
                             Integer.parseInt(jsonObject.getString("score"))
                     );
                     break;
+                case MULTIPLE_CHOICE:
+                    Log.d(TAG, "getQuestion: multiple choice");
+                    question = new MultipleChoice(
+                            jsonObject.getString("title"),
+                            jsonObject.getString("description"),
+                            getStringList(jsonObject.getJSONArray("options")),
+                            Integer.parseInt(jsonObject.getString("answer")),
+                            jsonObject.getString("explanation"),
+                            Integer.parseInt(jsonObject.getString("score"))
+                    );
+                    break;
             }
 
         } catch (Exception e) {
@@ -216,6 +232,20 @@ public class S3Handler {
         }
 
         return question;
+    }
+
+    private List<String> getStringList(JSONArray jsonArray) {
+        List<String> result = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                result.add(jsonArray.getString(i));
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return result;
     }
 
     private URL generateVideoURL(String objectKey) {

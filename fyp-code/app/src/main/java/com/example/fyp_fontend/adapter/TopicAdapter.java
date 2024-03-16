@@ -43,8 +43,6 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
         SubtopicAdapter subtopicAdapter = new SubtopicAdapter(context, activity, topicModel.getSubTopicModelList());
         holder.subTopicsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         holder.subTopicsRecyclerView.setAdapter(subtopicAdapter);
-
-
     }
 
     @Override
