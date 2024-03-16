@@ -20,7 +20,7 @@ public class ContentManager {
     private static int nextItem;
     private static List<FeedItemModel> contentItems;
     private static int score, totalNumOfQuestions, questionsAnsweredCorrectly;
-    private static long questionTimer, avgQuestionTimer;
+    private static long questionTimer, totalQuestionTimer;
     public enum ContentManagerNewActivity {
         NEXT_ITEM
     }
@@ -30,7 +30,7 @@ public class ContentManager {
         nextItem = 0;
         score = 0;
         questionTimer = 0;
-        avgQuestionTimer = 0;
+        totalQuestionTimer = 0;
         questionsAnsweredCorrectly = 0;
 
 
@@ -47,6 +47,14 @@ public class ContentManager {
         questionsAnsweredCorrectly++;
     }
 
+    public static void decreaseScore(int decreaseBy) {
+        if ((score - decreaseBy) < 0) {
+            score = 0;
+        } else {
+            score -= decreaseBy;
+        }
+    }
+
     public static int getScore() {
         return score;
     }
@@ -56,18 +64,13 @@ public class ContentManager {
 
     public static String stopTimer () {
         long difference = System.currentTimeMillis() - questionTimer;
-
-        if (avgQuestionTimer == 0) {
-            avgQuestionTimer = difference;
-        } else {
-            avgQuestionTimer = (avgQuestionTimer + difference) / 2;
-        }
+        totalQuestionTimer += difference;
 
         return timeToString(difference);
     }
 
-    public static String getAvgQuestionTimer() {
-        return timeToString(avgQuestionTimer);
+    public static String getTotalQuestionTimer() {
+        return timeToString(totalQuestionTimer);
     }
 
     private static String timeToString(long time) {

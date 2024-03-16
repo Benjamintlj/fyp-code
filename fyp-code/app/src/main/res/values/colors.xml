@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="offWhite">#BCB6B6</color>
+    <color name="failureRed">#ff7979</color>
     <color name="bg">#1D1B20</color>
     <color name="darkBtnBg">#2C2831</color>
     <color name="darkBtnTxt">#D0BCFF</color>

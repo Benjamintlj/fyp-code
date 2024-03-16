@@ -2,6 +2,7 @@ package com.example.fyp_fontend.activity.lesson;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -103,22 +104,29 @@ public class QuestionResultActivity extends AppCompatActivity {
     private void setScore() {
         if (isCorrect) {
             ContentManager.increaseScore(increaseScore);
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                ValueAnimator valueAnimator = ValueAnimator.ofInt(0, increaseScore);
+                valueAnimator.setDuration(1200);
+
+                valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onAnimationUpdate(@NonNull ValueAnimator animation) {
+                        scoreTextView.setText("+" + animation.getAnimatedValue().toString());
+                    }
+                });
+
+                valueAnimator.start();
+            }, 1000);
+        } else {
+            int decreaseBy = 1;
+            ContentManager.decreaseScore(decreaseBy);
+            scoreTextView.setText(String.format("-%s", Integer.toString(decreaseBy)));
+            scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.failureRed));
         }
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            ValueAnimator valueAnimator = ValueAnimator.ofInt(0, increaseScore);
-            valueAnimator.setDuration(1200);
 
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onAnimationUpdate(@NonNull ValueAnimator animation) {
-                    scoreTextView.setText("+" + animation.getAnimatedValue().toString());
-                }
-            });
-
-            valueAnimator.start();
-        }, 1000);
     }
 
     private void setTimer() {

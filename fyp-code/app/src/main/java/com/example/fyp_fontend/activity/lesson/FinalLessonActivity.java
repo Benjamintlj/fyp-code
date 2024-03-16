@@ -96,7 +96,7 @@ public class FinalLessonActivity extends AppCompatActivity {
     }
 
     private void setTime() {
-        timeTextView.setText(ContentManager.getAvgQuestionTimer());
+        timeTextView.setText(ContentManager.getTotalQuestionTimer());
     }
 
     private void setQuestionsAnsweredCorrectly() {
