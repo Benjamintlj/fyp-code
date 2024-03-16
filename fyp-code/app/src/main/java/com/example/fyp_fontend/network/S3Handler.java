@@ -199,18 +199,20 @@ public class S3Handler {
                     );
                     break;
                 case SINGLE_WORD:
-                    Log.d(TAG, "getQuestion: sing");
+                    Log.d(TAG, "getQuestion: single word");
                     question = new SingleWord(
                             jsonObject.getString("title"),
                             jsonObject.getString("description"),
                             jsonObject.getString("answer"),
-                            jsonObject.getString("explanation")
+                            jsonObject.getString("explanation"),
+                            Integer.parseInt(jsonObject.getString("score"))
                     );
                     break;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(TAG, "getQuestion: ", e);
         }
 
         return question;

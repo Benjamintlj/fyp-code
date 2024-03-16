@@ -49,4 +49,11 @@
     <string name="failure_6">I\'m sure you almost had it</string>
     <string name="failure_7">Okay lets try again</string>
     <string name="failure_8">No pain, No gain</string>
+    <string name="end_lesson_title_1">Super star!</string>
+    <string name="end_lesson_title_2">Brilliant effort!</string>
+    <string name="end_lesson_title_3">Stellar work!</string>
+    <string name="end_lesson_title_4">Master of the arts!</string>
+    <string name="end_lesson_title_5">Ace performance!</string>
+    <string name="end_lesson_title_6">Amazing work</string>
+    <string name="finish_lesson">Finish lesson</string>
 </resources>

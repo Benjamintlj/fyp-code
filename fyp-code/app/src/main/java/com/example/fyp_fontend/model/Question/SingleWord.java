@@ -1,16 +1,22 @@
 package com.example.fyp_fontend.model.Question;
 
+import android.util.Log;
+
 public class SingleWord implements Question {
+    private static final String TAG = "SingleWord";
     private String title;
     private String description;
     private String answer;
     private String explanation;
+    private int score;
 
-    public SingleWord (String title, String description, String answer, String explanation) {
+    public SingleWord (String title, String description, String answer, String explanation, int score) {
         this.title = title;
         this.description = description;
         this.answer = answer;
         this.explanation = explanation;
+        this.score = score;
+        Log.d(TAG, "SingleWord: should be made");
     }
 
     @Override
@@ -40,5 +46,10 @@ public class SingleWord implements Question {
     @Override
     public String getExplanation() {
         return explanation;
+    }
+
+    @Override
+    public int getScore() {
+        return score;
     }
 }

@@ -16,22 +16,65 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerInParent="true"
-            app:layout_constraintBottom_toTopOf="@+id/titleViewText"
+            app:layout_constraintBottom_toTopOf="@+id/scoreLinearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.489"
-            app:srcCompat="@drawable/tick" />
+            app:srcCompat="@drawable/tick"
+            android:layout_marginTop="48dp"/>
+
+        <LinearLayout
+            android:id="@+id/scoreLinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/descriptionTextView"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/titleViewText"
+            app:layout_constraintTop_toBottomOf="@+id/gifImageView"
+            android:layout_margin="48dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/gem"
+                tools:layout_editor_absoluteX="116dp" />
+
+            <TextView
+                android:id="@+id/scoreTextView"
+                style="@style/h2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/stopwatch"
+                tools:layout_editor_absoluteX="116dp" />
+
+            <TextView
+                android:id="@+id/timeTextView"
+                style="@style/h2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/titleViewText"
             style="@style/h1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:text="Well done!"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/scoreLinearLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -46,13 +89,14 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="16dp"
+            android:paddingHorizontal="50dp"
             android:layout_marginTop="48dp"
             android:text="asdjklfhasjkldhfakljhsdfjklahsdjklfhajkl"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleViewText" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

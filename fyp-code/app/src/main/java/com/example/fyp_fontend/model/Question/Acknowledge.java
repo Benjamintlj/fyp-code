@@ -37,6 +37,11 @@ public class Acknowledge implements Question {
         return "";
     }
 
+    @Override
+    public int getScore() {
+        return 0;
+    }
+
     public String getButtonText() {
         return buttonText;
     }

@@ -9,4 +9,6 @@ public interface Question {
     void setDescription(String description);
 
     public String getExplanation();
+
+    public int getScore();
 }

@@ -64,6 +64,7 @@ public class QuestionSingleWordActivity extends AppCompatActivity {
 
             if (Objects.equals(Objects.requireNonNull(answerTextInputEditText.getText()).toString(), singleWord.getAnswer())) {
                 intent.putExtra(QuestionResultActivity.ARG_IS_CORRECT, true);
+                intent.putExtra(QuestionResultActivity.ARG_INCREASE_SCORE, ContentManager.getCurrentItem().getQuestion().getScore());
             } else {
                 intent.putExtra(QuestionResultActivity.ARG_IS_CORRECT, false);
             }

@@ -14,4 +14,102 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/confetti" />
 
+    <TextView
+        android:id="@+id/titleViewText"
+        style="@style/h1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="148dp"
+        android:text="Well done!"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/scoreLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleViewText"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/scoreImageView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/gem"
+                tools:layout_editor_absoluteX="116dp" />
+
+            <TextView
+                android:id="@+id/scoreTextView"
+                style="@style/h2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/timeImageView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/stopwatch"
+                tools:layout_editor_absoluteX="116dp" />
+
+            <TextView
+                android:id="@+id/timeTextView"
+                style="@style/h2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/questionImageView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/question_mark"
+                tools:layout_editor_absoluteX="116dp" />
+
+            <TextView
+                android:id="@+id/questionTextView"
+                style="@style/h2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="32dp"
+        android:text="@string/finish_lesson"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="32dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
