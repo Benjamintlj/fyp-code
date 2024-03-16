@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.fyp_fontend.activity.lesson.FinalLessonActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionAcknowledgeActivity;
+import com.example.fyp_fontend.activity.lesson.QuestionMatchingPairsActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionMultipleChoiceActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionSingleWordActivity;
 import com.example.fyp_fontend.activity.lesson.VideoActivity;
@@ -122,6 +123,10 @@ public class ContentManager {
                     break;
                 case MULTIPLE_CHOICE:
                     intent = new Intent(context, QuestionMultipleChoiceActivity.class);
+                    startTimer();
+                    break;
+                case MATCHING_PAIRS:
+                    intent = new Intent(context, QuestionMatchingPairsActivity.class);
                     startTimer();
                     break;
                 default:

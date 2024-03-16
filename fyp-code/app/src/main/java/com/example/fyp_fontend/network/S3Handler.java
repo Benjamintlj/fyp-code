@@ -2,6 +2,9 @@ package com.example.fyp_fontend.network;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
+
+import androidx.annotation.NonNull;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -12,6 +15,7 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
+import com.example.fyp_fontend.model.Question.MatchingPairs;
 import com.example.fyp_fontend.model.Question.MultipleChoice;
 import com.example.fyp_fontend.utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
@@ -166,6 +170,9 @@ public class S3Handler {
                         case "multiple_choice":
                             itemType = FeedItemModel.ItemType.MULTIPLE_CHOICE;
                             break;
+                        case "matching_pairs":
+                            itemType = FeedItemModel.ItemType.MATCHING_PAIRS;
+                            break;
                         default:
                             continue;
                     }
@@ -192,6 +199,7 @@ public class S3Handler {
                 jsonText.append(line);
             }
 
+            Log.d(TAG, "getQuestion: " + jsonText);
             JSONObject jsonObject = new JSONObject(jsonText.toString());
 
             switch (type) {
@@ -224,6 +232,16 @@ public class S3Handler {
                             Integer.parseInt(jsonObject.getString("score"))
                     );
                     break;
+                case MATCHING_PAIRS:
+                    Log.d(TAG, "getQuestion: matching pairs");
+                    question = new MatchingPairs(
+                        jsonObject.getString("title"),
+                        jsonObject.getString("description"),
+                        getPairs(jsonObject),
+                        jsonObject.getString("explanation"),
+                        Integer.parseInt(jsonObject.getString("score"))
+                    );
+                    break;
             }
 
         } catch (Exception e) {
@@ -232,6 +250,20 @@ public class S3Handler {
         }
 
         return question;
+    }
+
+    @NonNull
+    private static List<Pair<String, String>> getPairs(JSONObject jsonObject) throws JSONException {
+        List<Pair<String, String>> pairsList = new ArrayList<>();
+        JSONArray pairs = jsonObject.getJSONArray("pairs");
+
+        for (int i = 0; i < pairs.length(); i++) {
+            JSONArray pair = pairs.getJSONArray(i);
+            String left = pair.getString(0);
+            String right = pair.getString(1);
+            pairsList.add(new Pair<>(left, right));
+        }
+        return pairsList;
     }
 
     private List<String> getStringList(JSONArray jsonArray) {

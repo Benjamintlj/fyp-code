@@ -1,0 +1,12 @@
+{
+    "title": "Match the pairs",
+    "description": "Why is everything 12...",
+    "pairs": [
+        ["2 + 2", "4"],
+        ["8 + 4", "12"],
+        ["3 + 21", "21"],
+        ["53 + 12", "65"]
+    ],
+    "explanation": "Remember you need to add the numbers.",
+    "score": 4
+}

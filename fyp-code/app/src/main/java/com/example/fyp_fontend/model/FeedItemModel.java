@@ -1,5 +1,6 @@
 package com.example.fyp_fontend.model;
 
+import com.example.fyp_fontend.model.Question.MatchingPairs;
 import com.example.fyp_fontend.model.Question.MultipleChoice;
 import com.example.fyp_fontend.model.Question.Question;
 import com.example.fyp_fontend.model.Question.Acknowledge;
@@ -13,7 +14,8 @@ public class FeedItemModel {
         VIDEO,
         ACKNOWLEDGE,
         SINGLE_WORD,
-        MULTIPLE_CHOICE
+        MULTIPLE_CHOICE,
+        MATCHING_PAIRS
     }
 
     public ItemType itemType;
@@ -27,6 +29,7 @@ public class FeedItemModel {
         if (question instanceof Acknowledge) itemType = ItemType.ACKNOWLEDGE;
         else if (question instanceof SingleWord) itemType = ItemType.SINGLE_WORD;
         else if (question instanceof MultipleChoice) itemType = ItemType.MULTIPLE_CHOICE;
+        else if (question instanceof MatchingPairs) itemType = ItemType.MATCHING_PAIRS;
     }
 
     public FeedItemModel(URL videoUrl) {

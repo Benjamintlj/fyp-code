@@ -1,6 +1,10 @@
 {
     "lessonStructure": [
         {
+            "type": "matching_pairs",
+            "name": "question_4"
+        },
+        {
             "type": "multiple_choice",
             "name": "question_3"
         },
