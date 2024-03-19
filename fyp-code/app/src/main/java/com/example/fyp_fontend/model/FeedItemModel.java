@@ -4,6 +4,7 @@ import com.example.fyp_fontend.model.Question.MatchingPairs;
 import com.example.fyp_fontend.model.Question.MultipleChoice;
 import com.example.fyp_fontend.model.Question.Question;
 import com.example.fyp_fontend.model.Question.Acknowledge;
+import com.example.fyp_fontend.model.Question.Reorder;
 import com.example.fyp_fontend.model.Question.SingleWord;
 
 import java.net.URL;
@@ -15,7 +16,8 @@ public class FeedItemModel {
         ACKNOWLEDGE,
         SINGLE_WORD,
         MULTIPLE_CHOICE,
-        MATCHING_PAIRS
+        MATCHING_PAIRS,
+        REORDER
     }
 
     public ItemType itemType;
@@ -30,6 +32,7 @@ public class FeedItemModel {
         else if (question instanceof SingleWord) itemType = ItemType.SINGLE_WORD;
         else if (question instanceof MultipleChoice) itemType = ItemType.MULTIPLE_CHOICE;
         else if (question instanceof MatchingPairs) itemType = ItemType.MATCHING_PAIRS;
+        else if (question instanceof Reorder) itemType = ItemType.REORDER;
     }
 
     public FeedItemModel(URL videoUrl) {

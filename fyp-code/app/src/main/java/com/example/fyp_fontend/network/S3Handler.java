@@ -17,6 +17,7 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3Object;
 import com.example.fyp_fontend.model.Question.MatchingPairs;
 import com.example.fyp_fontend.model.Question.MultipleChoice;
+import com.example.fyp_fontend.model.Question.Reorder;
 import com.example.fyp_fontend.utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
@@ -173,6 +174,9 @@ public class S3Handler {
                         case "matching_pairs":
                             itemType = FeedItemModel.ItemType.MATCHING_PAIRS;
                             break;
+                        case "reorder":
+                            itemType = FeedItemModel.ItemType.REORDER;
+                            break;
                         default:
                             continue;
                     }
@@ -235,11 +239,23 @@ public class S3Handler {
                 case MATCHING_PAIRS:
                     Log.d(TAG, "getQuestion: matching pairs");
                     question = new MatchingPairs(
-                        jsonObject.getString("title"),
-                        jsonObject.getString("description"),
-                        getPairs(jsonObject),
-                        jsonObject.getString("explanation"),
-                        Integer.parseInt(jsonObject.getString("score"))
+                            jsonObject.getString("title"),
+                            jsonObject.getString("description"),
+                            getPairs(jsonObject),
+                            jsonObject.getString("explanation"),
+                            Integer.parseInt(jsonObject.getString("score"))
+                    );
+                    break;
+                case REORDER:
+                    Log.d(TAG, "getQuestion: reorder");
+                    question = new Reorder(
+                            jsonObject.getString("title"),
+                            jsonObject.getString("description"),
+                            getStringList(jsonObject.getJSONArray("order")),
+                            jsonObject.getString("start_name"),
+                            jsonObject.getString("end_name"),
+                            jsonObject.getString("explanation"),
+                            Integer.parseInt(jsonObject.getString("score"))
                     );
                     break;
             }

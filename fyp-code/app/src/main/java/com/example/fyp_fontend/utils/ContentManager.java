@@ -9,6 +9,7 @@ import com.example.fyp_fontend.activity.lesson.FinalLessonActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionAcknowledgeActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionMatchingPairsActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionMultipleChoiceActivity;
+import com.example.fyp_fontend.activity.lesson.QuestionReorderActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionSingleWordActivity;
 import com.example.fyp_fontend.activity.lesson.VideoActivity;
 import com.example.fyp_fontend.model.FeedItemModel;
@@ -98,6 +99,7 @@ public class ContentManager {
 
     public static void nextItem(Context context) {
 
+        // TODO: this should go
         for(FeedItemModel item : contentItems) {
             Log.d(TAG, "nextItem: " + item.itemType.toString());
         }
@@ -127,6 +129,10 @@ public class ContentManager {
                     break;
                 case MATCHING_PAIRS:
                     intent = new Intent(context, QuestionMatchingPairsActivity.class);
+                    startTimer();
+                    break;
+                case REORDER:
+                    intent = new Intent(context, QuestionReorderActivity.class);
                     startTimer();
                     break;
                 default:

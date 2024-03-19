@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Fyp_frontend"
         tools:targetApi="31">
         <activity
+            android:name=".activity.lesson.QuestionReorderActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.lesson.QuestionMatchingPairsActivity"
             android:exported="false" />
         <activity
