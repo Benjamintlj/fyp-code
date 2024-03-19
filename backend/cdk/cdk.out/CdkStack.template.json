@@ -8,10 +8,115 @@
     "aws:cdk:path": "CdkStack/fypLessonBucket/Resource"
    }
   },
+  "fypAccountsUserPool4EB75161": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_phone_number",
+       "Priority": 1
+      },
+      {
+       "Name": "verified_email",
+       "Priority": 2
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AliasAttributes": [
+     "email"
+    ],
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Schema": [
+     {
+      "Mutable": true,
+      "Name": "email",
+      "Required": true
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "leagueRank"
+     },
+     {
+      "AttributeDataType": "String",
+      "Mutable": true,
+      "Name": "currentLeaderboardId"
+     }
+    ],
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/fypAccountsUserPool/Resource"
+   }
+  },
+  "fypLeaderboardTableC629E552": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "league_rank",
+      "AttributeType": "S"
+     }
+    ],
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "rank-index",
+      "KeySchema": [
+       {
+        "AttributeName": "league_rank",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+       "ReadCapacityUnits": 5,
+       "WriteCapacityUnits": 5
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/fypLeaderboardTable/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXIQQ5FMBCA4bPYt0OxsOYGHEC8diSjTBPTshB3f8Tq//KXYEwNJptO0dZ5vdIPriFO1qtnjVLB1SbrMapu5k/3yx4lpN3i6y6wo0iBb8XBISySH2UBDRTZIkR6TxxpQ+i//gGsYYDacwAAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02MywrCMBBFv6X7dGyqC9f2B6TqWtIkyvQxA3koEvLv9oHg6h7OgVuDlAeQhXr7UpuhHLGDdAlKD2JW9+T3kE5RDzaI5kEbZaH5SRgY0s1bd2Yel/jjLMyH1MRmfrqqbrRLXCFn0VrP0enV/XPDZDAgUxbExkLvd6+6giNURe8RSxcp4GSh3fYLBvnUSrcAAAA="
    },
    "Metadata": {
     "aws:cdk:path": "CdkStack/CDKMetadata/Default"

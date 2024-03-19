@@ -5,8 +5,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 
 public class Globals {
-    public static String userPoolId = "eu-west-1_DEqgmxhzb";
-    public static String clientId = "4iu7nof85r2hlk2nabt2o0doa9";
+    public static String userPoolId = "eu-west-1_cFWvvRlP0";
+    public static String clientId = "5bhnhmi42f32r1f4au0ht7fgks";
     public static Regions region = Regions.EU_WEST_1;
     public static String bucketName = "cdkstack-fyplessonbucketb0b7a3cd-veuwgmiuzztu";
     private static String accessKey = "AKIAS6TMA3LVAIEFAZEH";

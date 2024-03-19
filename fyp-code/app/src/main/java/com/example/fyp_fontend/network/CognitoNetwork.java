@@ -54,10 +54,7 @@ public class CognitoNetwork {
     private static CognitoNetwork instance;
 
 
-    private CognitoNetwork() {
-//        Context appContext = context.getApplicationContext();
-//        this.userPool = new CognitoUserPool(appContext, "YOUR_USER_POOL_ID", "YOUR_CLIENT_ID", null, Regions.YOUR_REGION);
-    }
+    private CognitoNetwork() {}
 
     public static synchronized CognitoNetwork getInstance() {
         if (instance == null) {
@@ -69,6 +66,9 @@ public class CognitoNetwork {
     public void register(String username, String email, String password, Context context, final RegisterCallback callback) {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         userAttributes.addAttribute("email", email);
+
+        userAttributes.addAttribute("custom:leagueRank", "bronze");
+        userAttributes.addAttribute("custom:currentLeaderboardId", "none");
 
         CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
 
