@@ -4,6 +4,11 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as DynamoDB from "aws-cdk-lib/aws-dynamodb";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as ecr from "aws-cdk-lib/aws-ecr";
+import * as events from 'aws-cdk-lib/aws-events';
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
 
 
 export class CdkStack extends cdk.Stack {
@@ -11,6 +16,10 @@ export class CdkStack extends cdk.Stack {
     super(scope, id, props);
 
     const lessonBucket = new s3.Bucket(this, 'fypLessonBucket', {
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
+
+    const codeBucket = new s3.Bucket(this, 'fypCodeBucket', {
       removalPolicy: cdk.RemovalPolicy.RETAIN,
     });
 
@@ -101,5 +110,46 @@ export class CdkStack extends cdk.Stack {
     //       cluster: cluster,
     //       taskDefinition: taskDefinition,
     //   });
+
+    // Event bridge
+    const fypLeaderboardEventBridge = new events.Rule(this, 'fypLeaderboardEventBridge', {
+      schedule: events.Schedule.rate(cdk.Duration.days(7)),
+    });
+
+    // SQS
+    const fypUpdateLeaderboardsSQS = new sqs.Queue(this, 'fypUpdateLeaderboardsSQS');
+
+    // Lambda to get all leaderboards
+    const fypLeaderboardScan = new lambda.Function(this, 'fypLeaderboardScan', {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      handler: 'src.index.main',
+      code: lambda.Code.fromBucket(codeBucket, 'fypLeaderboardScan.zip'),
+      timeout: cdk.Duration.seconds(30),
+      architecture: lambda.Architecture.ARM_64,
+      environment: {
+        LEADER_BOARD_TABLE: leaderboardsTable.tableName,
+        QUEUE_URL: fypUpdateLeaderboardsSQS.queueUrl
+      }
+    });
+    leaderboardsTable.grantReadData(fypLeaderboardScan);
+    fypUpdateLeaderboardsSQS.grantSendMessages(fypLeaderboardScan);
+    fypLeaderboardEventBridge.addTarget(new targets.LambdaFunction(fypLeaderboardScan));
+
+    // Lambda to update leaderboards and users
+    const fypUpdateLeaderboards = new lambda.Function(this, 'fypUpdateLeaderboards', {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      handler: 'src.index.main',
+      code: lambda.Code.fromBucket(codeBucket, 'fypUpdateLeaderboards.zip'),
+      timeout: cdk.Duration.seconds(30),
+      architecture: lambda.Architecture.ARM_64,
+      environment: {
+        LEADER_BOARD_TABLE: leaderboardsTable.tableName,
+        QUEUE_URL: fypUpdateLeaderboardsSQS.queueUrl,
+        USER_POOL_ID: userPool.userPoolId
+      },
+    });
+    fypUpdateLeaderboards.addToRolePolicy(cognitoAccessStatement);
+    leaderboardsTable.grantReadWriteData(fypUpdateLeaderboards);
+    fypUpdateLeaderboards.addEventSource(new lambdaEventSources.SqsEventSource(fypUpdateLeaderboardsSQS));
   }
 }

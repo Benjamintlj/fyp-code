@@ -23,9 +23,13 @@ class Score(BaseModel):
 def leaderboard(app):
     @app.patch('/leaderboard/join', status_code=status.HTTP_200_OK)
     def join_leaderboard(current_user: CurrentUser):
-        league_rank = get_user_league_rank(current_user.username)
+        league_rank, current_leaderboard_id = get_user_league_rank(current_user.username)
+
         if not league_rank:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='League rank not found.')
+
+        if current_leaderboard_id != 'none':
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail='User already in a leaderboard.')
 
         response = leaderboard_table.query(
             IndexName='rank-index',

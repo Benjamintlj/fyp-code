@@ -6,22 +6,28 @@ from uuid import uuid4
 from lib.globals import (cognito_client, user_pool_id, leaderboard_table)
 
 
-def get_user_league_rank(username: str) -> str:
+def get_user_league_rank(username: str):
     try:
         user_info = cognito_client.admin_get_user(
             UserPoolId=user_pool_id,
             Username=username
         )
 
+        league_rank = ''
+        current_leaderboard_id = ''
+
         for attr in user_info['UserAttributes']:
             if attr['Name'] == 'custom:leagueRank':
-                return attr['Value']
+                league_rank = attr['Value']
+            elif attr['Name'] == 'custom:currentLeaderboardId':
+                current_leaderboard_id = attr['Value']
+
+        return league_rank, current_leaderboard_id
 
     except cognito_client.exceptions.ClientError as e:
         print(e)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='No user found.')
 
-    return ''
 
 
 def get_user_leaderboard(username: str) -> str:

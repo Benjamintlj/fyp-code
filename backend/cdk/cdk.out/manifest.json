@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/37aaa10acba2b20f6aa4dca7cbe14ae8a8c3ded7db2152e89a5e0f3d52d1c119.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b3ef3e2b66e38f88158ae24c5140aff73e8f97ccb9e9c1dc3b5a4927704b1dd4.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -40,6 +40,12 @@
             "data": "fypLessonBucketB0B7A3CD"
           }
         ],
+        "/CdkStack/fypCodeBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypCodeBucketB93229D9"
+          }
+        ],
         "/CdkStack/fypAccountsUserPool/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -50,6 +56,66 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "fypLeaderboardTableC629E552"
+          }
+        ],
+        "/CdkStack/fypLeaderboardEventBridge/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypLeaderboardEventBridgeA33866F8"
+          }
+        ],
+        "/CdkStack/fypLeaderboardEventBridge/AllowEventRuleCdkStackfypLeaderboardScan9375F547": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypLeaderboardEventBridgeAllowEventRuleCdkStackfypLeaderboardScan9375F54738DBD3B1"
+          }
+        ],
+        "/CdkStack/fypUpdateLeaderboardsSQS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypUpdateLeaderboardsSQSAFEAE517"
+          }
+        ],
+        "/CdkStack/fypLeaderboardScan/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypLeaderboardScanServiceRole08A0FB94"
+          }
+        ],
+        "/CdkStack/fypLeaderboardScan/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypLeaderboardScanServiceRoleDefaultPolicy6B979F95"
+          }
+        ],
+        "/CdkStack/fypLeaderboardScan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypLeaderboardScanE686BD04"
+          }
+        ],
+        "/CdkStack/fypUpdateLeaderboards/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypUpdateLeaderboardsServiceRoleDD8CAE43"
+          }
+        ],
+        "/CdkStack/fypUpdateLeaderboards/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypUpdateLeaderboardsServiceRoleDefaultPolicyB6F1EA6E"
+          }
+        ],
+        "/CdkStack/fypUpdateLeaderboards/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypUpdateLeaderboards43E6BBC2"
+          }
+        ],
+        "/CdkStack/fypUpdateLeaderboards/SqsEventSource:CdkStackfypUpdateLeaderboardsSQSA13E6ACE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypUpdateLeaderboardsSqsEventSourceCdkStackfypUpdateLeaderboardsSQSA13E6ACE018F0ED4"
           }
         ],
         "/CdkStack/CDKMetadata/Default": [
