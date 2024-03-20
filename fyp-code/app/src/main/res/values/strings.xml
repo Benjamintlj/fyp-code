@@ -56,4 +56,10 @@
     <string name="end_lesson_title_5">Ace performance!</string>
     <string name="end_lesson_title_6">Amazing work</string>
     <string name="finish_lesson">Finish lesson</string>
+    <string name="subjects">Subjects</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="loading_leaderboards">Loading Leaderboards...</string>
+    <string name="competitive_learning">Competitive learning</string>
+    <string name="welcome_to_leaderboards_text">Welcome to competitive learning, here you compete against people around the world.\n\nGood luck!</string>
+    <string name="get_started">Get Started</string>
 </resources>

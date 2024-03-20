@@ -33,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_validate_login);
+        setContentView(R.layout.splash_loading);
+        TextView titleTextView = findViewById(R.id.titleTextView);
+        titleTextView.setText(R.string.loading_login_splash_screen);
 
         isUserSignedIn(new IsUserSignedInCallback() {
             @Override

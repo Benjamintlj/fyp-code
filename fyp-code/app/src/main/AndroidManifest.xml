@@ -13,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fyp_frontend"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.leaderboard.LeaderboardActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.lesson.QuestionReorderActivity"
             android:exported="false" />

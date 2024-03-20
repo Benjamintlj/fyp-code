@@ -11,6 +11,7 @@ public class Globals {
     public static String bucketName = "cdkstack-fyplessonbucketb0b7a3cd-veuwgmiuzztu";
     private static String accessKey = "AKIAS6TMA3LVAIEFAZEH";
     private static String secretAccessKey = "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";
+    public static String ecsUrl = "http://10.0.2.2:80/";
     private static AWSCredentials awsCredentials;
 
     public static AWSCredentials getAwsCredentials() {

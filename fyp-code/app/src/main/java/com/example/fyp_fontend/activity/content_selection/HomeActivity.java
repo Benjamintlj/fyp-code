@@ -3,14 +3,16 @@ package com.example.fyp_fontend.activity.content_selection;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.fragments.SubjectFragment;
 import com.example.fyp_fontend.network.CognitoNetwork;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -24,7 +26,9 @@ public class HomeActivity extends AppCompatActivity {
         initViews();
         initListeners();
         initFragments();
+        initNavbar();
     }
+
 
     private void initViews() {
         signOutActivityButton = findViewById(R.id.signOutActivityButton);
@@ -46,6 +50,27 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.physicsFragmentContainerFrameLayout, physics);
 
         fragmentTransaction.commit();
+    }
+
+    private void initNavbar() {
+        BottomNavigationView navbarBottomNavigationView = findViewById(R.id.navbarBottomNavigationView);
+
+        navbarBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.subjects) {
+                // pass
+                return true;
+            } else if (itemId == R.id.leaderboard) {
+                Intent intent = new Intent(getApplicationContext(), LeaderboardActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        navbarBottomNavigationView.setSelectedItemId(R.id.subjects);
     }
 
     private void signOut(View view) {

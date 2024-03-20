@@ -10,6 +10,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
@@ -20,9 +21,11 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
+import com.example.fyp_fontend.network.callback.CurrentUserLeaderboardIdCallback;
 import com.example.fyp_fontend.network.callback.RegisterCallback;
 import com.example.fyp_fontend.network.callback.ResendCodeCallback;
 import com.example.fyp_fontend.network.callback.ResetPasswordCallback;
@@ -327,6 +330,44 @@ public class CognitoNetwork {
                 callback.onResetPasswordFailure(response);
             }
         });
+    }
+
+    public void getCurrentUserLeaderboardId(Context context, final CurrentUserLeaderboardIdCallback callback) {
+        CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
+        CognitoUser user = userPool.getCurrentUser();
+
+        if (user != null) {
+            user.getDetailsInBackground(new GetDetailsHandler() {
+                @Override
+                public void onSuccess(CognitoUserDetails cognitoUserDetails) {
+                    CognitoUserAttributes attributes = cognitoUserDetails.getAttributes();
+                    String currentLeaderboardId = attributes.getAttributes().get("custom:currentLeaderboardId");
+                    if (currentLeaderboardId != null) {
+                        callback.onSuccess(currentLeaderboardId);
+                    } else {
+                        callback.onFailure(new Exception("User cannot join leaderboard."));
+                    }
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    callback.onFailure(exception);
+                }
+            });
+        } else {
+            callback.onFailure(new Exception("User not signed in."));
+        }
+    }
+
+    public String getCurrentUsername(Context context) {
+        CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
+        CognitoUser currentUser = userPool.getCurrentUser();
+
+        if (currentUser != null) {
+            return currentUser.getUserId();
+        } else {
+            return null;
+        }
     }
 }
 
