@@ -2,10 +2,8 @@ package com.example.fyp_fontend.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +73,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
             super(itemView);
 
             lessonCardView = itemView.findViewById(R.id.lessonCardView);
-            lessonTextView = itemView.findViewById(R.id.lessonTextView);
+            lessonTextView = itemView.findViewById(R.id.usernameTextView);
         }
     }
 }

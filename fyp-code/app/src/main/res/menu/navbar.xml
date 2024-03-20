@@ -5,6 +5,6 @@
         android:title="@string/subjects" />
     <item
         android:id="@+id/leaderboard"
-        android:icon="@drawable/leaderboard_icon"
+        android:icon="@drawable/gold"
         android:title="@string/leaderboard" />
 </menu>

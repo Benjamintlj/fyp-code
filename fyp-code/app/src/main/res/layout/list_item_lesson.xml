@@ -16,7 +16,7 @@
         app:cardBackgroundColor="@color/cardBg">
 
         <TextView
-            android:id="@+id/lessonTextView"
+            android:id="@+id/usernameTextView"
             style="@style/h2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

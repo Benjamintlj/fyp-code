@@ -20,7 +20,6 @@ import java.util.concurrent.Executors;
 
 public class LessonSelectionActivity extends AppCompatActivity {
     private static final String TAG = "LessonSelectionActivity";
-
     private RecyclerView lessonsRecyclerView;
     private TopicAdapter lessonSelectionAdapter;
     private String subject;

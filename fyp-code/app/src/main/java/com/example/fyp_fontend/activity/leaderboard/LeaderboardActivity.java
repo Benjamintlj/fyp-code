@@ -1,6 +1,8 @@
 package com.example.fyp_fontend.activity.leaderboard;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,50 +15,80 @@ import android.widget.Toast;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.activity.content_selection.HomeActivity;
+import com.example.fyp_fontend.adapter.LeaderboardAdapter;
+import com.example.fyp_fontend.model.LeaderboardModel;
 import com.example.fyp_fontend.network.CognitoNetwork;
 import com.example.fyp_fontend.network.LeaderboardHandler;
-import com.example.fyp_fontend.network.S3Handler;
 import com.example.fyp_fontend.network.callback.CurrentUserLeaderboardIdCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private static final String TAG = "LeaderboardActivity";
+    private List<LeaderboardModel> leaderboardModelList;
+    private RecyclerView leaderboardRecyclerView;
+    private LeaderboardAdapter leaderboardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_loading);
-        TextView titleTextView = findViewById(R.id.titleTextView);
-        titleTextView.setText(R.string.loading_leaderboards);
+        loadingScreen();
 
         CognitoNetwork.getInstance().getCurrentUserLeaderboardId(getApplicationContext(), new CurrentUserLeaderboardIdCallback() {
             @Override
             public void onSuccess(String currentLeaderboardId) {
-
-                // if user leaderboard is none
-                // create a function to handle that
                 if (currentLeaderboardId.equals("none")) {
                     welcomeHandler();
                 } else {
-                    setContentView(R.layout.activity_leaderboard);
-                    initNavbar();
+                    getContent();
                 }
-
-                // else
-                // load the leaderboard
             }
 
             @Override
             public void onFailure(Exception exception) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
-                finish();
+                handlerFailure(getString(R.string.failed_to_load_your_current_leaderboard));
             }
         });
+    }
+
+    private void getContent() {
+        loadingScreen();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        executor.execute(() -> {
+            try {
+                leaderboardModelList = LeaderboardHandler.getRankings(getApplicationContext());
+                handler.post(() -> {
+                    setContentView(R.layout.activity_leaderboard);
+                    initNavbar();
+                    initViews();
+                    initRecyclerView();
+                });
+            } catch (IOException | JSONException e) {
+                Log.e(TAG, "getContent: ", e);
+                handler.post(() -> handlerFailure(getString(R.string.something_went_wrong)));
+            }
+        });
+    }
+
+    private void initViews() {
+        leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView);
+    }
+
+    private void initRecyclerView() {
+        leaderboardAdapter = new LeaderboardAdapter(getApplicationContext(), leaderboardModelList);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        leaderboardRecyclerView.setLayoutManager(layoutManager);
+        leaderboardRecyclerView.setAdapter(leaderboardAdapter);
     }
 
     private void initNavbar() {
@@ -86,9 +118,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         Button getStartedButton = findViewById(R.id.getStartedButton);
         getStartedButton.setOnClickListener(view -> {
 
-            setContentView(R.layout.splash_loading);
-            TextView titleTextView = findViewById(R.id.titleTextView);
-            titleTextView.setText(R.string.loading_leaderboards);
+            loadingScreen();
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
@@ -105,8 +135,19 @@ public class LeaderboardActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
             });
-
-
         });
+    }
+
+    private void loadingScreen() {
+        setContentView(R.layout.splash_loading);
+        TextView titleTextView = findViewById(R.id.titleTextView);
+        titleTextView.setText(R.string.loading_leaderboards);
+    }
+
+    private void handlerFailure(String failureMessage) {
+        Toast.makeText(getApplicationContext(), failureMessage, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

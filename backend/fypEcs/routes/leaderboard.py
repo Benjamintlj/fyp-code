@@ -1,6 +1,8 @@
+from typing import Optional
+
 from pydantic import BaseModel
 from lib.globals import (leaderboard_table)
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Query
 from lib.utils import (
     get_user_league_rank,
     create_new_leaderboard,
@@ -56,17 +58,19 @@ def leaderboard(app):
         return {'leaderboard_id': leaderboard_id}
 
     @app.get('/leaderboard/rankings', status_code=status.HTTP_200_OK)
-    def get_user_rankings(current_user: CurrentUser):
-        leaderboard_id = get_user_leaderboard(current_user.username)
-        if leaderboard_id:
-            response = leaderboard_table.get_item(Key={'id': leaderboard_id})
-            item = response.get('Item', {})
-            positions = item.get('positions', [])
-            ranked_positions = sorted(positions, key=lambda x: x['score'], reverse=True)
-            return ranked_positions
+    def get_user_rankings(username: Optional[str] = Query(None)):
+        if username:
+            current_user = CurrentUser(username=username)
+            leaderboard_id = get_user_leaderboard(current_user.username)
+            if leaderboard_id:
+                response = leaderboard_table.get_item(Key={'id': leaderboard_id})
+                item = response.get('Item', {})
+                positions = item.get('positions', [])
+                ranked_positions = sorted(positions, key=lambda x: x['score'], reverse=True)
+                return ranked_positions
         else:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                                detail='Leaderboard not found, or does not exist.')
+                                detail='Username is required.')
 
     @app.patch('/leaderboard/score', status_code=status.HTTP_200_OK)
     def new_score(score: Score):

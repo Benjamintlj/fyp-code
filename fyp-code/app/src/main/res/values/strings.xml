@@ -62,4 +62,6 @@
     <string name="competitive_learning">Competitive learning</string>
     <string name="welcome_to_leaderboards_text">Welcome to competitive learning, here you compete against people around the world.\n\nGood luck!</string>
     <string name="get_started">Get Started</string>
+    <string name="failed_to_load_your_current_leaderboard">Failed to load your current leaderboard.</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>
