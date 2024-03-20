@@ -71,6 +71,22 @@ export class CdkStack extends cdk.Stack {
       effect: iam.Effect.ALLOW
     });
 
+    const spacedRepetitionTable = new DynamoDB.Table(this, 'fypSpacedRepetitionTable', {
+        partitionKey: { name: 's3_url', type: DynamoDB.AttributeType.STRING },
+        sortKey: { name: 'username', type: DynamoDB.AttributeType.STRING },
+    });
+
+    spacedRepetitionTable.addGlobalSecondaryIndex({
+        indexName: 'username-index',
+        partitionKey: { name: 'username', type: DynamoDB.AttributeType.STRING },
+    })
+
+    const spacedRepetitionPolicy = new cdk.aws_iam.PolicyStatement({
+        actions: ['dynamodb:*'],
+        resources: [spacedRepetitionTable.tableArn],
+        effect: iam.Effect.ALLOW
+    });
+
     // // ECS
     // const vpc = new cdk.aws_ec2.Vpc(this, 'fypLeaderVPC', {
     //       maxAzs: 2
@@ -86,6 +102,7 @@ export class CdkStack extends cdk.Stack {
     //       statements: [
     //           leaderboardPolicy,
     //           cognitoAccessStatement,
+    //             spacedRepetitionPolicy
     //       ]
     //   });
     //   taskDefinition.taskRole.attachInlinePolicy(taskDefinitionPolicy);
@@ -100,6 +117,7 @@ export class CdkStack extends cdk.Stack {
     //       image: cdk.aws_ecs.ContainerImage.fromEcrRepository(repository, 'latest'),
     //       environment: {
     //           'LEADER_BOARD_TABLE': leaderboardsTable.tableName,
+    //           'SPACED_REPETITION_TABLE': spacedRepetitionTable.tableName,
     //           'USER_POOL_ID': userPool.userPoolId,
     //       }
     //   });

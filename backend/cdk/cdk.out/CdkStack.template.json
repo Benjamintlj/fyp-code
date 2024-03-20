@@ -131,6 +131,58 @@
     "aws:cdk:path": "CdkStack/fypLeaderboardTable/Resource"
    }
   },
+  "fypSpacedRepetitionTableC0439FF4": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "s3_url",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "username",
+      "AttributeType": "S"
+     }
+    ],
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "username-index",
+      "KeySchema": [
+       {
+        "AttributeName": "username",
+        "KeyType": "HASH"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+       "ReadCapacityUnits": 5,
+       "WriteCapacityUnits": 5
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "s3_url",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "username",
+      "KeyType": "RANGE"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/fypSpacedRepetitionTable/Resource"
+   }
+  },
   "fypLeaderboardEventBridgeA33866F8": {
    "Type": "AWS::Events::Rule",
    "Properties": {

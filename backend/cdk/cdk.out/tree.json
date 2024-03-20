@@ -201,6 +201,79 @@
               "version": "2.114.1"
             }
           },
+          "fypSpacedRepetitionTable": {
+            "id": "fypSpacedRepetitionTable",
+            "path": "CdkStack/fypSpacedRepetitionTable",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "CdkStack/fypSpacedRepetitionTable/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::DynamoDB::Table",
+                  "aws:cdk:cloudformation:props": {
+                    "attributeDefinitions": [
+                      {
+                        "attributeName": "s3_url",
+                        "attributeType": "S"
+                      },
+                      {
+                        "attributeName": "username",
+                        "attributeType": "S"
+                      }
+                    ],
+                    "globalSecondaryIndexes": [
+                      {
+                        "indexName": "username-index",
+                        "keySchema": [
+                          {
+                            "attributeName": "username",
+                            "keyType": "HASH"
+                          }
+                        ],
+                        "projection": {
+                          "projectionType": "ALL"
+                        },
+                        "provisionedThroughput": {
+                          "readCapacityUnits": 5,
+                          "writeCapacityUnits": 5
+                        }
+                      }
+                    ],
+                    "keySchema": [
+                      {
+                        "attributeName": "s3_url",
+                        "keyType": "HASH"
+                      },
+                      {
+                        "attributeName": "username",
+                        "keyType": "RANGE"
+                      }
+                    ],
+                    "provisionedThroughput": {
+                      "readCapacityUnits": 5,
+                      "writeCapacityUnits": 5
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_dynamodb.CfnTable",
+                  "version": "2.114.1"
+                }
+              },
+              "ScalingRole": {
+                "id": "ScalingRole",
+                "path": "CdkStack/fypSpacedRepetitionTable/ScalingRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.114.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_dynamodb.Table",
+              "version": "2.114.1"
+            }
+          },
           "fypLeaderboardEventBridge": {
             "id": "fypLeaderboardEventBridge",
             "path": "CdkStack/fypLeaderboardEventBridge",

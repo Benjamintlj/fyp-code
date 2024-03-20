@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 from lib.globals import (leaderboard_table)
 from fastapi import FastAPI, HTTPException, status, Query
-from lib.utils import (
+from lib.leaderboard_helpers import (
     get_user_league_rank,
     create_new_leaderboard,
     add_user_to_leaderboard,

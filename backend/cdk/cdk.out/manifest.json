@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4ed20fd726389e6333fd391eaf6097d7e44a62d73f7b7e098c4577fc98ecd98b.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/48f271afae7038b0aa09f4f9795cbaf0ae0988418243ab84136368c667fc555c.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -56,6 +56,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "fypLeaderboardTableC629E552"
+          }
+        ],
+        "/CdkStack/fypSpacedRepetitionTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypSpacedRepetitionTableC0439FF4"
           }
         ],
         "/CdkStack/fypLeaderboardEventBridge/Resource": [
