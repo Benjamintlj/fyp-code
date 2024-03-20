@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.adapter.TopicAdapter;
 import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.example.fyp_fontend.network.S3Handler;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class LessonSelectionActivity extends AppCompatActivity {
 
         initViews();
         initRecyclerView();
+        initNavbar();
     }
 
     private void initViews() {
@@ -47,6 +51,27 @@ public class LessonSelectionActivity extends AppCompatActivity {
         lessonsRecyclerView.setAdapter(lessonSelectionAdapter);
 
         getLessons();
+    }
+
+    private void initNavbar() {
+        BottomNavigationView navbarBottomNavigationView = findViewById(R.id.navbarBottomNavigationView);
+
+        navbarBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.subjects) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            } else if (itemId == R.id.leaderboard) {
+                Intent intent = new Intent(getApplicationContext(), LeaderboardActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     private void getLessons() {

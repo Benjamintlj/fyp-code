@@ -10,6 +10,8 @@
     <color name="themePurple">#D0BCFF</color>
     <color name="cardBg">#273c75</color>
     <color name="disabledCardBg">#192a56</color>
+    <color name="highlight1CardBg">#40739e</color>
+    <color name="highlight2CardBg">#487eb0</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>

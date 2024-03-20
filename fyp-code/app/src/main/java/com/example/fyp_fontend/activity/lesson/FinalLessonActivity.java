@@ -14,10 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.network.LeaderboardHandler;
 import com.example.fyp_fontend.utils.ContentManager;
 import com.example.fyp_fontend.utils.RandomSelector;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -34,6 +37,8 @@ public class FinalLessonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_lesson);
+
+        updateScore();
 
         initViews();
         confettiAnimation();
@@ -107,6 +112,18 @@ public class FinalLessonActivity extends AppCompatActivity {
     private void initListeners() {
         button.setOnClickListener(view -> {
             finish();
+        });
+    }
+
+    private void updateScore() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.execute(() -> {
+            try {
+                LeaderboardHandler.updateScore(getApplicationContext(), ContentManager.getScore());
+            } catch (IOException e) {
+                Log.e(TAG, "updateScore: ", e);
+            }
         });
     }
 }

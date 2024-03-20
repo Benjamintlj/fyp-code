@@ -44,4 +44,11 @@ public class LeaderboardHandler {
 
         return rankings;
     }
+
+    public static void updateScore(Context context, int score) throws IOException {
+        Map<String, Object> json = new HashMap<>();
+        json.put("username", CognitoNetwork.getInstance().getCurrentUsername(context));
+        json.put("score", score);
+        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest("leaderboard/score", "PATCH", json);
+    }
 }

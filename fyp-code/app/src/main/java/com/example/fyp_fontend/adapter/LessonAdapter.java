@@ -72,7 +72,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         public LessonViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            lessonCardView = itemView.findViewById(R.id.lessonCardView);
+            lessonCardView = itemView.findViewById(R.id.userCardView);
             lessonTextView = itemView.findViewById(R.id.usernameTextView);
         }
     }

@@ -47,26 +47,23 @@ public class LeaderboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         loadingScreen();
 
-        fetchUserAttributesAndProceed();
+        startSplashChecks();
     }
 
-    private void fetchUserAttributesAndProceed() {
+    private void startSplashChecks() {
         CognitoNetwork.getInstance().getCurrentUserAttribute(getApplicationContext(), new UserAttributeCallback() {
             @Override
             public void onSuccess(String hasSeenWelcome) {
                 if (!Boolean.parseBoolean(hasSeenWelcome)) {
-                    Log.d(TAG, "fetchUserAttributesAndProceed: User has not seen welcome");
                     welcomeHandler(true);
                 } else {
                     CognitoNetwork.getInstance().getCurrentUserAttribute(getApplicationContext(), new UserAttributeCallback() {
                         @Override
                         public void onSuccess(String currentLeaderboardId) {
                             if ("none".equals(currentLeaderboardId)) {
-                                Log.d(TAG, "fetchUserAttributesAndProceed: User is going to compete again");
                                 welcomeHandler(false);
                             } else {
-                                Log.d(TAG, "fetchUserAttributesAndProceed: Getting badges");
-                                fetchBadge();
+                                getBadge();
                             }
                         }
 
@@ -85,7 +82,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         }, "seenWelcome");
     }
 
-    private void fetchBadge() {
+    private void getBadge() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
@@ -119,7 +116,6 @@ public class LeaderboardActivity extends AppCompatActivity {
             public void onSuccess(String rankChanged) {
                 boolean hasRankChanged = Boolean.parseBoolean(rankChanged);
                 if (hasRankChanged) {
-                    Log.d(TAG, "checkIncreaseInRank: Rank has increased");
                     handleNewRank();
                     CognitoNetwork.getInstance().setCurrentUserAttribute(getApplicationContext(), new UserAttributeCallback() {
                         @Override
@@ -133,7 +129,6 @@ public class LeaderboardActivity extends AppCompatActivity {
                         }
                     }, "rankChanged", "false");
                 } else {
-                    Log.d(TAG, "checkIncreaseInRank: Loading content");
                     getContent();
                 }
             }
@@ -146,15 +141,10 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private void getContent() {
-        Log.d(TAG, "getContent: set new layout");
         setContentView(R.layout.activity_leaderboard);
-        Log.d(TAG, "getContent: init the nav bar");
         initNavbar();
-        Log.d(TAG, "getContent: init views");
         initViews();
-        Log.d(TAG, "getContent: init recycler view");
         initRecyclerView();
-        Log.d(TAG, "getContent: set activity content");
         setContent();
     }
 
