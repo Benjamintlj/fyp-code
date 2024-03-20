@@ -52,13 +52,13 @@
               "version": "2.114.1"
             }
           },
-          "fypAccountsUserPool": {
-            "id": "fypAccountsUserPool",
-            "path": "CdkStack/fypAccountsUserPool",
+          "accountsFypUserPool": {
+            "id": "accountsFypUserPool",
+            "path": "CdkStack/accountsFypUserPool",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "CdkStack/fypAccountsUserPool/Resource",
+                "path": "CdkStack/accountsFypUserPool/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Cognito::UserPool",
                   "aws:cdk:cloudformation:props": {
@@ -99,6 +99,16 @@
                       {
                         "name": "currentLeaderboardId",
                         "attributeDataType": "String",
+                        "mutable": true
+                      },
+                      {
+                        "name": "seenWelcome",
+                        "attributeDataType": "Boolean",
+                        "mutable": true
+                      },
+                      {
+                        "name": "rankChanged",
+                        "attributeDataType": "Boolean",
                         "mutable": true
                       }
                     ],
@@ -539,7 +549,7 @@
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::GetAtt": [
-                                      "fypAccountsUserPool4EB75161",
+                                      "accountsFypUserPoolA9C229CA",
                                       "Arn"
                                     ]
                                   }
@@ -651,7 +661,7 @@
                           "Ref": "fypUpdateLeaderboardsSQSAFEAE517"
                         },
                         "USER_POOL_ID": {
-                          "Ref": "fypAccountsUserPool4EB75161"
+                          "Ref": "accountsFypUserPoolA9C229CA"
                         }
                       }
                     },

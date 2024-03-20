@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/titleTextView"
+            android:id="@+id/badgeColourTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

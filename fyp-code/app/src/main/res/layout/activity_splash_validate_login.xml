@@ -9,16 +9,14 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/badgeColourTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"
+        android:text="@string/loading_login_splash_screen"
         android:textSize="32sp"
         android:textAlignment="center"
         android:layout_marginBottom="24dp"/>
 
-    <ProgressBar
-        android:id="@+id/progressIndicator"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:indicatorSize="40dp"

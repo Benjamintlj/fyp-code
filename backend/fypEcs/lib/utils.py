@@ -1,3 +1,4 @@
+from botocore.exceptions import ClientError
 from fastapi import HTTPException
 from starlette import status
 from uuid import uuid4
@@ -28,6 +29,22 @@ def get_user_league_rank(username: str):
         print(e)
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='No user found.')
 
+
+def update_user_attribute(username: str, attribute_name: str, attribute_value: str):
+    try:
+        cognito_client.admin_update_user_attributes(
+            UserPoolId=user_pool_id,
+            Username=username,
+            UserAttributes=[
+                {
+                    'Name': attribute_name,
+                    'Value': attribute_value
+                },
+            ]
+        )
+
+    except ClientError as e:
+        print(e)
 
 
 def get_user_leaderboard(username: str) -> str:

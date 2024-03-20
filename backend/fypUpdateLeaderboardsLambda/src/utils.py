@@ -1,16 +1,19 @@
 
 def reset_current_leaderboard(cognito_client, ordered_positions, user_pool_id):
     for position in ordered_positions:
-        cognito_client.admin_update_user_attributes(
-            UserPoolId=user_pool_id,
-            Username=position['username'],
-            UserAttributes=[
-                {
-                    'Name': 'custom:currentLeaderboardId',
-                    'Value': 'none'
-                }
-            ]
-        )
+        try:
+            cognito_client.admin_update_user_attributes(
+                UserPoolId=user_pool_id,
+                Username=position['username'],
+                UserAttributes=[
+                    {
+                        'Name': 'custom:currentLeaderboardId',
+                        'Value': 'none'
+                    }
+                ]
+            )
+        except Exception as ignore:
+            pass
 
 
 def get_positions(response):
@@ -28,20 +31,28 @@ def get_positions(response):
 
 def set_new_rank(cognito_client, league_rank, position, user_pool_id, is_increase):
     username = position['username']
+    user_attributes = []
 
     if is_increase:
         new_rank = increase_rank(league_rank)
+
+        user_attributes.append({
+            'Name': 'custom:rankChanged',
+            'Value': 'true'
+        })
     else:
         new_rank = decrease_rank(league_rank)
 
     if new_rank:
+        user_attributes.append({
+            'Name': 'custom:leagueRank',
+            'Value': new_rank
+        })
+
         cognito_client.admin_update_user_attributes(
             UserPoolId=user_pool_id,
             Username=username,
-            UserAttributes=[{
-                'Name': 'custom:leagueRank',
-                'Value': new_rank
-            }]
+            UserAttributes=user_attributes
         )
 
 

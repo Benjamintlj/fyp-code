@@ -22,10 +22,11 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
-import com.example.fyp_fontend.network.callback.CurrentUserLeaderboardIdCallback;
+import com.example.fyp_fontend.network.callback.UserAttributeCallback;
 import com.example.fyp_fontend.network.callback.RegisterCallback;
 import com.example.fyp_fontend.network.callback.ResendCodeCallback;
 import com.example.fyp_fontend.network.callback.ResetPasswordCallback;
@@ -33,6 +34,8 @@ import com.example.fyp_fontend.network.callback.SessionValidationCallback;
 import com.example.fyp_fontend.network.callback.SignInCallback;
 import com.example.fyp_fontend.network.callback.StartForgotPasswordCallback;
 import com.example.fyp_fontend.network.callback.VerifyEmailCallback;
+
+import java.util.List;
 
 
 public class CognitoNetwork {
@@ -72,6 +75,8 @@ public class CognitoNetwork {
 
         userAttributes.addAttribute("custom:leagueRank", "bronze");
         userAttributes.addAttribute("custom:currentLeaderboardId", "none");
+        userAttributes.addAttribute("custom:seenWelcome", String.valueOf(false));
+        userAttributes.addAttribute("custom:rankChanged", String.valueOf(false));
 
         CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
 
@@ -332,7 +337,7 @@ public class CognitoNetwork {
         });
     }
 
-    public void getCurrentUserLeaderboardId(Context context, final CurrentUserLeaderboardIdCallback callback) {
+    public void getCurrentUserAttribute(Context context, final UserAttributeCallback callback, String attribute) {
         CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
         CognitoUser user = userPool.getCurrentUser();
 
@@ -341,12 +346,36 @@ public class CognitoNetwork {
                 @Override
                 public void onSuccess(CognitoUserDetails cognitoUserDetails) {
                     CognitoUserAttributes attributes = cognitoUserDetails.getAttributes();
-                    String currentLeaderboardId = attributes.getAttributes().get("custom:currentLeaderboardId");
-                    if (currentLeaderboardId != null) {
-                        callback.onSuccess(currentLeaderboardId);
+                    String value = attributes.getAttributes().get("custom:" + attribute);
+                    if (value != null) {
+                        callback.onSuccess(value);
                     } else {
-                        callback.onFailure(new Exception("User cannot join leaderboard."));
+                        callback.onFailure(new Exception("No value exists."));
                     }
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    callback.onFailure(exception);
+                }
+            });
+        } else {
+            callback.onFailure(new Exception("User not signed in."));
+        }
+    }
+
+    public void setCurrentUserAttribute(Context context, final UserAttributeCallback callback, String attribute, String value) {
+        CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
+        CognitoUser user = userPool.getCurrentUser();
+
+        if (user != null) {
+            CognitoUserAttributes userAttributes = new CognitoUserAttributes();
+            userAttributes.addAttribute("custom:" + attribute, value);
+
+            user.updateAttributesInBackground(userAttributes, new UpdateAttributesHandler() {
+                @Override
+                public void onSuccess(List<CognitoUserCodeDeliveryDetails> attributesVerificationList) {
+                    callback.onSuccess(null);
                 }
 
                 @Override

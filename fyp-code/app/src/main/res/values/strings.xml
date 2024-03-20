@@ -64,4 +64,11 @@
     <string name="get_started">Get Started</string>
     <string name="failed_to_load_your_current_leaderboard">Failed to load your current leaderboard.</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="gold">Gold</string>
+    <string name="bronze">Bronze</string>
+    <string name="silver">Silver</string>
+    <string name="unknown">Unknown</string>
+    <string name="ready_to_compete">Ready to compete?</string>
+    <string name="welcome_back_to_leaderboards">Welcome back to competitive learning. You were on fire last week lets keep it up!</string>
+    <string name="new_rank_description">Well done, your hard work has payed off and you have now gone up a rank!</string>
 </resources>

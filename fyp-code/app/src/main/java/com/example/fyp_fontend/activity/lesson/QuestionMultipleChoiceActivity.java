@@ -12,9 +12,6 @@ import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.adapter.MultipleChoiceAdapter;
 import com.example.fyp_fontend.utils.ContentManager;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 public class QuestionMultipleChoiceActivity extends AppCompatActivity implements MultipleChoiceAdapter.MultipleChoiceAdapterInterface {
 
     TextView titleTextView, descriptionTextView;
@@ -31,7 +28,7 @@ public class QuestionMultipleChoiceActivity extends AppCompatActivity implements
     }
 
     private void initViews() {
-        titleTextView = findViewById(R.id.titleTextView);
+        titleTextView = findViewById(R.id.badgeColourTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
         questionsRecyclerView = findViewById(R.id.questionsRecyclerView);
 

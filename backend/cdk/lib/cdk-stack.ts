@@ -24,7 +24,7 @@ export class CdkStack extends cdk.Stack {
     });
 
     // User pool
-    const userPool = new cdk.aws_cognito.UserPool(this, 'fypAccountsUserPool', {
+    const userPool = new cdk.aws_cognito.UserPool(this, 'accountsFypUserPool', {
       selfSignUpEnabled: true,
       signInAliases: {
         username: true,
@@ -42,6 +42,8 @@ export class CdkStack extends cdk.Stack {
       customAttributes: {
         leagueRank: new cdk.aws_cognito.StringAttribute({ mutable: true }),
         currentLeaderboardId: new cdk.aws_cognito.StringAttribute({ mutable: true }),
+        seenWelcome: new cdk.aws_cognito.BooleanAttribute({ mutable: true }),
+        rankChanged: new cdk.aws_cognito.BooleanAttribute({ mutable: true }),
       },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });

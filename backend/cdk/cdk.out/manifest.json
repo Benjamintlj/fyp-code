@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b3ef3e2b66e38f88158ae24c5140aff73e8f97ccb9e9c1dc3b5a4927704b1dd4.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4ed20fd726389e6333fd391eaf6097d7e44a62d73f7b7e098c4577fc98ecd98b.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -46,10 +46,10 @@
             "data": "fypCodeBucketB93229D9"
           }
         ],
-        "/CdkStack/fypAccountsUserPool/Resource": [
+        "/CdkStack/accountsFypUserPool/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "fypAccountsUserPool4EB75161"
+            "data": "accountsFypUserPoolA9C229CA"
           }
         ],
         "/CdkStack/fypLeaderboardTable/Resource": [

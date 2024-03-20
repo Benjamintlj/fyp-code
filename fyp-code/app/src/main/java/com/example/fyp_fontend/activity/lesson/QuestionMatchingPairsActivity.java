@@ -29,7 +29,7 @@ public class QuestionMatchingPairsActivity extends AppCompatActivity implements 
     }
 
     private void initViews() {
-        titleTextView = findViewById(R.id.titleTextView);
+        titleTextView = findViewById(R.id.badgeColourTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
         rightRecyclerView = findViewById(R.id.rightRecyclerView);
         leftRecyclerView = findViewById(R.id.leftRecyclerView);

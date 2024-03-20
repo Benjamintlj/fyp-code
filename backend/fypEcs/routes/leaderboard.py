@@ -9,7 +9,8 @@ from lib.utils import (
     add_user_to_leaderboard,
     set_user_leaderboard_id,
     get_user_leaderboard,
-    increase_user_score
+    increase_user_score,
+    update_user_attribute
 )
 
 
@@ -26,6 +27,8 @@ def leaderboard(app):
     @app.patch('/leaderboard/join', status_code=status.HTTP_200_OK)
     def join_leaderboard(current_user: CurrentUser):
         league_rank, current_leaderboard_id = get_user_league_rank(current_user.username)
+
+        update_user_attribute(current_user.username, 'custom:seenWelcome', 'true')
 
         if not league_rank:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='League rank not found.')
