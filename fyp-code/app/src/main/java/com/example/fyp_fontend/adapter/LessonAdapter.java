@@ -9,13 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.content_selection.LessonModel;
+import com.example.fyp_fontend.model.content_selection.SpacedRepetition;
 import com.example.fyp_fontend.network.S3Handler;
 import com.example.fyp_fontend.utils.ContentManager;
 
@@ -47,6 +50,10 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         LessonModel lessonModel = lessonModelList.get(position);
         holder.lessonTextView.setText(lessonModel.getTitle());
 
+        @ColorInt int colour = ContextCompat.getColor(holder.itemView.getContext(),
+                SpacedRepetition.getCardColour(lessonModel.getSpacedRepetition().getSpacedRepetitionEnum()));
+        holder.lessonCardView.setCardBackgroundColor(colour);
+
         holder.lessonCardView.setOnClickListener(view -> {
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
@@ -54,7 +61,7 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
             executor.execute(() -> {
                 List<FeedItemModel> feedItemsList = S3Handler.getInstance(context).getLesson(lessonModel.getS3Url());
                 handler.post(() -> {
-                    ContentManager.init(feedItemsList);
+                    ContentManager.init(feedItemsList, lessonModel.getS3Url());
                     ContentManager.nextItem(activity);
                 });
             });

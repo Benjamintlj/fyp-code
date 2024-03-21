@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.network.LeaderboardHandler;
+import com.example.fyp_fontend.network.SpacedRepetitionHandler;
 import com.example.fyp_fontend.utils.ContentManager;
 import com.example.fyp_fontend.utils.RandomSelector;
 
@@ -118,11 +119,25 @@ public class FinalLessonActivity extends AppCompatActivity {
     private void updateScore() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
+        int score = ContentManager.getScore();
+        String s3Url = ContentManager.getS3Url();
+        int percentage = ContentManager.getPercentage();
+
         executor.execute(() -> {
             try {
-                LeaderboardHandler.updateScore(getApplicationContext(), ContentManager.getScore());
+                LeaderboardHandler.updateScore(getApplicationContext(), score);
             } catch (IOException e) {
                 Log.e(TAG, "updateScore: ", e);
+            }
+
+            try {
+                SpacedRepetitionHandler.updateSpacedRepetitionData(
+                        getApplicationContext(),
+                        s3Url,
+                        percentage
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
     }

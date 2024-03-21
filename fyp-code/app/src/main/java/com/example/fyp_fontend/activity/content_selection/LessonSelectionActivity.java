@@ -4,17 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
-import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.adapter.TopicAdapter;
 import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.example.fyp_fontend.network.S3Handler;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,48 +28,40 @@ public class LessonSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lesson_selection);
-
         subject = getIntent().getStringExtra("subject");
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadingScreen();
+        getLessons();
+    }
+
+    private void displayContent(List<TopicModel> topicModelList) {
+        setContentView(R.layout.activity_lesson_selection);
         initViews();
-        initRecyclerView();
-        initNavbar();
+        initRecyclerView(topicModelList);
+    }
+
+    private void loadingScreen() {
+        setContentView(R.layout.splash_loading);
+        TextView titleTextView = findViewById(R.id.loadingTitleTextView);
+        titleTextView.setText(R.string.loading_lessons);
     }
 
     private void initViews() {
         lessonsRecyclerView = findViewById(R.id.lessonsRecyclerView);
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerView(List<TopicModel> topicModelList) {
         lessonSelectionAdapter = new TopicAdapter(new ArrayList<>(), getApplicationContext(), LessonSelectionActivity.this);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         lessonsRecyclerView.setLayoutManager(layoutManager);
         lessonsRecyclerView.setAdapter(lessonSelectionAdapter);
 
-        getLessons();
-    }
-
-    private void initNavbar() {
-        BottomNavigationView navbarBottomNavigationView = findViewById(R.id.navbarBottomNavigationView);
-
-        navbarBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.subjects) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            } else if (itemId == R.id.leaderboard) {
-                Intent intent = new Intent(getApplicationContext(), LeaderboardActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            } else {
-                return false;
-            }
-        });
+        lessonSelectionAdapter.setTopicModelList(topicModelList);
     }
 
     private void getLessons() {
@@ -81,7 +71,7 @@ public class LessonSelectionActivity extends AppCompatActivity {
         executor.execute(() -> {
             List<TopicModel> topicModelList = S3Handler.getInstance(getApplicationContext()).listS3DirectoryStructure(subject);
             handler.post(() -> {
-                lessonSelectionAdapter.setTopicModelList(topicModelList);
+                displayContent(topicModelList);
             });
         });
     }

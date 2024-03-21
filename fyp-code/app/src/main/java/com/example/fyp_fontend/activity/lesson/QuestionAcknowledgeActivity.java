@@ -23,7 +23,7 @@ public class QuestionAcknowledgeActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        titleTextView = findViewById(R.id.badgeColourTextView);
+        titleTextView = findViewById(R.id.loadingTitleTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
 
         ContinueFragment continueFragment = new ContinueFragment();

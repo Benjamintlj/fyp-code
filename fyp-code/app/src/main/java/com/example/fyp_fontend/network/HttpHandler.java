@@ -75,7 +75,7 @@ public class HttpHandler {
     }
 
     private static void writeJson(String method, Map<String, Object> body, HttpURLConnection httpURLConnection) throws IOException {
-        if (method.equals("POST") || method.equals("PATCH")) {
+        if (method.equals("POST") || method.equals("PATCH") || method.equals("PUT")) {
             httpURLConnection.setDoInput(true);
             String json = gson.toJson(body);
             try (OutputStream outputStream = httpURLConnection.getOutputStream()) {

@@ -73,4 +73,5 @@
     <string name="new_rank_description">Well done, your hard work has payed off and you have now gone up a rank!</string>
     <string name="top_3_players">The top 3 players go up a rank.</string>
     <string name="players_at_risk">Players highlighted in red are at risk of going down a rank.</string>
+    <string name="loading_lessons">Loading lessons...</string>
 </resources>

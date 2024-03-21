@@ -17,6 +17,7 @@ from lib.spaced_repetition_helpers import (
 class UpdateSpacedRepetition(BaseModel):
     s3_url: str
     username: str
+    percentage: int
 
 
 def spaced_repetition(app):
@@ -33,7 +34,7 @@ def spaced_repetition(app):
 
     @app.put('/spaced-repetition', status_code=status.HTTP_200_OK)
     def update_spaced_repetition(content: UpdateSpacedRepetition):
-        day1 = 86400000000
+        day1 = 82800000  # 23-hours due to aws time
         day4 = 345600000000
         week1 = 604800000000
         week2 = 1209600000000
@@ -53,13 +54,18 @@ def spaced_repetition(app):
                 time_to_wait = lesson.get('time_to_wait')
                 last_completed = lesson.get('last_completed')
 
-                if (current_time_millis - day1) > (last_completed + time_to_wait):
-                    if time_to_wait <= day4:
-                        time_to_wait = week1
-                    elif time_to_wait <= week1:
-                        time_to_wait = week2
-                    else:
-                        time_to_wait = month
+                if content.percentage > 70:
+                    if (current_time_millis + day1) > (last_completed + time_to_wait):
+                        if time_to_wait <= day4:
+                            time_to_wait = week1
+                        elif time_to_wait <= week1:
+                            time_to_wait = week2
+                        else:
+                            time_to_wait = month
+                elif content.percentage > 55:
+                    time_to_wait = day4
+                else:
+                    time_to_wait = day1
 
                 spaced_repetition_table.update_item(
                     Key={

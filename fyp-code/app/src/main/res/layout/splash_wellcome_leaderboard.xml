@@ -20,7 +20,7 @@
         android:layout_margin="16dp"/>
 
     <TextView
-        android:id="@+id/badgeColourTextView"
+        android:id="@+id/loadingTitleTextView"
         style="@style/h1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:text="@string/welcome_back_to_leaderboards"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/badgeColourTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/loadingTitleTextView" />
 
     <Button
         android:id="@+id/continueButton"

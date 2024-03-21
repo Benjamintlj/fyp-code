@@ -34,7 +34,7 @@ public class QuestionSingleWordActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        titleTextView = findViewById(R.id.badgeColourTextView);
+        titleTextView = findViewById(R.id.loadingTitleTextView);
         descriptionTextView = findViewById(R.id.descriptionTextView);
         button = findViewById(R.id.button);
         answerTextInputEditText = findViewById(R.id.answerTextInputEditText);

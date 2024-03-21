@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_loading);
-        TextView titleTextView = findViewById(R.id.badgeColourTextView);
+        TextView titleTextView = findViewById(R.id.loadingTitleTextView);
         titleTextView.setText(R.string.loading_login_splash_screen);
 
         isUserSignedIn(new IsUserSignedInCallback() {

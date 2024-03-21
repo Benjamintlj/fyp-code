@@ -152,7 +152,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView);
 
         badgeImageView = findViewById(R.id.badgeImageView);
-        badgeColourTextView = findViewById(R.id.badgeColourTextView);
+        badgeColourTextView = findViewById(R.id.loadingTitleTextView);
     }
 
     private void initRecyclerView() {
@@ -187,7 +187,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     private void welcomeHandler(boolean isUserNew) {
         setContentView(R.layout.splash_wellcome_leaderboard);
 
-        TextView titleTextView = findViewById(R.id.badgeColourTextView);
+        TextView titleTextView = findViewById(R.id.loadingTitleTextView);
         titleTextView.setText(
                 isUserNew ? R.string.competitive_learning : R.string.ready_to_compete
         );
@@ -224,7 +224,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         setContentView(R.layout.splash_new_rank);
 
         badgeImageView = findViewById(R.id.badgeImageView);
-        badgeColourTextView = findViewById(R.id.badgeColourTextView);
+        badgeColourTextView = findViewById(R.id.loadingTitleTextView);
 
         setContent();
 
@@ -238,7 +238,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     private void loadingScreen() {
         setContentView(R.layout.splash_loading);
-        TextView titleTextView = findViewById(R.id.badgeColourTextView);
+        TextView titleTextView = findViewById(R.id.loadingTitleTextView);
         titleTextView.setText(R.string.loading_leaderboards);
     }
 

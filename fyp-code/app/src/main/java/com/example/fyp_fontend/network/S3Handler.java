@@ -18,6 +18,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.example.fyp_fontend.model.Question.MatchingPairs;
 import com.example.fyp_fontend.model.Question.MultipleChoice;
 import com.example.fyp_fontend.model.Question.Reorder;
+import com.example.fyp_fontend.model.content_selection.SpacedRepetition;
 import com.example.fyp_fontend.utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
@@ -44,6 +45,9 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class S3Handler {
     private static final String TAG = "S3Handler";
@@ -76,6 +80,17 @@ public class S3Handler {
         String rootPrefix = rootSubject + "/";
         List<String> topicPrefixes = listCommonPrefixes(rootPrefix);
 
+        // Create countdown latch, to prevent premature loading completion
+        int numberOfTasks = 0;
+        for (String fullTopicPrefix : topicPrefixes) {
+            List<String> subtopicPrefixes = listCommonPrefixes(fullTopicPrefix);
+            for (String subtopicPrefix : subtopicPrefixes) {
+                List<String> lessonPrefixes = listCommonPrefixes(subtopicPrefix);
+                numberOfTasks += lessonPrefixes.size();
+            }
+        }
+        final CountDownLatch countDownLatch = new CountDownLatch(numberOfTasks);
+
         for (String fullTopicPrefix : topicPrefixes) {
             String topicName = getNameFromMetadata(fullTopicPrefix);
             if (topicName == null || topics.containsKey(topicName)) continue;
@@ -98,8 +113,29 @@ public class S3Handler {
 
                     LessonModel lessonModel = new LessonModel(lessonName, lessonPrefix);
                     subtopicModel.getLessonModelList().add(lessonModel);
+
+                    // Set the spaced repetition
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
+                    executor.execute(() -> {
+                        try {
+                            SpacedRepetition spacedRepetition = SpacedRepetitionHandler.getSpacedRepetitionData(context, lessonPrefix);
+                            lessonModel.setSpacedRepetition(spacedRepetition);
+                            subtopicModel.setSpacedRepetitionEnum(spacedRepetition.getSpacedRepetitionEnum());
+                        } catch (IOException | JSONException e) {
+                            Log.e(TAG, "listS3DirectoryStructure: ", e);
+                        } finally {
+                            countDownLatch.countDown();
+                        }
+                    });
                 }
             }
+        }
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            Log.e(TAG, "Failed to wait for lesson tasks: ", e);
         }
 
         return new ArrayList<>(topics.values());

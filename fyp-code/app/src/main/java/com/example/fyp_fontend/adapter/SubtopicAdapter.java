@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.model.content_selection.SpacedRepetition;
 import com.example.fyp_fontend.model.content_selection.SubtopicModel;
 
 import java.util.List;
@@ -40,6 +43,10 @@ public class SubtopicAdapter extends RecyclerView.Adapter<SubtopicAdapter.Subtop
     public void onBindViewHolder(@NonNull SubtopicAdapter.SubtopicViewHolder holder, int position) {
         SubtopicModel subtopicModel = subtopicModelList.get(position);
         holder.subtopicNameTextView.setText(subtopicModel.getName());
+
+        @ColorInt int colour = ContextCompat.getColor(holder.itemView.getContext(),
+                SpacedRepetition.getCardColour(subtopicModel.getSpacedRepetitionEnum()));
+        holder.subtopicCardView.setCardBackgroundColor(colour);
 
         LessonAdapter lessonAdapter = new LessonAdapter(context, activity, subtopicModel.getLessonModelList());
         holder.lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));

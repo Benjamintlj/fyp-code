@@ -23,7 +23,7 @@ def get_item(s3_url: str, username: str):
     if response.get('Item'):
         return {
             'last_completed': response.get('Item').get('last_completed'),
-            'wait': response.get('Item').get('wait')
+            'time_to_wait': response.get('Item').get('time_to_wait')
         }
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Item not found')
@@ -51,7 +51,7 @@ def get_items_for_user(username: str):
         lesson = {
             's3_url': item.get('s3_url'),
             'last_completed': item.get('last_completed'),
-            'wait': item.get('wait')
+            'time_to_wait': item.get('time_to_wait')
         }
         lessons.append(lesson)
 

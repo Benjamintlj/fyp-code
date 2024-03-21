@@ -24,12 +24,14 @@ public class ContentManager {
     private static List<FeedItemModel> contentItems;
     private static int score, totalNumOfQuestions, questionsAnsweredCorrectly;
     private static long questionTimer, totalQuestionTimer;
+    private static String s3Url;
     public enum ContentManagerNewActivity {
         NEXT_ITEM
     }
 
-    public static void init(List<FeedItemModel> contentItems) {
+    public static void init(List<FeedItemModel> contentItems, String s3Url) {
         ContentManager.contentItems = contentItems;
+        ContentManager.s3Url = s3Url;
         nextItem = 0;
         score = 0;
         questionTimer = 0;
@@ -141,5 +143,13 @@ public class ContentManager {
         }
 
         ((Activity) context).startActivityForResult(intent, ContentManagerNewActivity.NEXT_ITEM.ordinal());
+    }
+
+    public static String getS3Url() {
+        return s3Url;
+    }
+
+    public static int getPercentage() {
+        return (questionsAnsweredCorrectly / totalNumOfQuestions) * 100;
     }
 }
