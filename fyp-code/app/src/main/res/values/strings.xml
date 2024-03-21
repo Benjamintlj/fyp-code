@@ -74,4 +74,6 @@
     <string name="top_3_players">The top 3 players go up a rank.</string>
     <string name="players_at_risk">Players highlighted in red are at risk of going down a rank.</string>
     <string name="loading_lessons">Loading lessons...</string>
+    <string name="spaced_repetition">Repetition</string>
+    <string name="your_up_to_date">Your up to date!</string>
 </resources>

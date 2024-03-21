@@ -81,15 +81,7 @@ public class S3Handler {
         List<String> topicPrefixes = listCommonPrefixes(rootPrefix);
 
         // Create countdown latch, to prevent premature loading completion
-        int numberOfTasks = 0;
-        for (String fullTopicPrefix : topicPrefixes) {
-            List<String> subtopicPrefixes = listCommonPrefixes(fullTopicPrefix);
-            for (String subtopicPrefix : subtopicPrefixes) {
-                List<String> lessonPrefixes = listCommonPrefixes(subtopicPrefix);
-                numberOfTasks += lessonPrefixes.size();
-            }
-        }
-        final CountDownLatch countDownLatch = new CountDownLatch(numberOfTasks);
+        final CountDownLatch countDownLatch = getCountDownLatch(topicPrefixes);
 
         for (String fullTopicPrefix : topicPrefixes) {
             String topicName = getNameFromMetadata(fullTopicPrefix);
@@ -141,6 +133,20 @@ public class S3Handler {
         return new ArrayList<>(topics.values());
     }
 
+    @NonNull
+    private CountDownLatch getCountDownLatch(List<String> topicPrefixes) {
+        int numberOfTasks = 0;
+        for (String fullTopicPrefix : topicPrefixes) {
+            List<String> subtopicPrefixes = listCommonPrefixes(fullTopicPrefix);
+            for (String subtopicPrefix : subtopicPrefixes) {
+                List<String> lessonPrefixes = listCommonPrefixes(subtopicPrefix);
+                numberOfTasks += lessonPrefixes.size();
+            }
+        }
+        final CountDownLatch countDownLatch = new CountDownLatch(numberOfTasks);
+        return countDownLatch;
+    }
+
     private List<String> listCommonPrefixes(String prefix) {
         List<String> prefixes = new ArrayList<>();
         ObjectListing objectListing;
@@ -156,7 +162,7 @@ public class S3Handler {
         return prefixes;
     }
 
-    private String getNameFromMetadata(String prefix) {
+    public String getNameFromMetadata(String prefix) {
         String metadataPath = prefix + "metadata.json";
         S3Object s3Object = s3Client.getObject(Globals.bucketName, metadataPath);
         ObjectMapper mapper = new ObjectMapper();
