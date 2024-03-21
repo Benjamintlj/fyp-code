@@ -13,6 +13,8 @@ import com.example.fyp_fontend.activity.lesson.QuestionReorderActivity;
 import com.example.fyp_fontend.activity.lesson.QuestionSingleWordActivity;
 import com.example.fyp_fontend.activity.lesson.VideoActivity;
 import com.example.fyp_fontend.model.FeedItemModel;
+import com.example.fyp_fontend.model.content_selection.LessonModel;
+import com.example.fyp_fontend.model.content_selection.SpacedRepetitionEnum;
 
 import java.util.List;
 import java.util.Locale;
@@ -24,14 +26,14 @@ public class ContentManager {
     private static List<FeedItemModel> contentItems;
     private static int score, totalNumOfQuestions, questionsAnsweredCorrectly;
     private static long questionTimer, totalQuestionTimer;
-    private static String s3Url;
+    private static LessonModel lessonModel;
     public enum ContentManagerNewActivity {
         NEXT_ITEM
     }
 
-    public static void init(List<FeedItemModel> contentItems, String s3Url) {
+    public static void init(List<FeedItemModel> contentItems, LessonModel lessonModel) {
         ContentManager.contentItems = contentItems;
-        ContentManager.s3Url = s3Url;
+        ContentManager.lessonModel = lessonModel;
         nextItem = 0;
         score = 0;
         questionTimer = 0;
@@ -48,8 +50,10 @@ public class ContentManager {
     }
 
     public static void increaseScore(int increaseBy) {
-        score += increaseBy;
-        questionsAnsweredCorrectly++;
+        if (!lessonModel.getSpacedRepetition().getSpacedRepetitionEnum().equals(SpacedRepetitionEnum.GREEN)) {
+            score += increaseBy;
+            questionsAnsweredCorrectly++;
+        }
     }
 
     public static void decreaseScore(int decreaseBy) {
@@ -100,12 +104,6 @@ public class ContentManager {
     }
 
     public static void nextItem(Context context) {
-
-        // TODO: this should go
-        for(FeedItemModel item : contentItems) {
-            Log.d(TAG, "nextItem: " + item.itemType.toString());
-        }
-
         Intent intent;
         if (nextItem >= contentItems.size()) {
             intent = new Intent(context, FinalLessonActivity.class);
@@ -146,7 +144,7 @@ public class ContentManager {
     }
 
     public static String getS3Url() {
-        return s3Url;
+        return lessonModel.getS3Url();
     }
 
     public static int getPercentage() {

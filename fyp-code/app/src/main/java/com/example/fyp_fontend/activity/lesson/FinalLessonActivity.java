@@ -34,6 +34,9 @@ public class FinalLessonActivity extends AppCompatActivity {
     TextView scoreTextView, timeTextView, titleViewText, questionTextView;
     Button button;
 
+    final int goodPerformance = 70;
+    final int midPerformance = 55;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,24 +65,44 @@ public class FinalLessonActivity extends AppCompatActivity {
     }
 
     private void confettiAnimation() {
-        try {
-            GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.confetti);
-            gifDrawable.setLoopCount(1);
-            confettiGifImageView.setImageDrawable(gifDrawable);
-        } catch (IOException e) {
-            Log.e(TAG, "initViews: ", e);
+        if (ContentManager.getPercentage() > midPerformance) {
+            try {
+                GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.confetti);
+                gifDrawable.setLoopCount(1);
+                confettiGifImageView.setImageDrawable(gifDrawable);
+            } catch (IOException e) {
+                Log.e(TAG, "initViews: ", e);
+            }
         }
     }
 
     private void setTitle() {
-        titleViewText.setText(RandomSelector.selectRandomString(new String[]{
-                getString(R.string.end_lesson_title_1),
-                getString(R.string.end_lesson_title_2),
-                getString(R.string.end_lesson_title_3),
-                getString(R.string.end_lesson_title_4),
-                getString(R.string.end_lesson_title_5),
-                getString(R.string.end_lesson_title_6)
-        }));
+        if (ContentManager.getPercentage() > goodPerformance) {
+            titleViewText.setText(RandomSelector.selectRandomString(new String[]{
+                    getString(R.string.end_lesson_title_1),
+                    getString(R.string.end_lesson_title_2),
+                    getString(R.string.end_lesson_title_3),
+                    getString(R.string.end_lesson_title_4),
+                    getString(R.string.end_lesson_title_5),
+                    getString(R.string.end_lesson_title_6)
+            }));
+        } else if (ContentManager.getPercentage() > midPerformance) {
+            titleViewText.setText(RandomSelector.selectRandomString(new String[]{
+                    getString(R.string.end_lesson_title_mid_1),
+                    getString(R.string.end_lesson_title_mid_2),
+                    getString(R.string.end_lesson_title_mid_3),
+                    getString(R.string.end_lesson_title_mid_4),
+                    getString(R.string.end_lesson_title_mid_5)
+            }));
+        } else {
+            titleViewText.setText(RandomSelector.selectRandomString(new String[]{
+                    getString(R.string.end_lesson_title_bad_1),
+                    getString(R.string.end_lesson_title_bad_2),
+                    getString(R.string.end_lesson_title_bad_3),
+                    getString(R.string.end_lesson_title_bad_4),
+                    getString(R.string.end_lesson_title_bad_5)
+            }));
+        }
     }
 
     private void setScore() {

@@ -76,4 +76,15 @@
     <string name="loading_lessons">Loading lessons...</string>
     <string name="spaced_repetition">Repetition</string>
     <string name="your_up_to_date">Your up to date!</string>
+    <string name="end_lesson_title_mid_1">Decent job</string>
+    <string name="end_lesson_title_mid_2">Good work</string>
+    <string name="end_lesson_title_mid_3">You are getting there</string>
+    <string name="end_lesson_title_mid_4">Nice stuff</string>
+    <string name="end_lesson_title_mid_5">Past halfway</string>
+    <string name="end_lesson_title_bad_1">Not quite there yet</string>
+    <string name="end_lesson_title_bad_2">Lets try again later</string>
+    <string name="end_lesson_title_bad_3">I am sure you miss-clicked...</string>
+    <string name="end_lesson_title_bad_4">It was just a typo I am sure...</string>
+    <string name="end_lesson_title_bad_5">Ok lets try again</string>
+    <string name="green_lesson_warning">WARNING: you cannot earn rewards from lessons highlighted in green</string>
 </resources>

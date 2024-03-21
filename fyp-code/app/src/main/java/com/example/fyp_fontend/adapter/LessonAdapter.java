@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.content_selection.LessonModel;
 import com.example.fyp_fontend.model.content_selection.SpacedRepetition;
+import com.example.fyp_fontend.model.content_selection.SpacedRepetitionEnum;
 import com.example.fyp_fontend.network.S3Handler;
 import com.example.fyp_fontend.utils.ContentManager;
 
@@ -55,13 +57,17 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
         holder.lessonCardView.setCardBackgroundColor(colour);
 
         holder.lessonCardView.setOnClickListener(view -> {
+            if (lessonModel.getSpacedRepetition().getSpacedRepetitionEnum().equals(SpacedRepetitionEnum.GREEN)) {
+                Toast.makeText(context, R.string.green_lesson_warning, Toast.LENGTH_LONG).show();
+            }
+
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
 
             executor.execute(() -> {
                 List<FeedItemModel> feedItemsList = S3Handler.getInstance(context).getLesson(lessonModel.getS3Url());
                 handler.post(() -> {
-                    ContentManager.init(feedItemsList, lessonModel.getS3Url());
+                    ContentManager.init(feedItemsList, lessonModel);
                     ContentManager.nextItem(activity);
                 });
             });

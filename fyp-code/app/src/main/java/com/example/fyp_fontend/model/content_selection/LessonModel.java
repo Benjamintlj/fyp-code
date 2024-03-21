@@ -30,8 +30,4 @@ public class LessonModel {
     public String getS3Url() {
         return s3Url;
     }
-
-    public void setS3Url(String s3Url) {
-        this.s3Url = s3Url;
-    }
 }
