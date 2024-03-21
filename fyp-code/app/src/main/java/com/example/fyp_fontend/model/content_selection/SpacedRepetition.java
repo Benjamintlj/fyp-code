@@ -38,7 +38,7 @@ public class SpacedRepetition {
         if (deltaTime <= 0) {
             waitTime = "ready";
         } else {
-            long daysUntilCompletion = deltaTime / day1;
+            int daysUntilCompletion = (int) ((deltaTime / day1) / 1000);
             if (daysUntilCompletion > 1) {
                 waitTime = daysUntilCompletion + " days";
             } else {

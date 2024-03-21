@@ -56,6 +56,8 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
                 SpacedRepetition.getCardColour(lessonModel.getSpacedRepetition().getSpacedRepetitionEnum()));
         holder.lessonCardView.setCardBackgroundColor(colour);
 
+        holder.spacedRepetitionTextView.setText(lessonModel.getSpacedRepetition().getWaitTime());
+
         holder.lessonCardView.setOnClickListener(view -> {
             if (lessonModel.getSpacedRepetition().getSpacedRepetitionEnum().equals(SpacedRepetitionEnum.GREEN)) {
                 Toast.makeText(context, R.string.green_lesson_warning, Toast.LENGTH_LONG).show();
@@ -81,12 +83,13 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonView
 
     public static class LessonViewHolder extends RecyclerView.ViewHolder {
         CardView lessonCardView;
-        TextView lessonTextView;
+        TextView lessonTextView, spacedRepetitionTextView;
         public LessonViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            lessonCardView = itemView.findViewById(R.id.userCardView);
-            lessonTextView = itemView.findViewById(R.id.usernameTextView);
+            lessonCardView = itemView.findViewById(R.id.lessonCardView);
+            lessonTextView = itemView.findViewById(R.id.lessonTextView);
+            spacedRepetitionTextView = itemView.findViewById(R.id.spacedRepetitionTextView);
         }
     }
 }
