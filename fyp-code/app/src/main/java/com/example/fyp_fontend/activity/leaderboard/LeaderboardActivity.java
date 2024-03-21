@@ -23,6 +23,7 @@ import com.example.fyp_fontend.model.LeaderboardModel;
 import com.example.fyp_fontend.network.CognitoNetwork;
 import com.example.fyp_fontend.network.LeaderboardHandler;
 import com.example.fyp_fontend.network.callback.UserAttributeCallback;
+import com.example.fyp_fontend.utils.NavbarHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
@@ -165,23 +166,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     private void initNavbar() {
         BottomNavigationView navbarBottomNavigationView = findViewById(R.id.navbarBottomNavigationView);
-
-        navbarBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.subjects) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            } else if (itemId == R.id.leaderboard) {
-                // pass
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        navbarBottomNavigationView.setSelectedItemId(R.id.leaderboard);
+        NavbarHandler.initNavbar(navbarBottomNavigationView, this);
     }
 
     private void welcomeHandler(boolean isUserNew) {

@@ -4,15 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.adapter.TopicAdapter;
 import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.example.fyp_fontend.network.S3Handler;
+import com.example.fyp_fontend.utils.NavbarHandler;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +45,7 @@ public class LessonSelectionActivity extends AppCompatActivity {
     private void displayContent(List<TopicModel> topicModelList) {
         setContentView(R.layout.activity_lesson_selection);
         initViews();
+        initNavbar();
         initRecyclerView(topicModelList);
     }
 
@@ -52,6 +57,11 @@ public class LessonSelectionActivity extends AppCompatActivity {
 
     private void initViews() {
         lessonsRecyclerView = findViewById(R.id.lessonsRecyclerView);
+    }
+
+    private void initNavbar() {
+        BottomNavigationView navbarBottomNavigationView = findViewById(R.id.navbarBottomNavigationView);
+        NavbarHandler.initNavbar(navbarBottomNavigationView, this);
     }
 
     private void initRecyclerView(List<TopicModel> topicModelList) {

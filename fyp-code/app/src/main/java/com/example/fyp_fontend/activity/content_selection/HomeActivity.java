@@ -12,6 +12,7 @@ import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.fragments.SubjectFragment;
 import com.example.fyp_fontend.network.CognitoNetwork;
+import com.example.fyp_fontend.utils.NavbarHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -54,23 +55,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initNavbar() {
         BottomNavigationView navbarBottomNavigationView = findViewById(R.id.navbarBottomNavigationView);
-
-        navbarBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.subjects) {
-                // pass
-                return true;
-            } else if (itemId == R.id.leaderboard) {
-                Intent intent = new Intent(getApplicationContext(), LeaderboardActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            } else {
-                return false;
-            }
-        });
-
-        navbarBottomNavigationView.setSelectedItemId(R.id.subjects);
+        NavbarHandler.initNavbar(navbarBottomNavigationView, this);
     }
 
     private void signOut(View view) {
