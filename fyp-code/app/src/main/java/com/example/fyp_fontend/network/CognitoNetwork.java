@@ -122,6 +122,7 @@ public class CognitoNetwork {
             @Override
             public void onFailure(Exception exception) {
                 String error = exception.getLocalizedMessage();
+                Log.e(TAG, "onFailure: " + error);
                 Responses response = Responses.GENERAL_FAILURE;
 
                 if (error != null) {

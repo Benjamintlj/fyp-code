@@ -42,6 +42,14 @@
     ],
     "EmailVerificationMessage": "The verification code to your new account is {####}",
     "EmailVerificationSubject": "Verify your new account",
+    "LambdaConfig": {
+     "PostConfirmation": {
+      "Fn::GetAtt": [
+       "fypNewUser2BCA3E2A",
+       "Arn"
+      ]
+     }
+    },
     "Schema": [
      {
       "Mutable": true,
@@ -81,6 +89,28 @@
    "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "CdkStack/accountsFypUserPool/Resource"
+   }
+  },
+  "accountsFypUserPoolPostConfirmationCognito31DCA884": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "fypNewUser2BCA3E2A",
+      "Arn"
+     ]
+    },
+    "Principal": "cognito-idp.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "accountsFypUserPoolA9C229CA",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/accountsFypUserPool/PostConfirmationCognito"
    }
   },
   "fypLeaderboardTableC629E552": {
@@ -181,6 +211,150 @@
    "DeletionPolicy": "Retain",
    "Metadata": {
     "aws:cdk:path": "CdkStack/fypSpacedRepetitionTable/Resource"
+   }
+  },
+  "fypUserStatsTable19CB9CD5": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "username",
+      "AttributeType": "S"
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "username",
+      "KeyType": "HASH"
+     }
+    ],
+    "ProvisionedThroughput": {
+     "ReadCapacityUnits": 5,
+     "WriteCapacityUnits": 5
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/fypUserStatsTable/Resource"
+   }
+  },
+  "fypNewUserServiceRole6A825CA0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/fypNewUser/ServiceRole/Resource"
+   }
+  },
+  "fypNewUserServiceRoleDefaultPolicy764F1B11": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "fypUserStatsTable19CB9CD5",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "fypNewUserServiceRoleDefaultPolicy764F1B11",
+    "Roles": [
+     {
+      "Ref": "fypNewUserServiceRole6A825CA0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/fypNewUser/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "fypNewUser2BCA3E2A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": {
+      "Ref": "fypCodeBucketB93229D9"
+     },
+     "S3Key": "newUser.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "USER_STATS_TABLE": {
+       "Ref": "fypUserStatsTable19CB9CD5"
+      }
+     }
+    },
+    "Handler": "src.index.main",
+    "Role": {
+     "Fn::GetAtt": [
+      "fypNewUserServiceRole6A825CA0",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.9",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "fypNewUserServiceRoleDefaultPolicy764F1B11",
+    "fypNewUserServiceRole6A825CA0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CdkStack/fypNewUser/Resource"
    }
   },
   "fypLeaderboardEventBridgeA33866F8": {
@@ -557,7 +731,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WOwU7DMBBEv6X3zdK0HDhTwa1SSMsZOfZSbZN4S2wXVZb/HTsBhMRpnmesmd1gXd9jvVKfrtKmrwbuMB680j1k6y26LcbHoHvysHu3CyXQcrLsBeOro6kRGUr4wwnMzapRTG46qm6gEs6QgK5kvcPYhsUummBQY2cUxmw0NI3sHIuF52C1L5DtX34qBQcJk6a9ulzYnkr8303gPvLOS6AwD82QgNWYx+V7vGgjA+tbeS6UErTk5qr5zx/eiTVcrkhgxRCe3d11s8YHXK/OjrmagvU8EraLfgEVHW8hWwEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2WOwU7DMAyGn2X31KwbB85McJtUunFGaWImr008mmRoivLuJCkgJE7+/Pl34g207T20K/npGqXHZqIB4sFLNYqs3qLbQnwMakQvdu92oSQUnyx5hvjqcO6YpzL84SQmaQYtIWbZ4WzIOWIrnoNVvkDWv/x0ResPHGaFe3m5kD2V8X+bhL5ZaVjn845ymLDEKiRB0kDseXG1djyRupV2oSSwvOhyLHzHQtl0H1m9BAzVVUhJ9Ojq1zX3h3dsNZWrk7CsEc7u7rpZwwOsV2dH1MzBejII/VK/AN0RYMBbAQAA"
    },
    "Metadata": {
     "aws:cdk:path": "CdkStack/CDKMetadata/Default"

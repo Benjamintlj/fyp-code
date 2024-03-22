@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/48f271afae7038b0aa09f4f9795cbaf0ae0988418243ab84136368c667fc555c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3b788a2a9debe07121315cadceef939eadc295c575e4fcb29e1fac6cadf0dfbc.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -52,6 +52,12 @@
             "data": "accountsFypUserPoolA9C229CA"
           }
         ],
+        "/CdkStack/accountsFypUserPool/PostConfirmationCognito": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "accountsFypUserPoolPostConfirmationCognito31DCA884"
+          }
+        ],
         "/CdkStack/fypLeaderboardTable/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -62,6 +68,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "fypSpacedRepetitionTableC0439FF4"
+          }
+        ],
+        "/CdkStack/fypUserStatsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypUserStatsTable19CB9CD5"
+          }
+        ],
+        "/CdkStack/fypNewUser/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypNewUserServiceRole6A825CA0"
+          }
+        ],
+        "/CdkStack/fypNewUser/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypNewUserServiceRoleDefaultPolicy764F1B11"
+          }
+        ],
+        "/CdkStack/fypNewUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "fypNewUser2BCA3E2A"
           }
         ],
         "/CdkStack/fypLeaderboardEventBridge/Resource": [

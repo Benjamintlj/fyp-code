@@ -87,6 +87,16 @@ export class CdkStack extends cdk.Stack {
         effect: iam.Effect.ALLOW
     });
 
+    const userStatsTable = new DynamoDB.Table(this, 'fypUserStatsTable', {
+        partitionKey: { name: 'username', type: DynamoDB.AttributeType.STRING },
+    });
+
+    const userStatsPolicy = new cdk.aws_iam.PolicyStatement({
+        actions: ['dynamodb:*'],
+        resources: [userStatsTable.tableArn],
+        effect: iam.Effect.ALLOW
+    });
+
     // // ECS
     // const vpc = new cdk.aws_ec2.Vpc(this, 'fypLeaderVPC', {
     //       maxAzs: 2
@@ -102,7 +112,8 @@ export class CdkStack extends cdk.Stack {
     //       statements: [
     //           leaderboardPolicy,
     //           cognitoAccessStatement,
-    //             spacedRepetitionPolicy
+    //           spacedRepetitionPolicy,
+    //           userStatsPolicy
     //       ]
     //   });
     //   taskDefinition.taskRole.attachInlinePolicy(taskDefinitionPolicy);
@@ -118,6 +129,7 @@ export class CdkStack extends cdk.Stack {
     //       environment: {
     //           'LEADER_BOARD_TABLE': leaderboardsTable.tableName,
     //           'SPACED_REPETITION_TABLE': spacedRepetitionTable.tableName,
+    //           'USER_STATS_TABLE': userStatsTable.tableName,
     //           'USER_POOL_ID': userPool.userPoolId,
     //       }
     //   });
@@ -130,6 +142,20 @@ export class CdkStack extends cdk.Stack {
     //       cluster: cluster,
     //       taskDefinition: taskDefinition,
     //   });
+
+    // Lambda to handle user sign up
+    const fypNewUser = new lambda.Function(this, 'fypNewUser', {
+      runtime: lambda.Runtime.PYTHON_3_9,
+      handler: 'src.index.main',
+      code: lambda.Code.fromBucket(codeBucket, 'newUser.zip'),
+      timeout: cdk.Duration.seconds(30),
+      architecture: lambda.Architecture.ARM_64,
+      environment: {
+        USER_STATS_TABLE: userStatsTable.tableName,
+      }
+    });
+    userStatsTable.grantReadWriteData(fypNewUser);
+    userPool.addTrigger(cdk.aws_cognito.UserPoolOperation.POST_CONFIRMATION, fypNewUser);
 
     // Event bridge
     const fypLeaderboardEventBridge = new events.Rule(this, 'fypLeaderboardEventBridge', {
