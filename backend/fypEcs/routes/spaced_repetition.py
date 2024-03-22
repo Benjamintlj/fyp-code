@@ -5,7 +5,12 @@ from fastapi import status, Query, HTTPException
 from pydantic import BaseModel
 
 from lib.globals import (
-    spaced_repetition_table
+    spaced_repetition_table,
+    day1,
+    day4,
+    week1,
+    week2,
+    month
 )
 
 from lib.spaced_repetition_helpers import (
@@ -34,12 +39,6 @@ def spaced_repetition(app):
 
     @app.put('/spaced-repetition', status_code=status.HTTP_200_OK)
     def update_spaced_repetition(content: UpdateSpacedRepetition):
-        day1 = 82800000  # 23-hours due to aws time
-        day4 = 345600000000
-        week1 = 604800000000
-        week2 = 1209600000000
-        month = 2592000000000
-
         current_time_millis = int(time.time() * 1000)
         try:
             response = spaced_repetition_table.get_item(

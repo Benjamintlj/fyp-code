@@ -6,12 +6,20 @@ from .utils import (
     reset_current_leaderboard,
     set_new_rank
 )
+from .stats_handler import (
+    update_first_place_stats
+)
 
 
 def main(event, context):
     dynamodb = boto3.client('dynamodb')
     cognito_client = boto3.client('cognito-idp')
     user_pool_id = os.environ['USER_POOL_ID']
+    leaderboard_table_name = os.environ['LEADER_BOARD_TABLE']
+
+    dynamodb_resource = boto3.resource('dynamodb')
+    stats_table_name = os.environ.get('USER_STATS_TABLE')
+    stats_table = dynamodb_resource.Table(stats_table_name)
 
     try:
         for record in event['Records']:
@@ -19,12 +27,15 @@ def main(event, context):
             pk = body['id']
 
             response = dynamodb.get_item(
-                TableName=os.environ['LEADER_BOARD_TABLE'],
+                TableName=leaderboard_table_name,
                 Key={'id': {'S': pk}}
             )
 
             if 'Item' in response:
                 league_rank, ordered_positions = get_positions(response)
+
+                if ordered_positions[0]:
+                    update_first_place_stats(stats_table, ordered_positions[0]['username'])
 
                 # top n users progress to next rank
                 num_of_users_to_progress = 3
@@ -45,7 +56,7 @@ def main(event, context):
                 reset_current_leaderboard(cognito_client, ordered_positions, user_pool_id)
 
             dynamodb.delete_item(
-                TableName=os.environ['LEADER_BOARD_TABLE'],
+                TableName=leaderboard_table_name,
                 Key={
                     'id': {'S': pk}
                 }

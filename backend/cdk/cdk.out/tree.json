@@ -900,6 +900,12 @@
                                       ]
                                     },
                                     {
+                                      "Fn::GetAtt": [
+                                        "fypUserStatsTable19CB9CD5",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
                                       "Fn::Join": [
                                         "",
                                         [
@@ -912,6 +918,9 @@
                                           "/index/*"
                                         ]
                                       ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
                                     }
                                   ]
                                 },
@@ -978,6 +987,9 @@
                       "variables": {
                         "LEADER_BOARD_TABLE": {
                           "Ref": "fypLeaderboardTableC629E552"
+                        },
+                        "USER_STATS_TABLE": {
+                          "Ref": "fypUserStatsTable19CB9CD5"
                         },
                         "QUEUE_URL": {
                           "Ref": "fypUpdateLeaderboardsSQSAFEAE517"

@@ -190,12 +190,14 @@ export class CdkStack extends cdk.Stack {
       architecture: lambda.Architecture.ARM_64,
       environment: {
         LEADER_BOARD_TABLE: leaderboardsTable.tableName,
+        USER_STATS_TABLE: userStatsTable.tableName,
         QUEUE_URL: fypUpdateLeaderboardsSQS.queueUrl,
         USER_POOL_ID: userPool.userPoolId
       },
     });
     fypUpdateLeaderboards.addToRolePolicy(cognitoAccessStatement);
     leaderboardsTable.grantReadWriteData(fypUpdateLeaderboards);
+    userStatsTable.grantReadWriteData(fypUpdateLeaderboards);
     fypUpdateLeaderboards.addEventSource(new lambdaEventSources.SqsEventSource(fypUpdateLeaderboardsSQS));
   }
 }
