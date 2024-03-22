@@ -14,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.model.content_selection.SpacedRepetitionEnum;
 import com.example.fyp_fontend.network.LeaderboardHandler;
 import com.example.fyp_fontend.network.SpacedRepetitionHandler;
+import com.example.fyp_fontend.network.StatsHandler;
 import com.example.fyp_fontend.utils.ContentManager;
 import com.example.fyp_fontend.utils.RandomSelector;
 
@@ -50,6 +52,7 @@ public class FinalLessonActivity extends AppCompatActivity {
         setScore();
         setTime();
         setQuestionsAnsweredCorrectly();
+        updateStats();
         initListeners();
     }
 
@@ -125,7 +128,7 @@ public class FinalLessonActivity extends AppCompatActivity {
     }
 
     private void setTime() {
-        timeTextView.setText(ContentManager.getTotalQuestionTimer());
+        timeTextView.setText(ContentManager.getTotalQuestionTimerText());
     }
 
     private void setQuestionsAnsweredCorrectly() {
@@ -161,6 +164,66 @@ public class FinalLessonActivity extends AppCompatActivity {
                 );
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void updateStats() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        SpacedRepetitionEnum familiarity = ContentManager.getLessonModel().getSpacedRepetition().getSpacedRepetitionEnum();
+
+        int score = ContentManager.getScore();
+        int percentage = ContentManager.getPercentage();
+
+        executor.execute(() -> {
+            // Streak
+            try {
+                StatsHandler.streak(getApplicationContext());
+            } catch (IOException e) {
+                Log.e(TAG, "updateScore: ", e);
+            }
+
+            if (!familiarity.equals(SpacedRepetitionEnum.GREEN)) {
+                // Gems
+                try {
+                    StatsHandler.gems(getApplicationContext(), score);
+                } catch (IOException e) {
+                    Log.e(TAG, "updateScore: ", e);
+                }
+
+                // Lesson complete
+                try {
+                    StatsHandler.lessonComplete(getApplicationContext());
+                } catch (IOException e) {
+                    Log.e(TAG, "updateScore: ", e);
+                }
+
+                // Flawless
+                if (percentage == 100) {
+                    try {
+                        StatsHandler.flawless(getApplicationContext());
+                    } catch (IOException e) {
+                        Log.e(TAG, "updateScore: ", e);
+                    }
+                }
+
+                // Complete all questions in a lesson under a min
+                if (ContentManager.getTotalQuestionTimer() < 60000) {
+                    try {
+                        StatsHandler.speedRun(getApplicationContext());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            if (familiarity.equals(SpacedRepetitionEnum.AMBER) || familiarity.equals(SpacedRepetitionEnum.RED)) {
+                // Revised lessons
+                try {
+                    StatsHandler.revisedLessons(getApplicationContext());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

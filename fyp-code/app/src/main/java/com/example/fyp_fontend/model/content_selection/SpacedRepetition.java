@@ -1,10 +1,14 @@
 package com.example.fyp_fontend.model.content_selection;
 
+import android.util.Log;
+
 import androidx.annotation.ColorRes;
 
 import com.example.fyp_fontend.R;
 
 public class SpacedRepetition {
+    private static final String TAG = "SpacedRepetition";
+
     SpacedRepetitionEnum spacedRepetitionEnum = SpacedRepetitionEnum.UNKNOWN;
     long lastCompleted, timeToWait;
     String waitTime;
@@ -16,6 +20,8 @@ public class SpacedRepetition {
         long currentTime = System.currentTimeMillis();
         long completionTime = lastCompleted + timeToWait;
         long day1 = 86400000;
+
+        Log.d(TAG, "init: current time:" + currentTime + " >= " + completionTime);
 
         // Set the Enum
         if (lastCompleted < 0 || timeToWait < 0) {

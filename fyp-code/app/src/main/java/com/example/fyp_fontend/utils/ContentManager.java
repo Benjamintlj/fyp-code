@@ -40,7 +40,6 @@ public class ContentManager {
         totalQuestionTimer = 0;
         questionsAnsweredCorrectly = 0;
 
-
         totalNumOfQuestions = 0;
         for(FeedItemModel item : contentItems) {
             if (item.itemType != FeedItemModel.ItemType.VIDEO && item.itemType != FeedItemModel.ItemType.ACKNOWLEDGE) {
@@ -78,7 +77,11 @@ public class ContentManager {
         return timeToString(difference);
     }
 
-    public static String getTotalQuestionTimer() {
+    public static long getTotalQuestionTimer() {
+        return totalQuestionTimer;
+    }
+
+    public static String getTotalQuestionTimerText() {
         return timeToString(totalQuestionTimer);
     }
 
@@ -149,5 +152,9 @@ public class ContentManager {
 
     public static int getPercentage() {
         return (questionsAnsweredCorrectly / totalNumOfQuestions) * 100;
+    }
+
+    public static LessonModel getLessonModel() {
+        return lessonModel;
     }
 }

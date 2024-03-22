@@ -56,9 +56,7 @@ public class CognitoNetwork {
         GENERAL_FAILURE
     }
 
-
     private static CognitoNetwork instance;
-
 
     private CognitoNetwork() {}
 
