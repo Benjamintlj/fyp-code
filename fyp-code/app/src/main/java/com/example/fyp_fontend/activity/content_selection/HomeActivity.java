@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.activity.MainActivity;
 import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.fragments.SubjectFragment;
 import com.example.fyp_fontend.network.CognitoNetwork;
@@ -16,8 +17,6 @@ import com.example.fyp_fontend.utils.NavbarHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
-
-    Button signOutActivityButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +31,10 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void initViews() {
-        signOutActivityButton = findViewById(R.id.signOutActivityButton);
     }
 
     private void initListeners() {
-        signOutActivityButton.setOnClickListener(this::signOut);
+
     }
 
     private void initFragments() {
@@ -56,10 +54,5 @@ public class HomeActivity extends AppCompatActivity {
     private void initNavbar() {
         BottomNavigationView navbarBottomNavigationView = findViewById(R.id.navbarBottomNavigationView);
         NavbarHandler.initNavbar(navbarBottomNavigationView, this);
-    }
-
-    private void signOut(View view) {
-        CognitoNetwork.getInstance().signOut(getApplicationContext());
-        finish();
     }
 }

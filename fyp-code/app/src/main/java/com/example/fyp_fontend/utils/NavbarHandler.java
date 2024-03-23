@@ -2,13 +2,16 @@ package com.example.fyp_fontend.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
 
 import com.example.fyp_fontend.R;
+import com.example.fyp_fontend.activity.MainActivity;
 import com.example.fyp_fontend.activity.content_selection.HomeActivity;
 import com.example.fyp_fontend.activity.content_selection.LessonSelectionActivity;
 import com.example.fyp_fontend.activity.content_selection.RepetitionActivity;
 import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.activity.stats.AchievementsActivity;
+import com.example.fyp_fontend.network.CognitoNetwork;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NavbarHandler {
@@ -43,8 +46,18 @@ public class NavbarHandler {
                 Intent intent = new Intent(activity, AchievementsActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
+            } else if (itemId == R.id.signOut) {
+                signOut(activity);
             }
             return true;
         });
+    }
+
+    private static void signOut(Activity activity) {
+        CognitoNetwork.getInstance().signOut(activity.getApplicationContext());
+        Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }
