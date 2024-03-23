@@ -11,4 +11,8 @@
         android:id="@+id/spacedRepetition"
         android:icon="@drawable/light"
         android:title="@string/spaced_repetition" />
+    <item
+        android:id="@+id/achievement"
+        android:icon="@drawable/trophy"
+        android:title="@string/achievement" />
 </menu>

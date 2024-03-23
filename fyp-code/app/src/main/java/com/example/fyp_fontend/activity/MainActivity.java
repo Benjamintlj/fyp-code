@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         String password = Objects.requireNonNull(passwordEditText.getText()).toString();
 
         if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please enter username and password.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.please_enter_username_and_password, Toast.LENGTH_SHORT).show();
         }
 
         CognitoNetwork.getInstance().signIn(username, password, getApplicationContext(), new SignInCallback() {
@@ -108,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Failed to Sign-in, please try again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.failed_to_sign_in_please_try_again, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onSignInFailure(CognitoNetwork.Responses response) {
-                Toast.makeText(getApplicationContext(), "Failed to Sign-in, please try again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.failed_to_sign_in_please_try_again, Toast.LENGTH_SHORT).show();
             }
         });
     }

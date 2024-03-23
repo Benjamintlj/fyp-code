@@ -87,4 +87,21 @@
     <string name="end_lesson_title_bad_4">It was just a typo I am sure...</string>
     <string name="end_lesson_title_bad_5">Ok lets try again</string>
     <string name="green_lesson_warning">WARNING: you cannot earn rewards from lessons highlighted in green</string>
+    <string name="achievement">Achievement</string>
+    <string name="streak_description">Comeback every day to increase your streak.</string>
+    <string name="streak">Streak</string>
+    <string name="lessons_completed_description">Complete new lessons or revise old ones to earn more.</string>
+    <string name="lessons_completed_title">Completed Lessons</string>
+    <string name="total_gems_description">Complete lessons to earn gems.</string>
+    <string name="total_gems_title">Gems</string>
+    <string name="first_place_description">Come first in competitive learning.</string>
+    <string name="first_place_title">First Place</string>
+    <string name="flawless_description">Get every question right in a lesson.</string>
+    <string name="flawless_title">Flawless</string>
+    <string name="speed_run_description">Complete all questions in a new lesson in under a min.</string>
+    <string name="speed_run_title">Speedster</string>
+    <string name="revised_description">Revise lessons, from the revision tab.</string>
+    <string name="revision_title">Revision</string>
+    <string name="please_enter_username_and_password">Please enter username and password.</string>
+    <string name="failed_to_sign_in_please_try_again">Failed to Sign-in, please try again.</string>
 </resources>

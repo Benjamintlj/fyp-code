@@ -2,7 +2,14 @@ package com.example.fyp_fontend.network;
 
 import android.content.Context;
 
+import com.example.fyp_fontend.model.Stats.UserStats;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,5 +55,13 @@ public class StatsHandler {
         json.put("username", CognitoNetwork.getInstance().getCurrentUsername(context));
 
         com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "PUT", json);
+    }
+
+    public static UserStats getStats(Context context) throws IOException, JSONException {
+        String username = CognitoNetwork.getInstance().getCurrentUsername(context);
+        String url = "stats?username=" + URLEncoder.encode(username, "UTF-8");
+
+        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", null);
+        return new UserStats(new JSONObject(body));
     }
 }

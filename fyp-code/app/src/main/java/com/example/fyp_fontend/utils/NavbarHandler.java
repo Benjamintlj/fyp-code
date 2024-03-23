@@ -8,6 +8,7 @@ import com.example.fyp_fontend.activity.content_selection.HomeActivity;
 import com.example.fyp_fontend.activity.content_selection.LessonSelectionActivity;
 import com.example.fyp_fontend.activity.content_selection.RepetitionActivity;
 import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
+import com.example.fyp_fontend.activity.stats.AchievementsActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NavbarHandler {
@@ -20,6 +21,8 @@ public class NavbarHandler {
             view.setSelectedItemId(R.id.subjects);
         } else if (activity instanceof RepetitionActivity) {
             view.setSelectedItemId(R.id.spacedRepetition);
+        } else if (activity instanceof AchievementsActivity) {
+            view.setSelectedItemId(R.id.achievement);
         }
 
         view.setOnItemSelectedListener(item -> {
@@ -34,6 +37,10 @@ public class NavbarHandler {
                 activity.finish();
             } else if (itemId == R.id.spacedRepetition && !(activity instanceof RepetitionActivity)) {
                 Intent intent = new Intent(activity, RepetitionActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
+            } else if (itemId == R.id.achievement && !(activity instanceof AchievementsActivity)) {
+                Intent intent = new Intent(activity, AchievementsActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
             }
