@@ -33,6 +33,7 @@ public class SpacedRepetitionHandler {
 
         SpacedRepetition spacedRepetition = new SpacedRepetition();
         spacedRepetition.init(
+                context,
                 jsonObject.getLong("last_completed"),
                 jsonObject.getLong("time_to_wait")
         );
@@ -57,6 +58,7 @@ public class SpacedRepetitionHandler {
                 try {
                     SpacedRepetition spacedRepetition = new SpacedRepetition();
                     spacedRepetition.init(
+                            context,
                             jsonObject.getLong("last_completed"),
                             jsonObject.getLong("time_to_wait")
                     );

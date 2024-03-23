@@ -31,7 +31,6 @@
             android:paddingTop="32dp"
             android:paddingHorizontal="32dp"
             android:text="Subject"
-            android:background="@drawable/vignette"
             style="@style/h1"
             />
 

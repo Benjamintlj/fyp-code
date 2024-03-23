@@ -17,6 +17,6 @@ cognito_client = boto3.client('cognito-idp')
 day1 = 82800000  # 23-hours due to aws time
 day2 = 165600000
 day4 = 345600000
-week1 = 6048000000
+week1 = 604800000
 week2 = 1209600000
 month = 2592000000

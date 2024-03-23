@@ -92,7 +92,7 @@
     <string name="streak">Streak</string>
     <string name="lessons_completed_description">Complete new lessons or revise old ones to earn more.</string>
     <string name="lessons_completed_title">Completed Lessons</string>
-    <string name="total_gems_description">Complete lessons to earn gems.</string>
+    <string name="total_gems_description">Revise or complete new lessons to earn gems.</string>
     <string name="total_gems_title">Gems</string>
     <string name="first_place_description">Come first in competitive learning.</string>
     <string name="first_place_title">First Place</string>
@@ -104,4 +104,10 @@
     <string name="revision_title">Revision</string>
     <string name="please_enter_username_and_password">Please enter username and password.</string>
     <string name="failed_to_sign_in_please_try_again">Failed to Sign-in, please try again.</string>
+    <string name="getting_ready_loading">Getting ready...</string>
+    <string name="ready">ready</string>
+    <string name="number_of_days">" days"</string>
+    <string name="single_day">" day"</string>
+    <string name="lesson_ready">ready</string>
+    <string name="achievements">Achievements</string>
 </resources>

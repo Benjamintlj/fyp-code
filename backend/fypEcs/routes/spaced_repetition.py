@@ -49,21 +49,30 @@ def spaced_repetition(app):
             )
             lesson = response.get('Item')
 
+            print(0)
             if lesson:
                 time_to_wait = lesson.get('time_to_wait')
                 last_completed = lesson.get('last_completed')
 
+                print(1)
                 if content.percentage > 70:
+                    print(2)
                     if (current_time_millis + day1) > (last_completed + time_to_wait):
+                        print(3)
                         if time_to_wait <= day4:
+                            print(4)
                             time_to_wait = week1
                         elif time_to_wait <= week1:
+                            print(5)
                             time_to_wait = week2
                         else:
+                            print(6)
                             time_to_wait = month
                 elif content.percentage > 55:
+                    print(7)
                     time_to_wait = day4
                 else:
+                    print(8)
                     time_to_wait = day1
 
                 spaced_repetition_table.update_item(
@@ -78,6 +87,7 @@ def spaced_repetition(app):
                     },
                 )
             else:
+                print(9)
                 spaced_repetition_table.put_item(
                     Item={
                         's3_url': content.s3_url,

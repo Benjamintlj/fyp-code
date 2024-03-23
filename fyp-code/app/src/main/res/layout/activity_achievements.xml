@@ -7,13 +7,23 @@
     tools:context=".activity.stats.AchievementsActivity"
     android:background="@color/bg">
 
+    <TextView
+        android:id="@+id/titleTextView"
+        style="@style/h1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/achievements"
+        android:textAlignment="center"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/navbarBottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,64 +33,64 @@
                 android:id="@+id/streakFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="120dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <FrameLayout
                 android:id="@+id/lessonCompletedFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/streakFrameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="120dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/streakFrameLayout" />
 
             <FrameLayout
                 android:id="@+id/gemsFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/lessonCompletedFrameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="120dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lessonCompletedFrameLayout" />
 
             <FrameLayout
                 android:id="@+id/firstPlaceFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/gemsFrameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="120dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gemsFrameLayout" />
 
             <FrameLayout
                 android:id="@+id/flawlessFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/firstPlaceFrameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="120dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/firstPlaceFrameLayout" />
 
             <FrameLayout
                 android:id="@+id/speedFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/flawlessFrameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="120dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flawlessFrameLayout" />
 
             <FrameLayout
                 android:id="@+id/revisedFrameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/speedFrameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_min="120dp"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/speedFrameLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

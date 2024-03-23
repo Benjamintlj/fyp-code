@@ -1,5 +1,6 @@
 package com.example.fyp_fontend.model.content_selection;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.ColorRes;
@@ -13,15 +14,14 @@ public class SpacedRepetition {
     long lastCompleted, timeToWait;
     String waitTime;
 
-    public void init(long lastCompleted, long timeToWait) {
+    public void init(Context context, long lastCompleted, long timeToWait) {
         this.lastCompleted = lastCompleted;
         this.timeToWait = timeToWait;
 
         long currentTime = System.currentTimeMillis();
         long completionTime = lastCompleted + timeToWait;
+        long deltaTime = completionTime - currentTime;
         long day1 = 86400000;
-
-        Log.d(TAG, "init: current time:" + currentTime + " >= " + completionTime);
 
         // Set the Enum
         if (lastCompleted < 0 || timeToWait < 0) {
@@ -40,15 +40,16 @@ public class SpacedRepetition {
         }
 
         // Set the string
-        long deltaTime = completionTime - currentTime;
         if (deltaTime <= 0) {
-            waitTime = "ready";
+            waitTime = context.getString(R.string.ready);
         } else {
-            int daysUntilCompletion = (int) ((deltaTime / day1) / 1000);
+            int daysUntilCompletion = (int) (deltaTime / day1);
             if (daysUntilCompletion > 1) {
-                waitTime = daysUntilCompletion + " days";
+                waitTime = daysUntilCompletion + context.getString(R.string.number_of_days);
+            } else if (daysUntilCompletion == 1) {
+                waitTime = daysUntilCompletion + context.getString(R.string.single_day);
             } else {
-                waitTime = "ready";
+                waitTime = context.getString(R.string.lesson_ready);
             }
         }
     }

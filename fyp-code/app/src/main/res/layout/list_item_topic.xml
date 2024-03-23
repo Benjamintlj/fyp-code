@@ -8,10 +8,9 @@
         android:id="@+id/topicNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
         android:padding="8dp"
         android:text="Topic"
-        style="@style/h1" />
+        style="@style/h2" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subTopicsRecyclerView"

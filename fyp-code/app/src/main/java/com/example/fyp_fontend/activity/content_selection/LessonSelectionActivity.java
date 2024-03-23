@@ -27,12 +27,18 @@ public class LessonSelectionActivity extends AppCompatActivity {
     private static final String TAG = "LessonSelectionActivity";
     private RecyclerView lessonsRecyclerView;
     private TopicAdapter lessonSelectionAdapter;
-    private String subject;
+    private String subject, title;
+    private TextView titleTextView;
+
+    public static final String ARG_BIOLOGY = "biology";
+    public static final String ARG_CHEMISTRY = "chemistry";
+    public static final String ARG_PHYSICS = "physics";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         subject = getIntent().getStringExtra("subject");
+        title = getIntent().getStringExtra("title");
     }
 
     @Override
@@ -57,6 +63,9 @@ public class LessonSelectionActivity extends AppCompatActivity {
 
     private void initViews() {
         lessonsRecyclerView = findViewById(R.id.lessonsRecyclerView);
+        titleTextView = findViewById(R.id.titleTextView);
+
+        titleTextView.setText(title);
     }
 
     private void initNavbar() {

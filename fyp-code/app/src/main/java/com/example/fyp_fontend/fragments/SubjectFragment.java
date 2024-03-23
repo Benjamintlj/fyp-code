@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
@@ -59,7 +60,7 @@ public class SubjectFragment extends Fragment {
         initViews(view);
         initListeners();
         subjectTextView.setText(mSubjectName);
-        imageButton.setBackgroundResource(mBackgroundId);
+        imageButton.setImageResource(mBackgroundId);
 
         return view;
     }
@@ -73,6 +74,7 @@ public class SubjectFragment extends Fragment {
         imageButton.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), LessonSelectionActivity.class);
             intent.putExtra("subject", mPutExtraLesson);
+            intent.putExtra("title", mSubjectName);
             startActivity(intent);
         });
     }

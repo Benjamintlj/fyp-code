@@ -36,7 +36,7 @@ public class RepetitionActivity extends AppCompatActivity {
     private RecyclerView lessonsRecyclerView;
     private LessonAdapter lessonSelectionAdapter;
     private ImageView nothingToDoImageView;
-    private TextView nothingToDoTextView;
+    private TextView nothingToDoTextView, titleTextView;
 
     @Override
     protected void onResume() {
@@ -62,12 +62,14 @@ public class RepetitionActivity extends AppCompatActivity {
         lessonsRecyclerView = findViewById(R.id.lessonsRecyclerView);
         nothingToDoImageView = findViewById(R.id.nothingToDoImageView);
         nothingToDoTextView = findViewById(R.id.nothingToDoTextView);
+        titleTextView = findViewById(R.id.titleTextView);
 
         if (hasLessons) {
             nothingToDoImageView.setVisibility(View.GONE);
             nothingToDoTextView.setVisibility(View.GONE);
         } else {
             lessonsRecyclerView.setVisibility(View.GONE);
+            titleTextView.setVisibility(View.GONE);
         }
     }
 
