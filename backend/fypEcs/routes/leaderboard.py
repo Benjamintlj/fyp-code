@@ -12,6 +12,7 @@ from lib.leaderboard_helpers import (
     increase_user_score,
     update_user_attribute
 )
+from lib.user_verification import verify_username
 
 
 class CurrentUser(BaseModel):
@@ -26,6 +27,7 @@ class Score(BaseModel):
 def leaderboard(app):
     @app.patch('/leaderboard/join', status_code=status.HTTP_200_OK)
     def join_leaderboard(current_user: CurrentUser):
+
         league_rank, current_leaderboard_id = get_user_league_rank(current_user.username)
 
         update_user_attribute(current_user.username, 'custom:seenWelcome', 'true')

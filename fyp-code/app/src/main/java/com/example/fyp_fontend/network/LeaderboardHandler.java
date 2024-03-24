@@ -1,10 +1,9 @@
 package com.example.fyp_fontend.network;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.example.fyp_fontend.activity.leaderboard.LeaderboardActivity;
 import com.example.fyp_fontend.model.LeaderboardModel;
+import com.example.fyp_fontend.network.callback.ResponseCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,16 +19,26 @@ import java.util.Map;
 public class LeaderboardHandler {
     private static final String TAG = "LeaderboardHandler";
 
-    public static void createNewContent(Context context) throws IOException {
+    public static void joinLeaderboard(Context context) throws IOException {
         Map<String, Object> json = new HashMap<>();
         json.put("username", CognitoNetwork.getInstance().getCurrentUsername(context));
-        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest("leaderboard/join", "PATCH", json);
+        HttpHandler.sendHttpRequest("leaderboard/join", "PATCH", context, json, new ResponseCallback() {
+            @Override
+            public void onSuccess(String response) {
+                // do nothing
+            }
+
+            @Override
+            public void onFailure() {
+                // do nothing
+            }
+        });
     }
 
-    public static List<LeaderboardModel> getRankings(Context context) throws IOException, JSONException {
+    public static List<LeaderboardModel> getRankings(Context context, R) throws IOException, JSONException {
         String username = CognitoNetwork.getInstance().getCurrentUsername(context);
         String url = "leaderboard/rankings?username=" + URLEncoder.encode(username, "UTF-8");
-        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", null);
+        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", context, null, );
 
         JSONArray jsonArray = new JSONArray(body);
         List<LeaderboardModel> rankings = new ArrayList<>();
@@ -49,6 +58,6 @@ public class LeaderboardHandler {
         Map<String, Object> json = new HashMap<>();
         json.put("username", CognitoNetwork.getInstance().getCurrentUsername(context));
         json.put("score", score);
-        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest("leaderboard/score", "PATCH", json);
+        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest("leaderboard/score", "PATCH", context, json);
     }
 }

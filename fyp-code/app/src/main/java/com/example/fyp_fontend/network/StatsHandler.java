@@ -22,7 +22,7 @@ public class StatsHandler {
         json.put("username", CognitoNetwork.getInstance().getCurrentUsername(context));
         json.put("gems", gems);
 
-        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "PUT", json);
+        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "PUT", context, json);
     }
 
     public static void streak(Context context) throws IOException {
@@ -54,14 +54,14 @@ public class StatsHandler {
         Map<String, Object> json = new HashMap<>();
         json.put("username", CognitoNetwork.getInstance().getCurrentUsername(context));
 
-        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "PUT", json);
+        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "PUT", context, json);
     }
 
     public static UserStats getStats(Context context) throws IOException, JSONException {
         String username = CognitoNetwork.getInstance().getCurrentUsername(context);
         String url = "stats?username=" + URLEncoder.encode(username, "UTF-8");
 
-        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", null);
+        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", context, null);
         return new UserStats(new JSONObject(body));
     }
 }

@@ -192,7 +192,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             executor.execute(() -> {
                 try {
-                    LeaderboardHandler.createNewContent(getApplicationContext());
+                    LeaderboardHandler.joinLeaderboard(getApplicationContext());
                     handler.post(() -> {
                         Intent intent = new Intent(getApplicationContext(), LeaderboardActivity.class);
                         startActivity(intent);

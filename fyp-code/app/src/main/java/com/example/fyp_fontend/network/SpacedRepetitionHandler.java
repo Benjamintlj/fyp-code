@@ -27,7 +27,7 @@ public class SpacedRepetitionHandler {
     public static SpacedRepetition getSpacedRepetitionData(Context context, String s3Url) throws IOException, JSONException {
         String username = CognitoNetwork.getInstance().getCurrentUsername(context);
         String url = "spaced-repetition?s3_url=" + s3Url + "&username=" + URLEncoder.encode(username, "UTF-8");
-        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", null);
+        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", context, null);
 
         JSONObject jsonObject = new JSONObject(body);
 
@@ -44,7 +44,7 @@ public class SpacedRepetitionHandler {
     public static List<LessonModel> getAllSpacedRepetitionLessonsForUser(Context context) throws IOException, JSONException {
         String username = CognitoNetwork.getInstance().getCurrentUsername(context);
         String url = "spaced-repetition?username=" + URLEncoder.encode(username, "UTF-8");
-        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", null);
+        String body = com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "GET", context, null);
 
         List<LessonModel> lessonModelList = Collections.synchronizedList(new ArrayList<>());
         JSONArray jsonArray = new JSONArray(body);
@@ -97,6 +97,6 @@ public class SpacedRepetitionHandler {
         json.put("s3_url", s3Url);
         json.put("percentage", percentage);
 
-        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "PUT", json);
+        com.example.nfc_gym_app.network.HttpHandler.sendHttpRequest(url, "PUT", context, json);
     }
 }

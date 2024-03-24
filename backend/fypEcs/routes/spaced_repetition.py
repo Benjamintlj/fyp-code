@@ -1,9 +1,8 @@
 import time
 
 from botocore.exceptions import ClientError
-from fastapi import status, Query, HTTPException
+from fastapi import status, Query, HTTPException, Depends
 from pydantic import BaseModel
-
 from lib.globals import (
     spaced_repetition_table,
     day1,
@@ -12,11 +11,11 @@ from lib.globals import (
     week2,
     month
 )
-
 from lib.spaced_repetition_helpers import (
     get_item,
     get_items_for_user
 )
+from lib.user_verification import verify_username
 
 
 class UpdateSpacedRepetition(BaseModel):
@@ -27,8 +26,9 @@ class UpdateSpacedRepetition(BaseModel):
 
 def spaced_repetition(app):
     @app.get('/spaced-repetition', status_code=status.HTTP_200_OK)
-    def join_leaderboard(s3_url: str = Query(None, description="Partition key, e.g., 'biology/1_1_cell_stuff'"),
-                         username: str = Query(..., description="Sort key")):
+    def get_spaced_repetition_data(s3_url: str = Query(None, description="Partition key, e.g., 'biology/1_1_cell_stuff'"),
+                                   username: str = Query(..., description="Sort key"),
+                                   verified: bool = Depends(verify_username)):
 
         if s3_url and username:
             return get_item(s3_url, username)

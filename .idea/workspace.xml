@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d7e632af-b626-458e-995a-55d128e162b9" name="Changes" comment="update cdk to improved format">
+      <change beforePath="$PROJECT_DIR$/backend/cdk/.npmignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/bin/cdk.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/cdk.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/cdk.out/CdkStack.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/cdk.out/CdkStack.template.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/cdk.out/cdk.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/cdk.out/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/cdk.out/tree.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/jest.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/lib/cdk-stack.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/test/cdk.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/cdk/tsconfig.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2e7rrqw7bslKtspOxZdb2EHkiyh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/benjaminlewis-jones/Documents/Projects/fyp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/Users/benjaminlewis-jones/Documents/Projects/fyp/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d7e632af-b626-458e-995a-55d128e162b9" name="Changes" comment="" />
+      <created>1711266658604</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1711266658604</updated>
+      <workItem from="1711266660009" duration="1772000" />
+    </task>
+    <task id="LOCAL-00001" summary="update cdk to improved format">
+      <option name="closed" value="true" />
+      <created>1711267630355</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1711267630355</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/test/cdk.test.js" />
+        <option value="$PROJECT_DIR$/test/cdk.test.d.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update cdk to improved format" />
+    <option name="LAST_COMMIT_MESSAGE" value="update cdk to improved format" />
+  </component>
+</project>

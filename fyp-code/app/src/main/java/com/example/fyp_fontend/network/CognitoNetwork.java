@@ -26,6 +26,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAtt
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
+import com.example.fyp_fontend.network.callback.AuthTokenCallback;
 import com.example.fyp_fontend.network.callback.UserAttributeCallback;
 import com.example.fyp_fontend.network.callback.RegisterCallback;
 import com.example.fyp_fontend.network.callback.ResendCodeCallback;
@@ -57,7 +58,6 @@ public class CognitoNetwork {
     }
 
     private static CognitoNetwork instance;
-
     private CognitoNetwork() {}
 
     public static synchronized CognitoNetwork getInstance() {
@@ -397,5 +397,41 @@ public class CognitoNetwork {
             return null;
         }
     }
+
+    public void getCurrentAuthToken(Context context, final AuthTokenCallback callback) {
+        CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
+        CognitoUser user = userPool.getCurrentUser();
+
+        if (user != null) {
+            user.getSessionInBackground(new AuthenticationHandler() {
+                @Override
+                public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                    if (userSession.isValid()) {
+                        String idToken = userSession.getIdToken().getJWTToken();
+                        callback.onSuccess(idToken);
+                    } else {
+                        callback.onFailure();
+                    }
+                }
+
+                @Override
+                public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {}
+
+                @Override
+                public void getMFACode(MultiFactorAuthenticationContinuation continuation) {}
+
+                @Override
+                public void authenticationChallenge(ChallengeContinuation continuation) {}
+
+                @Override
+                public void onFailure(Exception exception) {
+                    callback.onFailure();
+                }
+            });
+        } else {
+            callback.onFailure();
+        }
+    }
+
 }
 

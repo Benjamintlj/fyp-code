@@ -1,9 +1,15 @@
-package com.example.nfc_gym_app.network;
+package com.example.fyp_fontend.network;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.fyp_fontend.activity.MainActivity;
+import com.example.fyp_fontend.network.CognitoNetwork;
+import com.example.fyp_fontend.network.callback.AuthTokenCallback;
+import com.example.fyp_fontend.network.callback.ResponseCallback;
 import com.example.fyp_fontend.utils.Globals;
 import com.google.gson.Gson;
 
@@ -26,27 +32,41 @@ public class HttpHandler {
 
     private static final Gson gson = new Gson();
 
-    public static String sendHttpRequest(String path, String method, Map<String, Object> body) throws IOException {
-        HttpURLConnection httpURLConnection = null;
-        try {
-            httpURLConnection = getHttpURLConnection(path, method);
-            writeJson(method, body, httpURLConnection);
-            return getResponse(httpURLConnection);
-        } finally {
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
+    public static void sendHttpRequest(String path, String method, Context context, Map<String, Object> body, final ResponseCallback callback) {
+        CognitoNetwork.getInstance().getCurrentAuthToken(context, new AuthTokenCallback() {
+            @Override
+            public void onSuccess(String authToken) {
+                HttpURLConnection httpURLConnection = null;
+                try {
+                    httpURLConnection = getHttpURLConnection(path, method, authToken);
+                    writeJson(method, body, httpURLConnection);
+                    String response = getResponse(httpURLConnection);
+                    callback.onSuccess(response);
+                } catch (IOException e) {
+                    callback.onFailure();
+                } finally {
+                    if (httpURLConnection != null) {
+                        httpURLConnection.disconnect();
+                    }
+                }
             }
-        }
+
+            @Override
+            public void onFailure() {
+                callback.onFailure();
+            }
+        });
     }
 
     @NonNull
-    private static HttpURLConnection getHttpURLConnection(String path, String method) throws IOException {
+    private static HttpURLConnection getHttpURLConnection(String path, String method, String authToken) throws IOException {
         HttpURLConnection httpURLConnection;
         URL url = new URL(Globals.ecsUrl + path);
         httpURLConnection = (HttpURLConnection) url.openConnection();
         httpURLConnection.setRequestMethod(method);
         httpURLConnection.setRequestProperty("Content-Type", "application/json; utf-8");
         httpURLConnection.setRequestProperty("Accept", "application/json");
+        httpURLConnection.setRequestProperty("Authorization", "Bearer " + authToken);
         return httpURLConnection;
     }
 
