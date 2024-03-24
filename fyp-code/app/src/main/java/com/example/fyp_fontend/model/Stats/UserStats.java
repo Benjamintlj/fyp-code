@@ -58,6 +58,15 @@ public class UserStats {
             this.bronze = boundary.getInt("BRONZE");
         }
 
+        TotalGems(JSONObject boundary) throws JSONException {
+            this.gemsRank = Badge.UNKNOWN;
+            this.numOfGems = 0;
+            this.rankChanged = false;
+            this.gold = boundary.getInt("GOLD");
+            this.silver = boundary.getInt("SILVER");
+            this.bronze = boundary.getInt("BRONZE");
+        }
+
         public Badge getGemsRank() {
             return gemsRank;
         }
@@ -93,6 +102,15 @@ public class UserStats {
             this.flawlessRank = stringToBadge(stats.getString("flawless_rank"));
             this.numOfFlawless = stats.getInt("num_of_flawless");
             this.rankChanged = stats.getBoolean("rank_changed");
+            this.gold = boundary.getInt("GOLD");
+            this.silver = boundary.getInt("SILVER");
+            this.bronze = boundary.getInt("BRONZE");
+        }
+
+        Flawless(JSONObject boundary) throws JSONException {
+            this.flawlessRank = Badge.UNKNOWN;
+            this.numOfFlawless = 0;
+            this.rankChanged = false;
             this.gold = boundary.getInt("GOLD");
             this.silver = boundary.getInt("SILVER");
             this.bronze = boundary.getInt("BRONZE");
@@ -138,6 +156,15 @@ public class UserStats {
             this.bronze = boundary.getInt("BRONZE");
         }
 
+        SpeedRun(JSONObject boundary) throws JSONException {
+            this.numOfSpeedRuns = 0;
+            this.rankChanged = false;
+            this.speedRunRank = Badge.UNKNOWN;
+            this.gold = boundary.getInt("GOLD");
+            this.silver = boundary.getInt("SILVER");
+            this.bronze = boundary.getInt("BRONZE");
+        }
+
         public int getNumOfSpeedRuns() {
             return numOfSpeedRuns;
         }
@@ -175,6 +202,16 @@ public class UserStats {
             this.rankChanged = stats.getBoolean("rank_changed");
             this.streak = stats.getInt("streak");
             this.streakRank = stringToBadge(stats.getString("streak_rank"));
+            this.gold = boundary.getInt("GOLD");
+            this.silver = boundary.getInt("SILVER");
+            this.bronze = boundary.getInt("BRONZE");
+        }
+
+        StreakStats(JSONObject boundary) throws JSONException {
+            this.lastOnline = 0;
+            this.rankChanged = false;
+            this.streak = 0;
+            this.streakRank = Badge.UNKNOWN;
             this.gold = boundary.getInt("GOLD");
             this.silver = boundary.getInt("SILVER");
             this.bronze = boundary.getInt("BRONZE");
@@ -224,6 +261,15 @@ public class UserStats {
             this.bronze = boundary.getInt("BRONZE");
         }
 
+        RevisedLessons(JSONObject boundary) throws JSONException {
+            this.numOfRevised = 0;
+            this.rankChanged = false;
+            this.revisedRank = Badge.UNKNOWN;
+            this.gold = boundary.getInt("GOLD");
+            this.silver = boundary.getInt("SILVER");
+            this.bronze = boundary.getInt("BRONZE");
+        }
+
         public int getNumOfRevised() {
             return numOfRevised;
         }
@@ -259,6 +305,15 @@ public class UserStats {
             this.numOfFirstPlace = stats.getInt("num_of_first_place");
             this.firstPlaceRank = stringToBadge(stats.getString("first_place_rank"));
             this.rankChanged = stats.getBoolean("rank_changed");
+            this.gold = boundary.getInt("GOLD");
+            this.silver = boundary.getInt("SILVER");
+            this.bronze = boundary.getInt("BRONZE");
+        }
+
+        FirstPlace(JSONObject boundary) throws JSONException {
+            this.numOfFirstPlace = 0;
+            this.firstPlaceRank = Badge.UNKNOWN;
+            this.rankChanged = false;
             this.gold = boundary.getInt("GOLD");
             this.silver = boundary.getInt("SILVER");
             this.bronze = boundary.getInt("BRONZE");
@@ -304,6 +359,15 @@ public class UserStats {
             this.bronze = boundary.getInt("BRONZE");
         }
 
+        LessonsCompleted(JSONObject boundary) throws JSONException {
+            this.lessonsCompletedRank = Badge.UNKNOWN;
+            this.numOfLessonsCompleted = 0;
+            this.rankChanged = false;
+            this.gold = boundary.getInt("GOLD");
+            this.silver = boundary.getInt("SILVER");
+            this.bronze = boundary.getInt("BRONZE");
+        }
+
         public Badge getLessonsCompletedRank() {
             return lessonsCompletedRank;
         }
@@ -342,14 +406,47 @@ public class UserStats {
         JSONObject stats = json.getJSONObject("stats");
         JSONObject boundaries = json.getJSONObject("boundaries");
 
-        this.totalGems= new TotalGems(stats.getJSONObject("total_gems"), boundaries.getJSONObject("total_gems"));
-        this.flawless = new Flawless(stats.getJSONObject("flawless"), boundaries.getJSONObject("flawless"));
-        this.speedRun = new SpeedRun(stats.getJSONObject("speed_run"), boundaries.getJSONObject("speed_run"));
-        this.streakStats = new StreakStats(stats.getJSONObject("streak_stats"), boundaries.getJSONObject("streak_stats"));
-        this.revisedLessons = new RevisedLessons(stats.getJSONObject("revised_lessons"), boundaries.getJSONObject("revised_lessons"));
-        this.username = stats.getString("username");
-        this.firstPlace = new FirstPlace(stats.getJSONObject("first_place"), boundaries.getJSONObject("first_place"));
-        this.lessonsCompleted = new LessonsCompleted(stats.getJSONObject("lessons_completed"), boundaries.getJSONObject("lessons_completed"));
+        try {
+            this.totalGems = new TotalGems(stats.getJSONObject("total_gems"), boundaries.getJSONObject("total_gems"));
+        } catch (JSONException e) {
+            this.totalGems = new TotalGems(boundaries.getJSONObject("total_gems"));
+        }
+
+        try {
+            this.flawless = new Flawless(stats.getJSONObject("flawless"), boundaries.getJSONObject("flawless"));
+        } catch (JSONException e) {
+            this.flawless = new Flawless(boundaries.getJSONObject("flawless"));
+        }
+
+        try {
+            this.speedRun = new SpeedRun(stats.getJSONObject("speed_run"), boundaries.getJSONObject("speed_run"));
+        } catch (JSONException e) {
+            this.speedRun = new SpeedRun(boundaries.getJSONObject("speed_run"));
+        }
+
+        try {
+            this.streakStats = new StreakStats(stats.getJSONObject("streak_stats"), boundaries.getJSONObject("streak_stats"));
+        } catch (JSONException e) {
+            this.streakStats = new StreakStats(boundaries.getJSONObject("streak_stats"));
+        }
+
+        try {
+            this.revisedLessons = new RevisedLessons(stats.getJSONObject("revised_lessons"), boundaries.getJSONObject("revised_lessons"));
+        } catch (JSONException e) {
+            this.revisedLessons = new RevisedLessons(boundaries.getJSONObject("revised_lessons"));
+        }
+
+        try {
+            this.firstPlace = new FirstPlace(stats.getJSONObject("first_place"), boundaries.getJSONObject("first_place"));
+        } catch (JSONException e) {
+            this.firstPlace = new FirstPlace(boundaries.getJSONObject("first_place"));
+        }
+
+        try {
+            this.lessonsCompleted = new LessonsCompleted(stats.getJSONObject("lessons_completed"), boundaries.getJSONObject("lessons_completed"));
+        } catch (JSONException e) {
+            this.lessonsCompleted = new LessonsCompleted(boundaries.getJSONObject("lessons_completed"));
+        }
     }
 
     public TotalGems getTotalGems() {

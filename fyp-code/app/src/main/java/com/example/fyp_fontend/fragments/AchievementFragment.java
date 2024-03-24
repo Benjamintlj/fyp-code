@@ -109,7 +109,7 @@ public class AchievementFragment extends Fragment {
         if (!badge.equals(UserStats.Badge.GOLD)) {
             progressTextView.setText(current + "/" + upperRange);
             progressBar.setProgress(current);
-            progressBar.setMax(current);
+            progressBar.setMax(upperRange);
         } else {
             progressBar.setVisibility(View.GONE);
             progressTextView.setText(current + "/??");

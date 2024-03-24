@@ -1,7 +1,7 @@
 import time
 
 from botocore.exceptions import ClientError
-from fastapi import status, Query, HTTPException, Depends
+from fastapi import status, Query, HTTPException, Depends, Request
 from pydantic import BaseModel
 from lib.globals import (
     spaced_repetition_table,
@@ -38,7 +38,9 @@ def spaced_repetition(app):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='Bad request!')
 
     @app.put('/spaced-repetition', status_code=status.HTTP_200_OK)
-    def update_spaced_repetition(content: UpdateSpacedRepetition):
+    def update_spaced_repetition(request: Request, content: UpdateSpacedRepetition):
+        verify_username(request, content.username)
+
         current_time_millis = int(time.time() * 1000)
         try:
             response = spaced_repetition_table.get_item(
@@ -54,25 +56,17 @@ def spaced_repetition(app):
                 time_to_wait = lesson.get('time_to_wait')
                 last_completed = lesson.get('last_completed')
 
-                print(1)
                 if content.percentage > 70:
-                    print(2)
                     if (current_time_millis + day1) > (last_completed + time_to_wait):
-                        print(3)
                         if time_to_wait <= day4:
-                            print(4)
                             time_to_wait = week1
                         elif time_to_wait <= week1:
-                            print(5)
                             time_to_wait = week2
                         else:
-                            print(6)
                             time_to_wait = month
                 elif content.percentage > 55:
-                    print(7)
                     time_to_wait = day4
                 else:
-                    print(8)
                     time_to_wait = day1
 
                 spaced_repetition_table.update_item(
@@ -87,7 +81,6 @@ def spaced_repetition(app):
                     },
                 )
             else:
-                print(9)
                 spaced_repetition_table.put_item(
                     Item={
                         's3_url': content.s3_url,

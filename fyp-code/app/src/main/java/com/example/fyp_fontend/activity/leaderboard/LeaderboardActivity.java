@@ -22,6 +22,7 @@ import com.example.fyp_fontend.adapter.LeaderboardAdapter;
 import com.example.fyp_fontend.model.LeaderboardModel;
 import com.example.fyp_fontend.network.CognitoNetwork;
 import com.example.fyp_fontend.network.LeaderboardHandler;
+import com.example.fyp_fontend.network.callback.GetRankingsCallback;
 import com.example.fyp_fontend.network.callback.UserAttributeCallback;
 import com.example.fyp_fontend.utils.NavbarHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -92,13 +93,22 @@ public class LeaderboardActivity extends AppCompatActivity {
             public void onSuccess(String badge) {
                 executor.execute(() -> {
                     try {
-                        leaderboardModelList = LeaderboardHandler.getRankings(getApplicationContext());
-                        handler.post(() -> {
-                            LeaderboardActivity.this.badge = badge;
-                            checkIncreaseInRank();
+                        LeaderboardHandler.getRankings(getApplicationContext(), new GetRankingsCallback() {
+                            @Override
+                            public void onSuccess(List<LeaderboardModel> rankings) {
+                                LeaderboardActivity.this.leaderboardModelList = rankings;
+                                handler.post(() -> {
+                                    LeaderboardActivity.this.badge = badge;
+                                    checkIncreaseInRank();
+                                });
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                handler.post(() -> handlerFailure(getString(R.string.something_went_wrong)));
+                            }
                         });
-                    } catch (IOException | JSONException e) {
-                        Log.e(TAG, "getContent: ", e);
+                    } catch (IOException e) {
                         handler.post(() -> handlerFailure(getString(R.string.something_went_wrong)));
                     }
                 });

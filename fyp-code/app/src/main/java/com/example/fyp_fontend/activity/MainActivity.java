@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signIn(View view) {
-        Log.d("login", "sing in has been called");
         String username = Objects.requireNonNull(usernameEditText.getText()).toString();
         String password = Objects.requireNonNull(passwordEditText.getText()).toString();
 

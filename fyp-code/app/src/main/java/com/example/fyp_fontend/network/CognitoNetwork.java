@@ -398,7 +398,7 @@ public class CognitoNetwork {
         }
     }
 
-    public void getCurrentAuthToken(Context context, final AuthTokenCallback callback) {
+    public void getAccessToken(Context context, final AuthTokenCallback callback) {
         CognitoUserPool userPool = new CognitoUserPool(context, userPoolId, clientId, null, region);
         CognitoUser user = userPool.getCurrentUser();
 
@@ -407,9 +407,11 @@ public class CognitoNetwork {
                 @Override
                 public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
                     if (userSession.isValid()) {
-                        String idToken = userSession.getIdToken().getJWTToken();
-                        callback.onSuccess(idToken);
+                        String accessToken = userSession.getAccessToken().getJWTToken();
+                        Log.d(TAG, "accessToken: " + accessToken);
+                        callback.onSuccess(accessToken);
                     } else {
+                        Log.e(TAG, "onSuccess: user session invalid");
                         callback.onFailure();
                     }
                 }
@@ -425,10 +427,12 @@ public class CognitoNetwork {
 
                 @Override
                 public void onFailure(Exception exception) {
+                    Log.e(TAG, "get auth token: on failure", exception);
                     callback.onFailure();
                 }
             });
         } else {
+            Log.e(TAG, "getCurrentAccessToken: user is null");
             callback.onFailure();
         }
     }

@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/pairCardView"
-        android:layout_width="120dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:minHeight="120dp"
@@ -19,10 +19,11 @@
         <TextView
             android:id="@+id/pairTextView"
             style="@style/h2"
+            android:textSize="17sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:layout_gravity="center"
             android:text="12" />
 

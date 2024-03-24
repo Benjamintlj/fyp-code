@@ -19,6 +19,7 @@ import com.example.fyp_fontend.model.content_selection.LessonModel;
 import com.example.fyp_fontend.model.content_selection.TopicModel;
 import com.example.fyp_fontend.network.S3Handler;
 import com.example.fyp_fontend.network.SpacedRepetitionHandler;
+import com.example.fyp_fontend.network.callback.LessonModelsCallback;
 import com.example.fyp_fontend.utils.NavbarHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -90,13 +91,25 @@ public class RepetitionActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             try {
-                List<LessonModel> lessonModelList = SpacedRepetitionHandler.getAllSpacedRepetitionLessonsForUser(
-                        getApplicationContext()
-                );
+                SpacedRepetitionHandler.getAllSpacedRepetitionLessonsForUser(getApplicationContext(), new LessonModelsCallback() {
+                    @Override
+                    public void onSuccess(List<LessonModel> lessonModelList) {
+                        handler.post(() -> {
+                            displayContent(lessonModelList);
+                        });
+                    }
 
-                handler.post(() -> {
-                    displayContent(lessonModelList);
+                    @Override
+                    public void onFailure() {
+                        Log.e(TAG, "getAllSpacedRepetitionLessonsForUser failure");
+
+                        // No content for the user can exist, so display nothing
+                        handler.post(() -> {
+                            displayContent(new ArrayList<>());
+                        });
+                    }
                 });
+
             } catch (IOException | JSONException e) {
                 Log.e(TAG, "getLessons: ", e);
             }

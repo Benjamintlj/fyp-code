@@ -19,6 +19,7 @@ import com.example.fyp_fontend.model.Question.MatchingPairs;
 import com.example.fyp_fontend.model.Question.MultipleChoice;
 import com.example.fyp_fontend.model.Question.Reorder;
 import com.example.fyp_fontend.model.content_selection.SpacedRepetition;
+import com.example.fyp_fontend.network.callback.SpacedRepetitionDataCallback;
 import com.example.fyp_fontend.utils.Globals;
 import com.example.fyp_fontend.model.FeedItemModel;
 import com.example.fyp_fontend.model.Question.Acknowledge;
@@ -110,9 +111,18 @@ public class S3Handler {
                     ExecutorService executor = Executors.newSingleThreadExecutor();
                     executor.execute(() -> {
                         try {
-                            SpacedRepetition spacedRepetition = SpacedRepetitionHandler.getSpacedRepetitionData(context, lessonPrefix);
-                            lessonModel.setSpacedRepetition(spacedRepetition);
-                            subtopicModel.setSpacedRepetitionEnum(spacedRepetition.getSpacedRepetitionEnum());
+                            SpacedRepetitionHandler.getSpacedRepetitionData(context, lessonPrefix, new SpacedRepetitionDataCallback() {
+                                @Override
+                                public void onSuccess(SpacedRepetition spacedRepetition) {
+                                    lessonModel.setSpacedRepetition(spacedRepetition);
+                                    subtopicModel.setSpacedRepetitionEnum(spacedRepetition.getSpacedRepetitionEnum());
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    Log.e(TAG, "getSpacedRepetitionData failure");
+                                }
+                            });
                         } catch (IOException | JSONException e) {
                             Log.e(TAG, "listS3DirectoryStructure: ", e);
                         } finally {

@@ -1,13 +1,12 @@
 package com.example.fyp_fontend.network;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.fyp_fontend.activity.MainActivity;
-import com.example.fyp_fontend.network.CognitoNetwork;
 import com.example.fyp_fontend.network.callback.AuthTokenCallback;
 import com.example.fyp_fontend.network.callback.ResponseCallback;
 import com.example.fyp_fontend.utils.Globals;
@@ -26,6 +25,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class HttpHandler {
     private static final String TAG = "HttpHandler";
@@ -33,30 +34,36 @@ public class HttpHandler {
     private static final Gson gson = new Gson();
 
     public static void sendHttpRequest(String path, String method, Context context, Map<String, Object> body, final ResponseCallback callback) {
-        CognitoNetwork.getInstance().getCurrentAuthToken(context, new AuthTokenCallback() {
+        CognitoNetwork.getInstance().getAccessToken(context, new AuthTokenCallback() {
             @Override
             public void onSuccess(String authToken) {
-                HttpURLConnection httpURLConnection = null;
-                try {
-                    httpURLConnection = getHttpURLConnection(path, method, authToken);
-                    writeJson(method, body, httpURLConnection);
-                    String response = getResponse(httpURLConnection);
-                    callback.onSuccess(response);
-                } catch (IOException e) {
-                    callback.onFailure();
-                } finally {
-                    if (httpURLConnection != null) {
-                        httpURLConnection.disconnect();
+                Executor executor = Executors.newSingleThreadExecutor();
+                executor.execute(() -> {
+                    HttpURLConnection httpURLConnection = null;
+                    try {
+                        httpURLConnection = getHttpURLConnection(path, method, authToken);
+                        writeJson(method, body, httpURLConnection);
+                        String response = getResponse(httpURLConnection);
+                        new Handler(Looper.getMainLooper()).post(() -> callback.onSuccess(response));
+                    } catch (IOException e) {
+                        Log.e(TAG, "onSuccess: ", e);
+                        new Handler(Looper.getMainLooper()).post(callback::onFailure);
+                    } finally {
+                        if (httpURLConnection != null) {
+                            httpURLConnection.disconnect();
+                        }
                     }
-                }
+                });
             }
 
             @Override
             public void onFailure() {
-                callback.onFailure();
+                Log.e(TAG, "onFailure: ");
+                new Handler(Looper.getMainLooper()).post(callback::onFailure);
             }
         });
     }
+
 
     @NonNull
     private static HttpURLConnection getHttpURLConnection(String path, String method, String authToken) throws IOException {

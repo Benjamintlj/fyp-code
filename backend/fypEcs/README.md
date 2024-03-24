@@ -4,7 +4,7 @@
 export LEADER_BOARD_TABLE="Production-fypStorageStack-fypLeaderboardTableC629E552-1MRBNEWBT8FRM"
 export SPACED_REPETITION_TABLE="Production-fypStorageStack-fypSpacedRepetitionTableC0439FF4-H9TDP2WGKE51"
 export USER_STATS_TABLE="Production-fypStorageStack-fypUserStatsTable19CB9CD5-1C6WU1JU5Q0K6"
-export USER_POOL_ID="eu-west-1_38UisDTAd"
+export USER_POOL_ID="eu-west-1_FEAv5LzEp"
 uvicorn main:app --host=0.0.0.0 --port=80
 ```
 

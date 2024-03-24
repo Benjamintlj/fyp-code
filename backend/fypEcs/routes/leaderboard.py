@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 from lib.globals import (leaderboard_table)
-from fastapi import FastAPI, HTTPException, status, Query
+from fastapi import FastAPI, HTTPException, status, Query, Request, Depends
 from lib.leaderboard_helpers import (
     get_user_league_rank,
     create_new_leaderboard,
@@ -26,7 +26,8 @@ class Score(BaseModel):
 
 def leaderboard(app):
     @app.patch('/leaderboard/join', status_code=status.HTTP_200_OK)
-    def join_leaderboard(current_user: CurrentUser):
+    def join_leaderboard(request: Request, current_user: CurrentUser):
+        verify_username(request, current_user.username)
 
         league_rank, current_leaderboard_id = get_user_league_rank(current_user.username)
 
@@ -63,7 +64,8 @@ def leaderboard(app):
         return {'leaderboard_id': leaderboard_id}
 
     @app.get('/leaderboard/rankings', status_code=status.HTTP_200_OK)
-    def get_user_rankings(username: Optional[str] = Query(None)):
+    def get_user_rankings(username: Optional[str] = Query(None),
+                          verified: bool = Depends(verify_username)):
         if username:
             current_user = CurrentUser(username=username)
             leaderboard_id = get_user_leaderboard(current_user.username)
@@ -78,6 +80,8 @@ def leaderboard(app):
                                 detail='Username is required.')
 
     @app.patch('/leaderboard/score', status_code=status.HTTP_200_OK)
-    def new_score(score: Score):
+    def new_score(request: Request, score: Score):
+        verify_username(request, score.username)
+
         leaderboard_id = get_user_leaderboard(score.username)
         increase_user_score(leaderboard_id, score.username, score.score)

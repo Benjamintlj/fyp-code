@@ -12,6 +12,7 @@ import com.example.fyp_fontend.R;
 import com.example.fyp_fontend.fragments.AchievementFragment;
 import com.example.fyp_fontend.model.Stats.UserStats;
 import com.example.fyp_fontend.network.StatsHandler;
+import com.example.fyp_fontend.network.callback.UserStatsCallback;
 import com.example.fyp_fontend.utils.NavbarHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,8 +40,18 @@ public class AchievementsActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             try {
-                userStats = StatsHandler.getStats(getApplicationContext());
-                handler.post(this::setContent);
+                StatsHandler.getStats(getApplicationContext(), new UserStatsCallback() {
+                    @Override
+                    public void onSuccess(UserStats userStats) {
+                        AchievementsActivity.this.userStats = userStats;
+                        handler.post(AchievementsActivity.this::setContent);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        finish();
+                    }
+                });
             } catch (IOException | JSONException e) {
                 Log.e(TAG, "getContent: ", e);
                 finish();

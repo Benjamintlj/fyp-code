@@ -1,42 +1,36 @@
-from fastapi import Request, HTTPException, Depends, Query
+from botocore.exceptions import BotoCoreError, ClientError
+from fastapi import Request, HTTPException
 from typing import Optional
-import boto3
-from jose import jwt
-from jose.exceptions import JWTError
 from lib.globals import (
-    region,
-    user_pool_id,
     cognito_client
 )
 
 
-def get_auth_token(request: Request) -> Optional[str]:
+def validate_token_with_cognito(access_token: str):
+    try:
+        response = cognito_client.get_user(AccessToken=access_token)
+        return response
+    except (BotoCoreError, ClientError) as ignore:
+        raise HTTPException(status_code=401, detail="Invalid token.")
+
+
+def get_token_from_header(request: Request) -> Optional[str]:
     authorization: str = request.headers.get('Authorization')
     if not authorization:
-        raise HTTPException(status_code=401, detail="Requires a auth token to use backend services.")
+        raise HTTPException(status_code=401, detail="Authorization header is missing.")
     try:
         scheme, token = authorization.split()
         if scheme.lower() != "bearer":
-            raise HTTPException(status_code=401, detail="Authorization scheme must be bearer.")
+            raise HTTPException(status_code=401, detail="Authorization scheme not bearer.")
         return token
     except ValueError:
-        raise HTTPException(status_code=401, detail="Invalid authorization format.")
-
-
-def get_username_and_validate_auth_token(token: str) -> str:
-    json_web_ket_set = cognito_client.get_paginator('list_user_pool_clients').paginate(UserPoolId=user_pool_id)
-    keys = json_web_ket_set['Keys']
-
-    try:
-        claims = jwt.decode(token, keys, algorithms=['RS256'])
-        return claims['username']
-    except JWTError as e:
-        raise HTTPException(status_code=401, detail="Invalid auth token.")
+        raise HTTPException(status_code=401, detail="Invalid authorization header format.")
 
 
 def verify_username(request: Request, username: str):
-    token = get_auth_token(request)
-    token_username = get_username_and_validate_auth_token(token)
+    token = get_token_from_header(request)
+    user_info = validate_token_with_cognito(token)
+    token_username = user_info['Username']
     if token_username != username:
         raise HTTPException(status_code=403, detail="Username does not match token.")
     return True

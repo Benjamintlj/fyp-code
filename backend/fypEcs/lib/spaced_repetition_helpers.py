@@ -1,6 +1,7 @@
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 from fastapi import HTTPException, status
+import logging
 
 from lib.globals import (
     spaced_repetition_table
@@ -16,8 +17,10 @@ def get_item(s3_url: str, username: str):
             }
         )
     except ClientError as ignore:
+        logging.error(ignore)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Something went wrong')
     except Exception as ignore:
+        logging.error(ignore)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Something went wrong')
 
     if response.get('Item'):
@@ -36,10 +39,10 @@ def get_items_for_user(username: str):
             KeyConditionExpression=Key('username').eq(username)
         )
     except ClientError as e:
-        print(e)
+        logging.error(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Something went wrong')
     except Exception as e:
-        print(e)
+        logging.error(e)
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Something went wrong')
 
     items = response.get('Items', [])

@@ -6,7 +6,8 @@
     <color name="failureRed">#e15f41</color>
     <color name="warningAmber">#ea8685</color>
     <color name="safeGreen">#10ac84</color>
-    <color name="bg">#1D1B20</color>
+    <color name="bg">#252229</color>
+    <color name="secondaryBg">#312F37</color>
     <color name="darkBtnBg">#2C2831</color>
     <color name="darkBtnTxt">#D0BCFF</color>
     <color name="themePurple">#D0BCFF</color>

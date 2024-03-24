@@ -2,7 +2,7 @@ import time
 from enum import Enum
 
 from botocore.exceptions import BotoCoreError, ClientError
-from fastapi import HTTPException
+from fastapi import HTTPException, Request, Depends
 from pydantic import BaseModel
 from starlette import status
 
@@ -10,12 +10,8 @@ from lib.globals import (
     stats_table,
     day1,
     day2,
-    day4,
-    week1,
-    week2,
-    month
 )
-
+from lib.user_verification import verify_username
 
 BRONZE = 'BRONZE'
 SILVER = 'SILVER'
@@ -48,7 +44,9 @@ class Gems(BaseModel):
 
 def stats(app):
     @app.put('/stats/reset_rank_changed', status_code=status.HTTP_200_OK)
-    def reset_rank_changed(content: Content):
+    def reset_rank_changed(request: Request, content: Content):
+        verify_username(request, content.username)
+
         try:
             dynamo_response = stats_table.get_item(Key={'username': content.username})
             statistics = dynamo_response.get('Item')
@@ -85,7 +83,9 @@ def stats(app):
         return {}
 
     @app.put('/stats/streak', status_code=status.HTTP_200_OK)
-    def updateStreak(content: Content):
+    def updateStreak(request: Request, content: Content):
+        verify_username(request, content.username)
+
         current_time = int(time.time() * 1000)
 
         try:
@@ -105,7 +105,7 @@ def stats(app):
                                          'streak_stats.rank_changed = :streak_rank_changed',
                         ExpressionAttributeValues={
                             ':new_streak_stats': {
-                                'streak': 1,
+                                'streak': 0,
                                 'last_online': current_time,
                                 'streak_rank': streak_stats.get('streak_rank', ''),
                                 'streak_rank_changed': streak_rank_changed
@@ -175,7 +175,9 @@ def stats(app):
         return {}
 
     @app.put('/stats/lessons_completed', status_code=status.HTTP_200_OK)
-    def update_lessons_completed(content: Content):
+    def update_lessons_completed(request: Request, content: Content):
+        verify_username(request, content.username)
+
         try:
             dynamo_response = stats_table.get_item(Key={'username': content.username})
             statistics = dynamo_response.get('Item')
@@ -239,7 +241,9 @@ def stats(app):
         return {}
 
     @app.put('/stats/flawless', status_code=status.HTTP_200_OK)
-    def update_flawless(content: Content):
+    def update_flawless(request: Request, content: Content):
+        verify_username(request, content.username)
+
         try:
             dynamo_response = stats_table.get_item(Key={'username': content.username})
             statistics = dynamo_response.get('Item')
@@ -302,7 +306,9 @@ def stats(app):
         return {}
 
     @app.put('/stats/speed_run', status_code=status.HTTP_200_OK)
-    def update_speed_run(content: Content):
+    def update_speed_run(request: Request, content: Content):
+        verify_username(request, content.username)
+
         try:
             dynamo_response = stats_table.get_item(Key={'username': content.username})
             statistics = dynamo_response.get('Item')
@@ -367,7 +373,9 @@ def stats(app):
         return {}
 
     @app.put('/stats/revised_lessons', status_code=status.HTTP_200_OK)
-    def update_revised_lessons(content: Content):
+    def update_revised_lessons(request: Request, content: Content):
+        verify_username(request, content.username)
+
         try:
             dynamo_response = stats_table.get_item(Key={'username': content.username})
             statistics = dynamo_response.get('Item')
@@ -431,7 +439,9 @@ def stats(app):
         return {}
 
     @app.put('/stats/total_gems', status_code=status.HTTP_200_OK)
-    def update_total_gems(content: Gems):
+    def update_total_gems(request: Request, content: Gems):
+        verify_username(request, content.username)
+
         try:
             dynamo_response = stats_table.get_item(Key={'username': content.username})
             statistics = dynamo_response.get('Item')
@@ -494,7 +504,8 @@ def stats(app):
         return {}
 
     @app.get('/stats', status_code=status.HTTP_200_OK)
-    def get_stats(username: str):
+    def get_stats(username: str,
+                  verified: bool = Depends(verify_username)):
         try:
             response = stats_table.get_item(
                 Key={

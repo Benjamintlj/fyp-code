@@ -6,11 +6,10 @@ import androidx.core.content.ContextCompat;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.fyp_fontend.R;
@@ -24,6 +23,7 @@ import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 public class QuestionResultActivity extends AppCompatActivity {
+    private static final String TAG = "QuestionResultActivity";
 
     public static final String ARG_IS_CORRECT = "isCorrect";
     public static final String ARG_INCREASE_SCORE = "increaseScore";
@@ -50,6 +50,8 @@ public class QuestionResultActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        initFragment();
     }
 
     private void initViews() {
@@ -58,9 +60,6 @@ public class QuestionResultActivity extends AppCompatActivity {
         gifImageView = findViewById(R.id.gifImageView);
         scoreTextView = findViewById(R.id.scoreTextView);
         timeTextView = findViewById(R.id.timeTextView);
-
-        ContinueFragment continueFragment = new ContinueFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, continueFragment).commit();
     }
 
     private void setDialog() throws IOException {
@@ -104,6 +103,8 @@ public class QuestionResultActivity extends AppCompatActivity {
     private void setScore() {
         if (isCorrect) {
             ContentManager.increaseScore(increaseScore);
+            Log.d(TAG, "score: " + ContentManager.getScore());
+            Log.d(TAG, "increase by: " + String.valueOf(increaseScore));
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 ValueAnimator valueAnimator = ValueAnimator.ofInt(0, increaseScore);
@@ -125,11 +126,14 @@ public class QuestionResultActivity extends AppCompatActivity {
             scoreTextView.setText(String.format("-%s", Integer.toString(decreaseBy)));
             scoreTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.failureRed));
         }
-
-
     }
 
     private void setTimer() {
         timeTextView.setText(ContentManager.stopTimer());
+    }
+
+    private void initFragment() {
+        ContinueFragment continueFragment = new ContinueFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameLayout, continueFragment).commit();
     }
 }

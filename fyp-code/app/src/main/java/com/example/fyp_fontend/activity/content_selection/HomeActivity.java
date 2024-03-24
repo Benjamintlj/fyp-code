@@ -21,6 +21,7 @@ import com.example.fyp_fontend.fragments.SubjectFragment;
 import com.example.fyp_fontend.model.Stats.UserStats;
 import com.example.fyp_fontend.network.CognitoNetwork;
 import com.example.fyp_fontend.network.StatsHandler;
+import com.example.fyp_fontend.network.callback.UserStatsCallback;
 import com.example.fyp_fontend.utils.NavbarHandler;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,13 +52,31 @@ public class HomeActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             try {
-                userStats = StatsHandler.getStats(getApplicationContext());
-                handler.post(this::setContent);
+                StatsHandler.getStats(getApplicationContext(), new UserStatsCallback() {
+                    @Override
+                    public void onSuccess(UserStats userStats) {
+                        HomeActivity.this.userStats = userStats;
+                        handler.post(HomeActivity.this::setContent);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        networkIssues();
+                    }
+                });
             } catch (IOException | JSONException e) {
                 Log.e(TAG, "getContent: ", e);
-                finish();
+                networkIssues();
             }
         });
+    }
+
+    private void networkIssues() {
+        Toast.makeText(getApplicationContext(), "You seem to be having network issues", Toast.LENGTH_LONG).show();
+//        CognitoNetwork.getInstance().signOut(getApplicationContext());
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
     }
 
     private void loadingScreen() {

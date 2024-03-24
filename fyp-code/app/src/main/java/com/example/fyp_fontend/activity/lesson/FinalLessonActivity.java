@@ -178,6 +178,7 @@ public class FinalLessonActivity extends AppCompatActivity {
         executor.execute(() -> {
             // Streak
             try {
+                Log.d(TAG, "updateStats: streak");
                 StatsHandler.streak(getApplicationContext());
             } catch (IOException e) {
                 Log.e(TAG, "updateScore: ", e);
