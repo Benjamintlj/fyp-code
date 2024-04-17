@@ -11,7 +11,8 @@ public class Globals {
     public static String bucketName = "production-fypstoragestac-newfyplessonbucket35aab5-su3oz664qjai";
     private static String accessKey = "AKIAS6TMA3LVAIEFAZEH";
     private static String secretAccessKey = "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";
-    public static String ecsUrl = "https://api.benlewisjones.com/";
+//    public static String ecsUrl = "https://api.benlewisjones.com/";
+    public static String ecsUrl = "http://192.168.1.136:80/";
     private static AWSCredentials awsCredentials;
 
     public static AWSCredentials getAwsCredentials() {

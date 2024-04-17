@@ -21,8 +21,6 @@ public class UserStats {
 
     private static Badge stringToBadge(String text) {
 
-        Log.d(TAG, "stringToBadge: " + text);
-
         Badge badge;
 
         switch (text) {
@@ -43,304 +41,162 @@ public class UserStats {
         return badge;
     }
 
-    public static class TotalGems {
-        Badge gemsRank;
-        int numOfGems;
-        boolean rankChanged;
-        int gold, silver, bronze;
+    private static abstract class Stats {
+        protected Badge rank;
+        protected boolean rankChanged;
+        protected int gold, silver, bronze;
 
-        TotalGems(JSONObject stats, JSONObject boundary) throws JSONException {
-            this.gemsRank = stringToBadge(stats.getString("gems_rank"));
-            this.numOfGems = stats.getInt("num_of_gems");
+        public Stats(JSONObject stats, JSONObject boundary) throws JSONException {
+            this.rank = stringToBadge(stats.getString("rank"));
             this.rankChanged = stats.getBoolean("rank_changed");
             this.gold = boundary.getInt("GOLD");
             this.silver = boundary.getInt("SILVER");
             this.bronze = boundary.getInt("BRONZE");
         }
 
-        TotalGems(JSONObject boundary) throws JSONException {
-            this.gemsRank = Badge.UNKNOWN;
-            this.numOfGems = 0;
+        public Stats(JSONObject boundary) throws JSONException {
+            this.rank = Badge.UNKNOWN;
             this.rankChanged = false;
             this.gold = boundary.getInt("GOLD");
             this.silver = boundary.getInt("SILVER");
             this.bronze = boundary.getInt("BRONZE");
         }
 
-        public Badge getGemsRank() {
-            return gemsRank;
+        public Badge getRank() {
+            return rank;
+        }
+
+        public boolean isRankChanged() {
+            return rankChanged;
+        }
+
+        public int getGold() {
+            return gold;
+        }
+
+        public int getSilver() {
+            return silver;
+        }
+
+        public int getBronze() {
+            return bronze;
+        }
+    }
+
+    public static class TotalGems extends Stats {
+        int numOfGems;
+
+        TotalGems(JSONObject stats, JSONObject boundary) throws JSONException {
+            super(stats, boundary);
+            this.numOfGems = stats.getInt("num_of_gems");
+        }
+
+        public TotalGems(JSONObject boundary) throws JSONException {
+            super(boundary);
+            this.numOfGems = 0;
         }
 
         public int getNumOfGems() {
             return numOfGems;
         }
-
-        public boolean isRankChanged() {
-            return rankChanged;
-        }
-
-        public int getGold() {
-            return gold;
-        }
-
-        public int getSilver() {
-            return silver;
-        }
-
-        public int getBronze() {
-            return bronze;
-        }
     }
 
-    public static class Flawless {
-        Badge flawlessRank;
-        int numOfFlawless;
-        boolean rankChanged;
-        int gold, silver, bronze;
+    public static class Flawless extends Stats {
+        private int numOfFlawless;
 
         Flawless(JSONObject stats, JSONObject boundary) throws JSONException {
-            this.flawlessRank = stringToBadge(stats.getString("flawless_rank"));
+            super(stats, boundary);
             this.numOfFlawless = stats.getInt("num_of_flawless");
-            this.rankChanged = stats.getBoolean("rank_changed");
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         Flawless(JSONObject boundary) throws JSONException {
-            this.flawlessRank = Badge.UNKNOWN;
+            super(boundary);
             this.numOfFlawless = 0;
-            this.rankChanged = false;
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
-        }
-
-        public Badge getFlawlessRank() {
-            return flawlessRank;
         }
 
         public int getNumOfFlawless() {
             return numOfFlawless;
         }
-
-        public boolean isRankChanged() {
-            return rankChanged;
-        }
-
-        public int getGold() {
-            return gold;
-        }
-
-        public int getSilver() {
-            return silver;
-        }
-
-        public int getBronze() {
-            return bronze;
-        }
     }
 
-    public static class SpeedRun {
-        int numOfSpeedRuns;
-        boolean rankChanged;
-        Badge speedRunRank;
-        int gold, silver, bronze;
+    public static class SpeedRun extends Stats {
+        private int numOfSpeedRuns;
 
         SpeedRun(JSONObject stats, JSONObject boundary) throws JSONException {
+            super(stats, boundary);
             this.numOfSpeedRuns = stats.getInt("num_of_speed_runs");
-            this.rankChanged = stats.getBoolean("rank_changed");
-            this.speedRunRank = stringToBadge(stats.getString("speed_run_rank"));
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         SpeedRun(JSONObject boundary) throws JSONException {
+            super(boundary);
             this.numOfSpeedRuns = 0;
-            this.rankChanged = false;
-            this.speedRunRank = Badge.UNKNOWN;
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         public int getNumOfSpeedRuns() {
             return numOfSpeedRuns;
         }
-
-        public boolean isRankChanged() {
-            return rankChanged;
-        }
-
-        public Badge getSpeedRunRank() {
-            return speedRunRank;
-        }
-
-        public int getGold() {
-            return gold;
-        }
-
-        public int getSilver() {
-            return silver;
-        }
-
-        public int getBronze() {
-            return bronze;
-        }
     }
 
-    public static class StreakStats {
-        long lastOnline;
-        boolean rankChanged;
-        int streak;
-        Badge streakRank;
-        int gold, silver, bronze;
+
+    public static class StreakStats extends Stats {
+        private long lastOnline;
+        private int streak;
 
         StreakStats(JSONObject stats, JSONObject boundary) throws JSONException {
+            super(stats, boundary);
             this.lastOnline = stats.getLong("last_online");
-            this.rankChanged = stats.getBoolean("rank_changed");
             this.streak = stats.getInt("streak");
-            this.streakRank = stringToBadge(stats.getString("streak_rank"));
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         StreakStats(JSONObject boundary) throws JSONException {
+            super(boundary);
             this.lastOnline = 0;
-            this.rankChanged = false;
             this.streak = 0;
-            this.streakRank = Badge.UNKNOWN;
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         public long getLastOnline() {
             return lastOnline;
         }
 
-        public boolean isRankChanged() {
-            return rankChanged;
-        }
-
         public int getStreak() {
             return streak;
         }
-
-        public Badge getStreakRank() {
-            return streakRank;
-        }
-
-        public int getGold() {
-            return gold;
-        }
-
-        public int getSilver() {
-            return silver;
-        }
-
-        public int getBronze() {
-            return bronze;
-        }
     }
 
-    public static class RevisedLessons {
-        int numOfRevised;
-        boolean rankChanged;
-        Badge revisedRank;
-        int gold, silver, bronze;
+    public static class RevisedLessons extends Stats {
+        private int numOfRevised;
 
         RevisedLessons(JSONObject stats, JSONObject boundary) throws JSONException {
+            super(stats, boundary);
             this.numOfRevised = stats.getInt("num_of_revised");
-            this.rankChanged = stats.getBoolean("rank_changed");
-            this.revisedRank = stringToBadge(stats.getString("revised_rank"));
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         RevisedLessons(JSONObject boundary) throws JSONException {
+            super(boundary);
             this.numOfRevised = 0;
-            this.rankChanged = false;
-            this.revisedRank = Badge.UNKNOWN;
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         public int getNumOfRevised() {
             return numOfRevised;
         }
-
-        public boolean isRankChanged() {
-            return rankChanged;
-        }
-
-        public Badge getRevisedRank() {
-            return revisedRank;
-        }
-
-        public int getGold() {
-            return gold;
-        }
-
-        public int getSilver() {
-            return silver;
-        }
-
-        public int getBronze() {
-            return bronze;
-        }
     }
 
-    public static class FirstPlace {
-        int numOfFirstPlace;
-        Badge firstPlaceRank;
-        boolean rankChanged;
-        int gold, silver, bronze;
+
+    public static class FirstPlace extends Stats {
+        private int numOfFirstPlace;
 
         FirstPlace(JSONObject stats, JSONObject boundary) throws JSONException {
+            super(stats, boundary);
             this.numOfFirstPlace = stats.getInt("num_of_first_place");
-            this.firstPlaceRank = stringToBadge(stats.getString("first_place_rank"));
-            this.rankChanged = stats.getBoolean("rank_changed");
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         FirstPlace(JSONObject boundary) throws JSONException {
+            super(boundary);
             this.numOfFirstPlace = 0;
-            this.firstPlaceRank = Badge.UNKNOWN;
-            this.rankChanged = false;
-            this.gold = boundary.getInt("GOLD");
-            this.silver = boundary.getInt("SILVER");
-            this.bronze = boundary.getInt("BRONZE");
         }
 
         public int getNumOfFirstPlace() {
             return numOfFirstPlace;
-        }
-
-        public Badge getFirstPlaceRank() {
-            return firstPlaceRank;
-        }
-
-        public boolean isRankChanged() {
-            return rankChanged;
-        }
-
-        public int getGold() {
-            return gold;
-        }
-
-        public int getSilver() {
-            return silver;
-        }
-
-        public int getBronze() {
-            return bronze;
         }
     }
 

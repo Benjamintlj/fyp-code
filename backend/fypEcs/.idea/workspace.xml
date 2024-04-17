@@ -6,33 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f518e037-7dbc-48f8-9350-845e85ee7035" name="Changes" comment="user verfication on requests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/spaced_repetition_helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/spaced_repetition_helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/user_verification.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/user_verification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/lesson/FinalLessonActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/lesson/FinalLessonActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/lesson/QuestionResultActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/lesson/QuestionResultActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/fragments/AchievementFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/fragments/AchievementFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/network/CognitoNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/network/CognitoNetwork.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/model/Stats/UserStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/model/Stats/UserStats.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/utils/Globals.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/utils/Globals.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_achievements.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_achievements.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_leaderboard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_leaderboard.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_lesson_selection.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_lesson_selection.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_question_matching_pairs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_question_matching_pairs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_repetition.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/activity_repetition.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/list_item_matching_pairs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/layout/list_item_matching_pairs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/lesson.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/lesson.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/questions/question_1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/questions/question_2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/questions/question_3.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/questions/question_4.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/questions/question_5.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../lesson_samples/1_1_1_types_of_cell/videos/demo_video.mp4" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +82,7 @@
       <workItem from="1710861861986" duration="265000" />
       <workItem from="1710862158405" duration="70954000" />
       <workItem from="1711655588822" duration="906000" />
-      <workItem from="1713370081703" duration="303000" />
+      <workItem from="1713370081703" duration="2769000" />
     </task>
     <task id="LOCAL-00001" summary="can join a leaderboard">
       <created>1710845284429</created>
