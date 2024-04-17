@@ -1,6 +1,10 @@
 {
     "lessonStructure": [
         {
+            "type": "acknowledge",
+            "name": "objectives"
+        },
+        {
             "type": "video",
             "name": "eukaryotic_cells"
         },
@@ -39,6 +43,10 @@
         {
             "type": "matching_pairs",
             "name": "prokaryotic_cell_3"
+        },
+        {
+            "type": "single_word",
+            "name": "prokaryotic_cell_4"
         }
     ]
 }

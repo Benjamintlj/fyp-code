@@ -79,7 +79,7 @@ public class AchievementsActivity extends AppCompatActivity {
                 userStats.getStreakStats().getBronze(),
                 userStats.getStreakStats().getSilver(),
                 userStats.getStreakStats().getGold(),
-                userStats.getStreakStats().getStreakRank(),
+                userStats.getStreakStats().getRank(),
                 getString(R.string.streak_description),
                 getString(R.string.streak)
         );
@@ -103,7 +103,7 @@ public class AchievementsActivity extends AppCompatActivity {
                 userStats.getTotalGems().getBronze(),
                 userStats.getTotalGems().getSilver(),
                 userStats.getTotalGems().getGold(),
-                userStats.getTotalGems().getGemsRank(),
+                userStats.getTotalGems().getRank(),
                 getString(R.string.total_gems_description),
                 getString(R.string.total_gems_title)
         );
@@ -115,7 +115,7 @@ public class AchievementsActivity extends AppCompatActivity {
                 userStats.getFirstPlace().getBronze(),
                 userStats.getFirstPlace().getSilver(),
                 userStats.getFirstPlace().getGold(),
-                userStats.getFirstPlace().getFirstPlaceRank(),
+                userStats.getFirstPlace().getRank(),
                 getString(R.string.first_place_description),
                 getString(R.string.first_place_title)
         );
@@ -127,7 +127,7 @@ public class AchievementsActivity extends AppCompatActivity {
                 userStats.getFlawless().getBronze(),
                 userStats.getFlawless().getSilver(),
                 userStats.getFlawless().getGold(),
-                userStats.getFlawless().getFlawlessRank(),
+                userStats.getFlawless().getRank(),
                 getString(R.string.flawless_description),
                 getString(R.string.flawless_title)
         );
@@ -135,11 +135,11 @@ public class AchievementsActivity extends AppCompatActivity {
 
         // Speed run
         AchievementFragment achievementFragmentSpeedRun = AchievementFragment.newInstance(
-                userStats.getLessonsCompleted().getNumOfLessonsCompleted(),
-                userStats.getLessonsCompleted().getBronze(),
-                userStats.getLessonsCompleted().getSilver(),
-                userStats.getLessonsCompleted().getGold(),
-                userStats.getLessonsCompleted().getLessonsCompletedRank(),
+                userStats.getSpeedRun().getNumOfSpeedRuns(),
+                userStats.getSpeedRun().getBronze(),
+                userStats.getSpeedRun().getSilver(),
+                userStats.getSpeedRun().getGold(),
+                userStats.getSpeedRun().getRank(),
                 getString(R.string.speed_run_description),
                 getString(R.string.speed_run_title)
         );
@@ -151,7 +151,7 @@ public class AchievementsActivity extends AppCompatActivity {
                 userStats.getRevisedLessons().getBronze(),
                 userStats.getRevisedLessons().getSilver(),
                 userStats.getRevisedLessons().getGold(),
-                userStats.getRevisedLessons().getRevisedRank(),
+                userStats.getRevisedLessons().getRank(),
                 getString(R.string.revised_description),
                 getString(R.string.revision_title)
         );

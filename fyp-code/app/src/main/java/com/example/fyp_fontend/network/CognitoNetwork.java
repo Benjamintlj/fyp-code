@@ -87,7 +87,7 @@ public class CognitoNetwork {
             @Override
             public void onFailure(Exception exception) {
                 String error = exception.getLocalizedMessage();
-                Responses response = Responses.GENERAL_FAILURE; // Default failure response
+                Responses response = Responses.GENERAL_FAILURE;
 
                 if (error != null) {
                     Log.d("Registration Failure", error);
@@ -191,21 +191,13 @@ public class CognitoNetwork {
             }
 
             @Override
-            public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
-                Log.d("login", "MFA");
-                // No MFA
-            }
+            public void getMFACode(MultiFactorAuthenticationContinuation continuation) {}
 
             @Override
-            public void authenticationChallenge(ChallengeContinuation continuation) {
-                Log.d("login", "challenge raised");
-                // TODO: implement auth challenge
-            }
+            public void authenticationChallenge(ChallengeContinuation continuation) {}
 
             @Override
             public void onFailure(Exception exception) {
-                // TODO: more detailed failure response
-                Log.d("login", "on failure");
                 callback.onSignInFailure(Responses.GENERAL_FAILURE);
             }
         };
@@ -242,13 +234,11 @@ public class CognitoNetwork {
 
             @Override
             public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
-                // Not applicable to user verification
                 callback.onSessionValidationInvalid();
             }
 
             @Override
             public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
-                // No MFA
                 callback.onSessionValidationInvalid();
             }
 
@@ -311,7 +301,6 @@ public class CognitoNetwork {
 
             @Override
             public void getResetCode(ForgotPasswordContinuation continuation) {
-                // Can be ignored since this is completed in the step before
             }
 
             @Override

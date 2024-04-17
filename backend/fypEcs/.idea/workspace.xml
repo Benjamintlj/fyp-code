@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f518e037-7dbc-48f8-9350-845e85ee7035" name="Changes" comment="user verfication on requests">
+    <list default="true" id="f518e037-7dbc-48f8-9350-845e85ee7035" name="Changes" comment="updated classes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/routes/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/model/Stats/UserStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/model/Stats/UserStats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/utils/Globals.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/utils/Globals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/stats/AchievementsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/activity/stats/AchievementsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/network/CognitoNetwork.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../fyp-code/app/src/main/java/com/example/fyp_fontend/network/CognitoNetwork.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +81,7 @@
       <workItem from="1710861861986" duration="265000" />
       <workItem from="1710862158405" duration="70954000" />
       <workItem from="1711655588822" duration="906000" />
-      <workItem from="1713370081703" duration="2769000" />
+      <workItem from="1713370081703" duration="3764000" />
     </task>
     <task id="LOCAL-00001" summary="can join a leaderboard">
       <created>1710845284429</created>
@@ -168,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1711313624020</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="updated classes">
+      <created>1713373168053</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1713373168053</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,7 +203,8 @@
     <MESSAGE value="stats backend done" />
     <MESSAGE value="jetbrains is bad" />
     <MESSAGE value="user verfication on requests" />
-    <option name="LAST_COMMIT_MESSAGE" value="user verfication on requests" />
+    <MESSAGE value="updated classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated classes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/fypEcs$main.coverage" NAME="main Coverage Results" MODIFIED="1711103635198" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

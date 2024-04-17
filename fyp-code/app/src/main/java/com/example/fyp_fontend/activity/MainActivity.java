@@ -26,9 +26,8 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    Button registerActivityButton, signInButton, verifyEmailActivityButton;
+    Button registerActivityButton, signInButton, verifyEmailActivityButton, forgotPasswordButton;
     TextInputEditText usernameEditText, passwordEditText;
-    TextView forgotPasswordTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         verifyEmailActivityButton = findViewById(R.id.verifyEmailActivityButton);
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView);
+        forgotPasswordButton = findViewById(R.id.forgotPasswordButton);
     }
 
     private void initListeners() {
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        forgotPasswordTextView.setOnClickListener(view -> {
+        forgotPasswordButton.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), ForgotPasswordSendCodeActivity.class);
             String username = Objects.requireNonNull(usernameEditText.getText()).toString();
             intent.putExtra("username", username);
